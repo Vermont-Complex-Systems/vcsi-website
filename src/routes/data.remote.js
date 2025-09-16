@@ -306,6 +306,7 @@ export const getMemberWithOpenAlex = prerender(
                 };
             } catch (err) {
                 // If OpenAlex data not found, just return member data
+                console.warn(`OpenAlex data not available for ${memberData.name}:`, err.message);
                 return memberData;
             }
         }
