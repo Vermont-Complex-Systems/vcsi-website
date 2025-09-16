@@ -11,17 +11,24 @@
 </script>
 
 <Meta 
-  title="Science of Online Corpora Knowledge and Stories"
+  title="SOCKS"
   description="SOCKS builds instruments for distant reading of enormous text collections."
   {preloadFont}
 />
 
-<div class="project">
+
     <div class="content-wrapper">
-        <h1>Science of Online Corpora Knowledge and Stories (SOCKS)</h1>
-        <p class="intro">SOCKS focuses on building and refining instruments that can distantly read and make sense of enormous collections of texts.</p>
+        <div class="page-header">
+            <div class="page-header-text">
+                <h1>Science of Online Corpora Knowledge and Stories (SOCKS)</h1>
+                <p class="intro">SOCKS focuses on building and refining instruments that can distantly read and make sense of enormous collections of texts.</p>
+            </div>
+            <div class="page-header-logo">
+            <img src="/common/assets/logos/socks.png" alt="VERSO" class="page-header-image" />
+        </div>
+        </div>
         
-        <div class="project-content">
+        <div class="content">
             <section>
                 <h2>Overview</h2>
                 <p>The Science of Online Corpora Knowledge and Stories project develops computational methods and tools for analyzing vast text collections, enabling researchers to extract insights from large-scale textual data.</p>
@@ -39,7 +46,6 @@
             </section>
         </div>
     </div>
-</div>
 
 <style>
     .content-wrapper {
@@ -72,7 +78,7 @@
         line-height: 1.5;
     }
     
-    .project-content {
+    .content {
         max-width: 800px;
     }
     
@@ -90,6 +96,8 @@
     ul {
         font-family: var(--serif);
         color: var(--color-fg);
+        padding-left: 1.5rem;
+        list-style-type: disc;
     }
     
     li {

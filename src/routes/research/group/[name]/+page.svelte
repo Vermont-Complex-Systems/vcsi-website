@@ -19,7 +19,7 @@
   loading...
 {:then group} 
     <Meta 
-      title={group.name}
+      title={group[0].name}
       description="Group bio and published stories"
       {preloadFont}
     />

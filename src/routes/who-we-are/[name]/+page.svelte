@@ -19,7 +19,7 @@
   loading...
 {:then author} 
     <Meta 
-      title={author.name}
+      title={author[0].name}
       description="Author bio and published stories"
       {preloadFont}
     />

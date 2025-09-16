@@ -9,6 +9,8 @@
     </div>
 </div>
 
+<hr>
+
 <section class="features-section">
     <div class="features-wrapper">
         <div class="features-header">
@@ -59,6 +61,8 @@
         </div>
     </div>
 </section>
+
+<hr>
 
 <section class="learning-section">
     <div class="learning-wrapper">
@@ -119,7 +123,6 @@
     </div>
 </section>
 
-
 <style>
     .content-wrapper {
         padding: 0;
@@ -129,8 +132,12 @@
     .hero-text {
         display: flex;
         flex-direction: column;
-        max-width: 60%;
+        max-width: 50%;
         gap: 2rem;
+    }
+    
+    .hero-text p {
+        font-size: 1.5rem;
     }
     
     h1 {
@@ -140,22 +147,21 @@
         margin: 0;
     }
     
-    .hero-text p {
-	font-size: 1.5rem;
-    }
-
     p {
         font-size: 1.5rem;
         font-family: var(--serif);
         margin: 0;
     }
+
+    hr {
+        margin-top: 12rem;
+        margin-bottom: 6rem;
+        border-bottom: 1px solid #888;
+    }
     
     /* Features Section */
 
-    .features-section {
-        padding: 6rem 0;
-        margin-top: 6rem;
-    }
+
     
     .features-wrapper {
         margin-left: var(--margin-left);
@@ -222,10 +228,6 @@
     
     /* Learning Section */
 
-    .learning-section {
-        padding: 6rem 0;
-        margin-top: 6rem;
-    }
     
     .learning-wrapper {
         margin-left: var(--margin-left);
