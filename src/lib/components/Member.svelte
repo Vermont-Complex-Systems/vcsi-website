@@ -7,13 +7,24 @@
   const { name, email, url, social, pronoun, position, openAlex } = author;
   
   // Helper function to safely parse JSON
-  function safeParse(jsonString) {
-    try {
-      return JSON.parse(jsonString);
-    } catch (e) {
-      // console.warn('Failed to parse JSON:', jsonString, e);
-      return null;
+  function safeParse(data) {
+    // If it's already an object, return it
+    if (typeof data === 'object' && data !== null) {
+      return data;
     }
+    
+    // If it's a string, try to parse it
+    if (typeof data === 'string') {
+      try {
+        return JSON.parse(data);
+      } catch (e) {
+        console.warn('Failed to parse JSON:', data, e);
+        return null;
+      }
+    }
+    
+    // For any other type, return null
+    return null;
   }
   
   // Helper function to get PDF URL from primary location
@@ -45,7 +56,6 @@
 
   const link = getLinkHTML();
 
-  console.log(author.openAlex.papers[0])
 
 
 </script>
@@ -77,28 +87,42 @@
       <h3>Top Cited Papers</h3>
       <div class="papers-grid">
         {#each openAlex.papers.sort((a, b) => (b.cited_by_count || 0) - (a.cited_by_count || 0)).slice(0, 16) as paper}
-          <div class="paper-card">
-            <div class="paper-card-header">
-              <span class="citations-badge">{paper.cited_by_count || 0}</span>
-              <span class="year-badge">{paper.publication_year}</span>
-            </div>
-            <h4 class="paper-card-title">{paper.title}</h4>
-            <div class="paper-card-meta">
-              {#if paper.is_open_access}
-                {@const pdfUrl = getPdfUrl(paper)}
-                {#if pdfUrl}
-                  <a href="{pdfUrl}" target="_blank" class="oa-link">
-                    <span class="oa-badge clickable">📄 Open Access</span>
-                  </a>
-                {:else}
+          {@const pdfUrl = getPdfUrl(paper)}
+          {#if paper.is_open_access && pdfUrl}
+            <!-- Clickable card for Open Access papers with PDF -->
+            <a href="{pdfUrl}" target="_blank" class="paper-card-link">
+              <div class="paper-card clickable-card">
+                <div class="paper-card-header">
+                  <span class="citations-badge">{paper.cited_by_count || 0}</span>
+                  <span class="year-badge">{paper.publication_year}</span>
+                </div>
+                <h4 class="paper-card-title">{paper.title}</h4>
+                <div class="paper-card-meta">
+                  <span class="oa-badge">📄 Open Access</span>
+                  {#if paper.doi}
+                    <span class="doi-text">DOI</span>
+                  {/if}
+                </div>
+              </div>
+            </a>
+          {:else}
+            <!-- Non-clickable card for other papers -->
+            <div class="paper-card">
+              <div class="paper-card-header">
+                <span class="citations-badge">{paper.cited_by_count || 0}</span>
+                <span class="year-badge">{paper.publication_year}</span>
+              </div>
+              <h4 class="paper-card-title">{paper.title}</h4>
+              <div class="paper-card-meta">
+                {#if paper.is_open_access}
                   <span class="oa-badge">Open Access</span>
                 {/if}
-              {/if}
-              {#if paper.doi}
-                <a href="https://doi.org/{paper.doi}" target="_blank" class="doi-link">DOI</a>
-              {/if}
+                {#if paper.doi}
+                  <a href="https://doi.org/{paper.doi}" target="_blank" class="doi-link">DOI</a>
+                {/if}
+              </div>
             </div>
-          </div>
+          {/if}
         {/each}
       </div>
     {/if}
@@ -204,6 +228,31 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   }
 
+  /* Clickable card styles */
+  .paper-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .clickable-card {
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .clickable-card:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  }
+
+  .doi-text {
+    color: var(--accent-color);
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
   .paper-card-header {
     display: flex;
     justify-content: space-between;
@@ -237,6 +286,7 @@
     color: var(--text-primary);
     display: -webkit-box;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -247,10 +297,6 @@
     align-items: center;
   }
 
-  .oa-link {
-    text-decoration: none;
-  }
-
   .oa-badge {
     background: #2ecc71;
     color: white;
@@ -259,16 +305,6 @@
     font-size: 0.7rem;
     font-weight: 500;
     display: inline-block;
-  }
-
-  .oa-badge.clickable {
-    cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-  }
-
-  .oa-badge.clickable:hover {
-    background: #27ae60;
-    transform: scale(1.05);
   }
 
   .doi-link {
