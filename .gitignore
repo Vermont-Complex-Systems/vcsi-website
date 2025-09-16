@@ -28,4 +28,5 @@ static/assets/people/students/*
 
 # SQLite
 *.db
+!src/lib/server/db/courses.db
 drizzle/
