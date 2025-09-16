@@ -3,6 +3,10 @@ import adapter from '@sveltejs/adapter-static';
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	kit: {
+		prerender: {
+			handleHttpError: 'ignore',
+			handleUnseenRoutes: 'ignore'
+		},
 		experimental: {
 			remoteFunctions: true
 		},

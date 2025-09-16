@@ -57,8 +57,8 @@
             
             <div class="resources">
                 <ul>
-                    <li><a href="#" target="_blank" rel="noopener noreferrer">LEMURS Study App Terms and Conditions</a></li>
-                    <li><a href="#" target="_blank" rel="noopener noreferrer">LEMURS Study App Privacy Policy</a></li>
+                    <li><a href="https://storylab.w3.uvm.edu/lemurs/lemurs-app-terms-of-use.pdf" target="_blank" rel="noopener noreferrer">LEMURS Study App Terms and Conditions</a></li>
+                    <li><a href="https://storylab.w3.uvm.edu/lemurs/lemurs-app-privacy-policy.pdf" target="_blank" rel="noopener noreferrer">LEMURS Study App Privacy Policy</a></li>
                 </ul>
             </div>
         </section>

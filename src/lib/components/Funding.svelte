@@ -147,15 +147,6 @@
         flex-direction: column;
     }
     
-    .funder-name {
-        font-size: 1.2rem;
-        font-weight: 500;
-        font-family: var(--serif);
-        margin-bottom: 1rem;
-        color: var(--color-fg);
-        line-height: 1.3;
-    }
-    
     .funder-description {
         font-size: 0.95rem;
         color: var(--color-gray-600);
@@ -179,10 +170,6 @@
         .funder-logo {
             height: 100px;
             margin-bottom: 1rem;
-        }
-        
-        .funder-name {
-            font-size: 1.1rem;
         }
         
         .funder-description {

@@ -1,8 +1,6 @@
 <script>
-  import { descending } from "d3";
   import HeroText from "$lib/components/HeroText.svelte";
-  import numberAsText from "$lib/utils/numberAsText.js";
-
+  
   let { group } = $props();
 
   const { name, email, url, social, pronoun, position } = group[0];

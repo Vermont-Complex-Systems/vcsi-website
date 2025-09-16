@@ -1,5 +1,5 @@
 // frontend/src/lib/server/db/schema.js
-import { sqliteTable, integer, text, real } from 'drizzle-orm/sqlite-core';
+import { sqliteTable, integer, text } from 'drizzle-orm/sqlite-core';
 
 export const courses = sqliteTable('courses', {
   id: integer('id').primaryKey(),
