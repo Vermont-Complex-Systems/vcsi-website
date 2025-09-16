@@ -119,9 +119,6 @@
     </div>
 </section>
 
-<section class="">
-
-</section>
 
 <style>
     .content-wrapper {
@@ -143,6 +140,10 @@
         margin: 0;
     }
     
+    .hero-text p {
+	font-size: 1.5rem;
+    }
+
     p {
         font-size: 1.5rem;
         font-family: var(--serif);
