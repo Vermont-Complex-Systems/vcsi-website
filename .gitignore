@@ -28,3 +28,4 @@ static/assets/people/students/*
 
 # SQLite
 *.db
+drizzle/

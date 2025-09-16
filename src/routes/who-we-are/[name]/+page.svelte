@@ -1,6 +1,6 @@
 <script>
   import { page } from '$app/state';
-  import { getMember } from '../../data.remote.js'
+  import { getMemberWithOpenAlex } from '../../data.remote.js'
   
   import Meta from "$lib/components/Meta.svelte";
   import Member from "$lib/components/Member.svelte";
@@ -15,11 +15,11 @@
 
 </script>
 
-{#await getMember(page.params.name)}
+{#await getMemberWithOpenAlex(page.params.name)}
   loading...
 {:then author} 
     <Meta 
-      title={author[0].name}
+      title={author.name}
       description="Author bio and published stories"
       {preloadFont}
     />

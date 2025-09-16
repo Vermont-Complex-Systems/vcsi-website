@@ -5,7 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
-		"build": "npm run db:populate && vite build",
+		"build": "npm run db:populate && npm run openalex:populate && vite build",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
 		"format": "prettier --write .",
@@ -14,7 +14,8 @@
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
 		"db:studio": "drizzle-kit studio",
-		"db:populate": "node scripts/populate-db-api.js"
+		"db:populate": "node scripts/populate-db-api.js",
+		"openalex:populate": "node scripts/populate-openalex-db.js"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-static": "^3.0.8",
@@ -36,6 +37,7 @@
 		"drizzle-orm": "^0.40.1",
 		"mode-watcher": "^1.1.0",
 		"path-js": "^1.0.1",
+		"svelteplot": "^0.4.4",
 		"valibot": "^1.1.0"
 	}
 }

@@ -26,7 +26,7 @@
   {/if}
 
   <meta property="og:title" content={title} />
-  <meta property="og:site_name" content="Complex Stories" />
+  <meta property="og:site_name" content="VCSI website" />
   <meta property="og:url" content={url} />
   <meta property="og:description" content={description} />
   <meta property="og:type" content="article" />
