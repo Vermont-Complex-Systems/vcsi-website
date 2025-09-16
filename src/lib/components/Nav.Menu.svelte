@@ -54,7 +54,7 @@
 						onclick={() => isWhoWeAreOpen = !isWhoWeAreOpen}
 						class="section-button"
 					>
-						Who we are
+						Community
 						{#if isWhoWeAreOpen}
 							<ChevronUp size={16} />
 						{:else}
@@ -65,7 +65,6 @@
 					{#if isWhoWeAreOpen}
 						<ul class="sub-menu">
 							<li><a href="{base}/who-we-are">Who We Are</a></li>
-							<li><a href="{base}/about">About</a></li>
 						</ul>
 					{/if}
 				</li>
@@ -88,6 +87,8 @@
 							<li><a href="{base}/projects">Projects</a></li>
 							<li><a href="{base}/research/group">Groups</a></li>
 							<li><a href="{base}/funding">Funding</a></li>
+							<li><a href="{base}/research/verso">VERSO</a></li>
+							<li><a href="{base}/research/mass-mutual">Mass Mutual Center of Excellence</a></li>
 						</ul>
 					{/if}
 				</li>
@@ -324,12 +325,14 @@
 	}
 	
 	.sub-menu {
-		padding-left: 1rem;
+		padding-left: 1.5rem;
 		margin-top: 0.5rem;
+		list-style: none;
 	}
 	
 	.sub-menu li {
 		margin-bottom: 0.5rem;
+		list-style: none;
 	}
 	
 	.sub-menu a {

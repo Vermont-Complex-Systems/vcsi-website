@@ -55,11 +55,12 @@
 			<button 
 				onclick={() => {
 					isResearchOpen = false;
+					isEducationOpen = false;
 					isWhoWeAreOpen = !isWhoWeAreOpen;
 				}}
 				class="nav-button"
 			>
-				Who we are
+				Community
 				{#if isWhoWeAreOpen}
 					<ChevronUp size={16} />
 				{:else}
@@ -70,7 +71,6 @@
 			{#if isWhoWeAreOpen}
 				<div class="dropdown-menu">
 					<a href="{base}/who-we-are" class="dropdown-item" onclick={() => closeDropdowns()}>Who We Are</a>
-					<a href="{base}/about" class="dropdown-item" onclick={() => closeDropdowns()}>About</a>
 				</div>
 			{/if}
 		</div>
@@ -97,6 +97,8 @@
 					<a href="{base}/projects" class="dropdown-item" onclick={() => closeDropdowns()}>Projects</a>
 					<a href="{base}/research/group" class="dropdown-item" onclick={() => closeDropdowns()}>Groups</a>
 					<a href="{base}/funding" class="dropdown-item" onclick={() => closeDropdowns()}>Funding</a>
+					<a href="{base}/research/verso" class="dropdown-item" onclick={() => closeDropdowns()}>VERSO</a>
+					<a href="{base}/research/mass-mutual" class="dropdown-item" onclick={() => closeDropdowns()}>Mass Mutual Center of Excellence</a>
 				</div>
 			{/if}
 		</div>
@@ -209,7 +211,7 @@
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius);
     padding: 0.5rem 0;
-    min-width: 150px;
+    min-width: 18rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 1000;
   }
@@ -224,7 +226,7 @@
   }
   
   .dropdown-item:hover {
-    background: var(--color-gray-100);
+    background: var(--color-gray-300);
   }
 
   /* Hide menu button on desktop */
@@ -234,8 +236,13 @@
   
   /* Dark mode background */
   :global(.dark) .header {
-    background: var(--color-gray-800);
+    background: var(--color-bg);
   }
+  
+  :global(.dark) .nav-button {
+		color: var(--color-gray-800);
+	}
+	
   
 
   /* Mobile layout */
@@ -250,10 +257,6 @@
       margin: 0;
       padding: 1rem;
       z-index: 100;
-    }
-    
-    :global(.dark) .header {
-      background: var(--color-gray-800);
     }
     
     .menu-button {

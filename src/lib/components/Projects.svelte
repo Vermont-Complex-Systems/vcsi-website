@@ -3,14 +3,9 @@
     
     const projects = [
         {
-            id: 'ccmoe',
-            name: 'The MassMutual Center of Excellence in Complex Systems and Data Science',
-            description: 'Advancing a wide range of faculty and graduate Vermont student-driven research ranging from the social contagion of ideas to the future of work, exploring large language models in health care, incentivizing healthy behaviors, and eliminating bias in AI.'
-        },
-        {
-            id: 'verso',
-            name: 'The Vermont ReSearch Open Source Program (VERSO)',
-            description: 'VERSO builds a university-wide open source community through educational activities, internships, research, and community collaborations.'
+            id: 'lemurs',
+            name: 'Lived Experiences Measured Using Rings Study (LEMURS)',
+            description: 'A longitudinal experiment with 600+ UVM first-year students exploring health interventions through partnership with Oura ring technology, monitoring heart-rate, sleep, and activity to understand relationships between well-being, health, and cardiac activity.'
         },
         {
             id: 'socks',

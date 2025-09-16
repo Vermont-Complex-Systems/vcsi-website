@@ -49,7 +49,7 @@ body {
     /* Layout tokens */
     --border-radius: 3px;
     --width-padded: 80vw;
-    --margin-left: 20vw;
+    --margin-left: 9vw;
     --width-padded-mobile: 90vw;
     --margin-left-mobile: 5vw;
 
@@ -105,25 +105,42 @@ body {
 }
 
 /* =============================================================================
-   DARK MODE OVERRIDES
+   DIM MODE OVERRIDES - Light grey with black text (eye-friendly alternative)
    ============================================================================= */
 
 .dark {
-    --color-bg: var(--color-gray-900);
-    --color-fg: var(--color-gray-100);
-    --color-primary: var(--color-gray-900);
-    --color-secondary-gray: var(--color-gray-400);
-    --color-link: var(--color-gray-100);
-    --color-link-hover: var(--color-gray-400);
-    --color-border: var(--color-gray-700);
-    --color-button-bg: var(--color-gray-100);
-    --color-button-fg: var(--color-gray-900);
-    --color-button-hover: var(--color-gray-300);
-    --color-input-bg: var(--color-gray-900);
-    --color-input-fg: var(--color-gray-50);
-    --color-placeholder: var(--color-gray-400);
-    --color-default-story-bg: var(--color-gray-600);
-    --fade: linear-gradient(180deg, rgba(25, 25, 25, 0) 0%, rgba(25, 25, 25, 0.8) 30%, rgba(38, 38, 38, 1) 50%);
+    /* Main backgrounds - light greys that work with black text */
+    --color-bg: var(--color-gray-100);              /* Very light grey background */
+    --color-fg: var(--color-black);                 /* Black text for maximum readability */
+    --color-primary: var(--color-black);            /* Primary elements stay black */
+    --color-secondary-gray: var(--color-gray-600);  /* Darker grey for secondary text */
+    
+    /* Links */
+    --color-link: var(--color-black);
+    --color-link-hover: var(--color-gray-700);
+    
+    /* Interactive states */
+    --color-border: var(--color-gray-300);          /* Light grey borders */
+    --color-selection: var(--color-gray-200);       /* Light selection highlight */
+    
+    /* Buttons - dark buttons on light background */
+    --color-button-bg: var(--color-gray-800);
+    --color-button-fg: var(--color-white);
+    --color-button-hover: var(--color-gray-700);
+    
+    /* Form elements */
+    --color-input-bg: var(--color-gray-50);         /* Very light input backgrounds */
+    --color-input-fg: var(--color-black);           /* Black input text */
+    --color-placeholder: var(--color-gray-500);     /* Medium grey placeholders */
+    
+    /* Story-specific */
+    --color-default-story-bg: var(--color-white);   /* White story backgrounds on light grey */
+    
+    /* Light fade gradient */
+    --fade: linear-gradient(180deg, 
+        rgba(239, 239, 239, 0) 0%, 
+        rgba(239, 239, 239, 0.8) 30%, 
+        rgba(239, 239, 239, 1) 50%);
 }
 
 /* Enable animations when user allows motion */
@@ -131,4 +148,126 @@ body {
     :root {
         --1s: 1s;
     }
+}
+
+/* =============================================================================
+   REUSABLE PAGE HEADER LAYOUT
+   ============================================================================= */
+
+.page-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 3rem;
+}
+
+.page-header-text {
+    flex: 1;
+    max-width: 70%;
+}
+
+.page-header-logo {
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-start;
+    padding-top: 1rem;
+}
+
+.page-header-image {
+    width: 20rem;
+    height: 20rem;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+}
+
+/* Tall images need spacing adjustment */
+.page-header-tall {
+    margin-bottom: 1rem;
+}
+
+.page-header-tall + .content {
+    margin-top: -5rem;
+}
+
+/* Mobile adjustments for page headers */
+@media (max-width: 768px) {
+    .page-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .page-header-text {
+        max-width: 100%;
+    }
+    
+    .page-header-logo {
+        padding-top: 0;
+    }
+    
+    .page-header-image {
+        width: 20rem;
+        height: 20rem;
+    }
+    
+    /* No spacing adjustment needed on mobile */
+    .page-header-tall {
+        gap: 0;
+        margin-bottom: 2rem;
+    }
+    
+    .page-header-tall + .content {
+        margin-top: 0;
+    }
+}
+
+/* =============================================================================
+   SECTION WITH SIDE IMAGE LAYOUT
+   ============================================================================= */
+
+.section-with-image {
+    display: flex;
+    align-items: flex-start;
+    gap: 3rem;
+    margin-bottom: 2rem;
+}
+
+.section-content {
+    flex: 1;
+    max-width: 70%;
+}
+
+.section-image {
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-start;
+    padding-top: 1rem;
+}
+
+.section-drawing {
+    width: 20rem;
+    height: 20rem;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+}
+
+/* Mobile adjustments for sections with images */
+@media (max-width: 768px) {
+    .section-with-image {
+        flex-direction: column;
+        gap: 0rem;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .section-content {
+        max-width: 100%;
+        text-align: left;
+    }
+    
+    .section-image {
+        padding-top: 0;
+        order: -1; /* Show image above content on mobile */
+    }
+    
 }

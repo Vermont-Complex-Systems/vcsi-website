@@ -11,30 +11,43 @@
 </script>
 
 <Meta 
-  title="Undergraduate Program"
-  description="Undergraduate program in complex systems at the Vermont Complex Systems Institute."
+  title="Undergraduate Degree in Data Science"
+  description="BS in Data Science - Joint program between Mathematics & Statistics and Computer Science at UVM."
   {preloadFont}
 />
 
 <div class="program">
     <div class="content-wrapper">
-        <h1>Undergraduate Program</h1>
-        <p class="intro">Complex systems courses and research opportunities for undergraduate students at the University of Vermont.</p>
+        <div class="page-header">
+            <div class="page-header-text">
+                <h1>Undergraduate Degree in Data Science</h1>
+                <p class="intro">A joint program between the Department of Mathematics and Statistics and the Department of Computer Science, providing a broad foundation for students pursuing careers in data-rich environments.</p>
+            </div>
+            <div class="page-header-logo">
+                <img src="/common/assets/logos/bachelors.png" alt="Bachelor's degree" class="page-header-image" />
+            </div>
+        </div>
         
         <div class="program-content">
             <section>
-                <h2>Overview</h2>
-                <p>Our undergraduate program provides students with foundational knowledge in complex systems, network science, and computational methods. Students gain hands-on experience through research projects and coursework that bridges multiple disciplines.</p>
+                <h2>Program Overview</h2>
+                <p>The Undergraduate Degree in Data Science is housed in the College of Engineering and Mathematical Sciences and offers students comprehensive training in data science fundamentals. This interdisciplinary program bridges mathematics, statistics, and computer science to prepare students for the growing field of data science.</p>
             </section>
             
             <section>
-                <h2>Opportunities</h2>
+                <h2>Key Features</h2>
                 <ul>
-                    <li>Research experience with VCSI faculty</li>
-                    <li>Complex systems and network science coursework</li>
-                    <li>Interdisciplinary collaboration opportunities</li>
-                    <li>Conference presentation and publication opportunities</li>
+                    <li><strong>4+1 Accelerated Masters Pathway:</strong> Students can pursue an accelerated path to a Master's degree in Complex Systems and Data Science</li>
+                    <li><strong>Interdisciplinary Approach:</strong> Joint program combining expertise from Mathematics, Statistics, and Computer Science</li>
+                    <li><strong>Career Preparation:</strong> Designed to prepare students for diverse career opportunities in data-rich venues</li>
+                    <li><strong>Research Opportunities:</strong> Access to faculty research in complex systems and data science</li>
                 </ul>
+            </section>
+            
+            <section>
+                <h2>Learn More</h2>
+                <p>For detailed curriculum information and admission requirements, visit the official <a href="https://www.uvm.edu/cems/program/bs-data-science" target="_blank" rel="noopener noreferrer">BS Data Science program page</a>.</p>
+                <p>Interested in the accelerated masters pathway? Learn more about <a href="https://www.uvm.edu/cems/accelerated_masters_programs" target="_blank" rel="noopener noreferrer">UVM's Accelerated Masters Programs</a>.</p>
             </section>
         </div>
     </div>
@@ -45,6 +58,7 @@
         margin-left: var(--margin-left);
         margin-right: var(--margin-left);
     }
+    
     
     h1 {
         font-size: 3rem;
@@ -65,8 +79,7 @@
         font-size: 1.25rem;
         font-family: var(--serif);
         color: var(--color-gray-600);
-        margin-bottom: 3rem;
-        max-width: 70%;
+        margin: 0;
     }
     
     .program-content {
@@ -87,6 +100,8 @@
     ul {
         font-family: var(--serif);
         color: var(--color-fg);
+        padding-left: 1.5rem;
+        list-style-type: disc;
     }
     
     li {
@@ -101,6 +116,7 @@
             margin-right: var(--margin-left-mobile);
         }
         
+        
         h1 {
             font-size: 2rem;
         }
@@ -110,7 +126,6 @@
         }
         
         .intro {
-            max-width: 100%;
             font-size: 1.1rem;
         }
     }
