@@ -4,11 +4,9 @@ import { readFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { db } from '../src/lib/server/db/index.js';
-import { eq, desc, and, sql } from 'drizzle-orm';
+import { eq, and, sql } from 'drizzle-orm';
 
-// Configuration constants
-const MIN_UPDATE_INTERVAL_DAYS = 1; // Minimum days between paper checks
-const FULL_REFRESH_INTERVAL_DAYS = 7; // Days before doing full author refresh
+// No longer using time-based intervals - works_count drives all updates
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const projectRoot = join(__dirname, '..');
@@ -193,23 +191,7 @@ function extractCountsByYear(apiData, authorId) {
   return countsByYear;
 }
 
-// Get the latest paper date for an author to enable incremental updates
-async function getLatestPaperDate(authorId) {
-  try {
-    const latestPaper = await db.select({ 
-      publication_date: openalex_papers.publication_date
-    })
-    .from(openalex_papers)
-    .where(eq(openalex_papers.author_id, authorId))
-    .orderBy(desc(openalex_papers.publication_date))
-    .limit(1);
-    
-    return latestPaper.length > 0 ? new Date(latestPaper[0].publication_date) : null;
-  } catch (error) {
-    console.error(`❌ Error getting latest paper date: ${error.message}`);
-    return null;
-  }
-}
+// Removed getLatestPaperDate - no longer needed with works_count-only approach
 
 // Fetch papers for an author with optional date filtering for incremental updates
 async function fetchPapersData(authorOpenAlexId, sinceDate = null) {
@@ -360,202 +342,101 @@ async function populateOpenAlexDatabase() {
   for (const member of membersWithOpenAlex) {
     const openAlexId = member.openAlexId.trim();
     
-    // Skip if author already exists (unless it's old)
+    // Check existing authors using works_count
     if (existingIds.has(openAlexId)) {
-      const existingAuthor = existingAuthors.find(a => a.openalex_id === openAlexId);
-      const lastUpdated = new Date(existingAuthor.last_updated);
-      const timeDiffMs = Date.now() - lastUpdated.getTime();
-      const daysSinceUpdate = timeDiffMs / (1000 * 60 * 60 * 24);
-      const minutesSinceUpdate = timeDiffMs / (1000 * 60);
+      // Get current works_count from OpenAlex API
+      const currentAuthorData = await fetchAuthorData(openAlexId);
+      if (!currentAuthorData) {
+        console.log(`⏭️  Skipping ${member.name} due to API error`);
+        continue;
+      }
       
-      if (daysSinceUpdate < FULL_REFRESH_INTERVAL_DAYS) { // For recently updated authors
-        // Check if we have complete data by comparing stored paper count with expected works_count
-        const authorRecord = await db.select({ 
-          works_count: openalex_authors.works_count,
-          id: openalex_authors.id 
-        })
-        .from(openalex_authors)
-        .where(eq(openalex_authors.openalex_id, openAlexId))
-        .limit(1);
+      const currentWorksCount = currentAuthorData.works_count;
+      
+      // Get stored data
+      const authorRecord = await db.select({ 
+        works_count: openalex_authors.works_count,
+        id: openalex_authors.id 
+      })
+      .from(openalex_authors)
+      .where(eq(openalex_authors.openalex_id, openAlexId))
+      .limit(1);
+      
+      if (authorRecord.length > 0) {
+        const storedWorksCount = authorRecord[0].works_count;
+        const actualPapers = await db.select({ count: sql`count(*)` })
+          .from(openalex_papers)
+          .where(eq(openalex_papers.author_id, authorRecord[0].id));
         
-        if (authorRecord.length > 0) {
-          const expectedWorks = authorRecord[0].works_count;
-          const actualPapers = await db.select({ count: sql`count(*)` })
-            .from(openalex_papers)
-            .where(eq(openalex_papers.author_id, authorRecord[0].id));
-          
-          const storedPaperCount = actualPapers[0]?.count || 0;
-          const hasCompleteData = storedPaperCount >= expectedWorks;
-          
-          if (daysSinceUpdate < MIN_UPDATE_INTERVAL_DAYS && hasCompleteData) {
-            if (daysSinceUpdate < 1) {
-              console.log(`⏭️  Skipping ${member.name} (${openAlexId}) - updated ${minutesSinceUpdate.toFixed(1)} minutes ago, complete data (${storedPaperCount}/${expectedWorks})`);
-            } else {
-              console.log(`⏭️  Skipping ${member.name} (${openAlexId}) - updated ${daysSinceUpdate.toFixed(1)} days ago, complete data (${storedPaperCount}/${expectedWorks})`);
-            }
-            continue;
-          } else if (!hasCompleteData) {
-            const missingPapers = expectedWorks - storedPaperCount;
-            console.log(`🔄 Completing data for ${member.name} (${openAlexId}) - has ${storedPaperCount}/${expectedWorks} papers, missing ${missingPapers}`);
-            
-            // For incomplete data, fetch ALL papers (not incremental) to fill gaps
-            const allPapersData = await fetchPapersData(openAlexId);
-            
-            if (allPapersData.length > 0) {
-              let actuallyInserted = 0;
-              
-              for (const paperApiData of allPapersData) {
-                try {
-                  const paperOpenAlexId = paperApiData.id.replace('https://openalex.org/', '');
-                  const existingPaper = await db.select({ id: openalex_papers.id })
-                    .from(openalex_papers)
-                    .where(and(
-                      eq(openalex_papers.openalex_id, paperOpenAlexId),
-                      eq(openalex_papers.author_id, authorRecord[0].id)
-                    ))
-                    .limit(1);
-                  
-                  if (existingPaper.length === 0) {
-                    const paperData = extractPaperData(paperApiData, authorRecord[0].id);
-                    const [insertedPaper] = await db.insert(openalex_papers).values(paperData).returning({ id: openalex_papers.id });
-                    
-                    const paperAuthors = extractPaperAuthors(paperApiData, insertedPaper.id);
-                    if (paperAuthors.length > 0) {
-                      await db.insert(openalex_paper_authors).values(paperAuthors);
-                    }
-                    
-                    actuallyInserted++;
-                  }
-                } catch (paperError) {
-                  console.error(`❌ Error inserting paper "${paperApiData.title}": ${paperError.message}`);
-                }
-              }
-              
-              if (actuallyInserted > 0) {
-                console.log(`✅ Added ${actuallyInserted} missing papers for ${member.name}`);
-              } else {
-                console.log(`🔄 No missing papers to add for ${member.name}`);
-              }
-            }
-            
-            // Update timestamp after completing data
-            await db.update(openalex_authors)
-              .set({ last_updated: new Date().toISOString() })
-              .where(eq(openalex_authors.id, authorRecord[0].id));
-            
-            continue;
-          } else {
-            console.log(`🔄 Checking for new papers for ${member.name} (${openAlexId}) - last updated ${daysSinceUpdate.toFixed(1)} days ago`);
-          }
-        } else {
-          console.log(`⚠️  No author record found for ${member.name} (${openAlexId})`);
+        const storedPaperCount = actualPapers[0]?.count || 0;
+        
+        // Check if we need to update
+        if (storedPaperCount >= currentWorksCount && storedWorksCount === currentWorksCount) {
+          console.log(`⏭️  Skipping ${member.name} (${openAlexId}) - data complete (${storedPaperCount}/${currentWorksCount})`);
+          continue;
         }
         
-        // Get author ID for incremental update
-        const existingAuthorRecord = await db.select({ id: openalex_authors.id })
-          .from(openalex_authors)
-          .where(eq(openalex_authors.openalex_id, openAlexId))
-          .limit(1);
+        // Update needed - fetch missing papers
+        const missingPapers = currentWorksCount - storedPaperCount;
+        console.log(`🔄 Updating ${member.name} (${openAlexId}) - ${missingPapers} papers needed (has ${storedPaperCount}/${currentWorksCount})`);
         
-        if (existingAuthorRecord.length > 0) {
-          const authorId = existingAuthorRecord[0].id;
+        // Update author record with current works_count
+        const updatedAuthorData = extractAuthorData(currentAuthorData);
+        await db.update(openalex_authors)
+          .set({
+            works_count: updatedAuthorData.works_count,
+            cited_by_count: updatedAuthorData.cited_by_count,
+            h_index: updatedAuthorData.h_index,
+            i10_index: updatedAuthorData.i10_index,
+            last_updated: new Date().toISOString()
+          })
+          .where(eq(openalex_authors.id, authorRecord[0].id));
+        
+        // Fetch ALL papers to fill gaps
+        const allPapersData = await fetchPapersData(openAlexId);
+        
+        if (allPapersData.length > 0) {
+          let actuallyInserted = 0;
           
-          // Get the latest paper date for incremental update
-          const latestPaperDate = await getLatestPaperDate(authorId);
-          
-          if (latestPaperDate) {
-            const dateForApi = latestPaperDate instanceof Date ? latestPaperDate : new Date(latestPaperDate);
-            // Add 1 day to get papers AFTER the latest paper, not including it
-            const dayAfterLatest = new Date(dateForApi);
-            dayAfterLatest.setDate(dayAfterLatest.getDate() + 1);
-            
-            console.log(`📄 Fetching papers after ${dayAfterLatest.toISOString().split('T')[0]}`);
-            const newPapersData = await fetchPapersData(openAlexId, dayAfterLatest);
-            
-            if (newPapersData.length > 0) {
-              console.log(`📄 Found ${newPapersData.length} potential new papers from API`);
+          for (const paperApiData of allPapersData) {
+            try {
+              const paperOpenAlexId = paperApiData.id.replace('https://openalex.org/', '');
+              const existingPaper = await db.select({ id: openalex_papers.id })
+                .from(openalex_papers)
+                .where(and(
+                  eq(openalex_papers.openalex_id, paperOpenAlexId),
+                  eq(openalex_papers.author_id, authorRecord[0].id)
+                ))
+                .limit(1);
               
-              let actuallyInserted = 0;
-              
-              for (const paperApiData of newPapersData) {
-                try {
-                  // Check if this author already has this paper
-                  const paperOpenAlexId = paperApiData.id.replace('https://openalex.org/', '');
-                  const existingPaper = await db.select({ id: openalex_papers.id })
-                    .from(openalex_papers)
-                    .where(and(
-                      eq(openalex_papers.openalex_id, paperOpenAlexId),
-                      eq(openalex_papers.author_id, authorId)
-                    ))
-                    .limit(1);
-                  
-                  if (existingPaper.length === 0) {
-                    // Insert new paper
-                    const paperData = extractPaperData(paperApiData, authorId);
-                    const [insertedPaper] = await db.insert(openalex_papers).values(paperData).returning({ id: openalex_papers.id });
-                    
-                    // Insert paper authors
-                    const paperAuthors = extractPaperAuthors(paperApiData, insertedPaper.id);
-                    if (paperAuthors.length > 0) {
-                      await db.insert(openalex_paper_authors).values(paperAuthors);
-                    }
-                    
-                    actuallyInserted++;
-                  }
-                } catch (paperError) {
-                  console.error(`❌ Error inserting paper "${paperApiData.title}": ${paperError.message}`);
+              if (existingPaper.length === 0) {
+                const paperData = extractPaperData(paperApiData, authorRecord[0].id);
+                const [insertedPaper] = await db.insert(openalex_papers).values(paperData).returning({ id: openalex_papers.id });
+                
+                const paperAuthors = extractPaperAuthors(paperApiData, insertedPaper.id);
+                if (paperAuthors.length > 0) {
+                  await db.insert(openalex_paper_authors).values(paperAuthors);
                 }
+                
+                actuallyInserted++;
               }
-              
-              if (actuallyInserted > 0) {
-                console.log(`✅ Added ${actuallyInserted} new papers for ${member.name}`);
-              } else {
-                console.log(`🔄 No new papers to add for ${member.name} (all already exist)`);
-              }
-            } else {
-              console.log(`📄 No new papers found for ${member.name}`);
+            } catch (paperError) {
+              console.error(`❌ Error inserting paper "${paperApiData.title}": ${paperError.message}`);
             }
-          } else {
-            console.log(`📄 No existing papers found, skipping incremental update for ${member.name}`);
           }
           
-          // Update the last_updated timestamp for this author
-          await db.update(openalex_authors)
-            .set({ last_updated: new Date().toISOString() })
-            .where(eq(openalex_authors.id, authorId));
+          if (actuallyInserted > 0) {
+            console.log(`✅ Added ${actuallyInserted} papers for ${member.name}`);
+          } else {
+            console.log(`🔄 No new papers to add for ${member.name}`);
+          }
         }
         
         continue;
-      } else {
-        console.log(`🔄 Full update for ${member.name} (${openAlexId}) - ${daysSinceUpdate.toFixed(1)} days old`);
-        // Delete existing data to update - need to get author_id first
-        const existingAuthorRecord = await db.select({ id: openalex_authors.id })
-          .from(openalex_authors)
-          .where(eq(openalex_authors.openalex_id, openAlexId))
-          .limit(1);
-        
-        if (existingAuthorRecord.length > 0) {
-          const authorId = existingAuthorRecord[0].id;
-          // Get paper IDs first, then delete paper authors
-          const existingPapers = await db.select({ id: openalex_papers.id })
-            .from(openalex_papers)
-            .where(eq(openalex_papers.author_id, authorId));
-          
-          for (const paper of existingPapers) {
-            await db.delete(openalex_paper_authors).where(eq(openalex_paper_authors.paper_id, paper.id));
-          }
-          
-          await db.delete(openalex_papers).where(eq(openalex_papers.author_id, authorId));
-          await db.delete(openalex_counts_by_year).where(eq(openalex_counts_by_year.author_id, authorId));
-          await db.delete(openalex_concepts).where(eq(openalex_concepts.author_id, authorId));
-          await db.delete(openalex_topics).where(eq(openalex_topics.author_id, authorId));
-          await db.delete(openalex_affiliations).where(eq(openalex_affiliations.author_id, authorId));
-          await db.delete(openalex_authors).where(eq(openalex_authors.openalex_id, openAlexId));
-        }
       }
-    }
-
-    try {
+    } else {
+      // New author - process normally
+      try {
       // Fetch data from OpenAlex API
       const apiData = await fetchAuthorData(openAlexId);
       
@@ -638,7 +519,8 @@ async function populateOpenAlexDatabase() {
     } catch (error) {
       console.error(`❌ Error processing ${member.name} (${openAlexId}):`, error);
     }
-  }
+    } // Close else clause for new authors
+  } // Close main for loop
 
   console.log('\n🎉 OpenAlex database population complete!');
   
