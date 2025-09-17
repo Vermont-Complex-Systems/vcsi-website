@@ -3,6 +3,7 @@
     
   import { onMount, onDestroy } from 'svelte';
   import { base } from '$app/paths';
+  import { mode } from 'mode-watcher';
     // Morph toggle
   let morphToHeart = false; // Start as circle
   let morphToPNG = false; // Morph to PNG shape
@@ -362,7 +363,21 @@
       rotationAngle += 0.0005;
       gl.uniform1f(rotationUniformLocation, rotationAngle);
       gl.uniform1f(timeUniformLocation, timestamp);
-      gl.clearColor(0.937, 0.937, 0.937, 1.0); // bg color #EFEFEF
+      // Get computed background color from CSS variable
+      const computedStyle = getComputedStyle(canvas);
+      const bgColor = computedStyle.getPropertyValue('--color-bg').trim();
+      
+      // Parse RGB color and convert to WebGL format (0-1)
+      const rgbMatch = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+      if (rgbMatch) {
+        const r = parseInt(rgbMatch[1]) / 255;
+        const g = parseInt(rgbMatch[2]) / 255;
+        const b = parseInt(rgbMatch[3]) / 255;
+        gl.clearColor(r, g, b, 1.0);
+      } else {
+        // Fallback to light grey
+        gl.clearColor(0.937, 0.937, 0.937, 1.0);
+      }
       gl.clear(gl.COLOR_BUFFER_BIT);
 
       // Handle dot jumps
@@ -414,7 +429,7 @@
     #dot-container {
   width: 100%;
   height: 400px;
-  background-color: #EFEFEF;
+  background-color: var(--color-bg);
 }
 canvas {
   width: 100%;
