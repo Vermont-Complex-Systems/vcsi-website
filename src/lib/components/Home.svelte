@@ -128,7 +128,7 @@
     .hero-text {
         display: flex;
         flex-direction: column;
-        max-width: 50%;
+        max-width: 55%;
         gap: 2rem;
     }
     

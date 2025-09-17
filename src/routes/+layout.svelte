@@ -24,7 +24,7 @@
 <style>
 	#content {
 		flex: 1;
-		padding: 12rem 0 5rem; /* Account for fixed nav height */
+		padding: 0 0 5rem; /* Account for fixed nav height */
 	}
 	
 	:global(body) {
