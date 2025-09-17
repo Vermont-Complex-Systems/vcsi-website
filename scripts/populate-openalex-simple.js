@@ -50,23 +50,63 @@ async function fetchAuthorData(openAlexId) {
   }
 }
 
-// Fetch papers for an author
+// Fetch papers for an author with full pagination
 async function fetchAuthorPapers(openAlexId) {
   console.log(`📄 Fetching papers for: ${openAlexId}`);
   
   try {
-    const response = await fetch(`https://api.openalex.org/works?filter=author.id:${openAlexId}&per_page=100`, {
-      headers: {
-        'User-Agent': 'VCSI-Website/1.0 (https://vcsi.uvm.edu; mailto:jstonge1@uvm.edu)'
+    // Build base URL
+    let baseUrl = `https://api.openalex.org/works?filter=author.id:${openAlexId}&mailto=jstonge1@uvm.edu`;
+    
+    // Fetch all papers for this author (with full pagination)
+    let allPapers = [];
+    let page = 1;
+    
+    do {
+      const url = `${baseUrl}&per_page=100&page=${page}`;
+      
+      const response = await fetch(url, {
+        headers: {
+          'User-Agent': 'VCSI-Website/1.0 (https://vcsi.uvm.edu; mailto:jstonge1@uvm.edu)'
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
-    });
+      
+      const data = await response.json();
+      
+      // Check if we got results
+      if (data.results && data.results.length > 0) {
+        allPapers = allPapers.concat(data.results);
+        console.log(`📄 Fetched page ${page}, got ${data.results.length} papers (total: ${allPapers.length})`);
+        
+        // Continue if we got a full page (100 results)
+        const hasMorePages = data.results.length === 100;
+        if (!hasMorePages) {
+          break;
+        }
+      } else {
+        break;
+      }
+      
+      page++;
+      
+      // Add delay between requests to respect rate limits
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Safety check - if we're getting too many pages, something might be wrong
+      if (page > 50) {
+        console.warn(`⚠️  Fetched ${page} pages (${allPapers.length} papers) - this author is very prolific!`);
+        break;
+      }
+      
+    } while (true);
     
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-    }
+    console.log(`📄 Total papers fetched: ${allPapers.length}`);
+    return allPapers;
     
-    const data = await response.json();
-    return data.results || [];
   } catch (error) {
     console.error(`❌ Failed to fetch papers for ${openAlexId}: ${error.message}`);
     return [];

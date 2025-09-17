@@ -7,7 +7,7 @@
     // Flatten once
     console.log(papers)
   const papersByTopic = papers.flatMap(p =>
-    (JSON.parse(p.topics) || []).map(t => ({ topic: t.display_name }))
+    (p.topics || []).map(t => ({ topic: t.display_name }))
   );
 
   // Compute counts

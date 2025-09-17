@@ -18,9 +18,6 @@ import {
 
 import membersData from '$data/members.csv'
 import groupsData from '$data/groups.csv'
-import papersData from '$data/openalex_papers.csv'
-import authorsData from '$data/openalex_authors.csv'
-  
 
 export const getMembers = prerender(async () => {
     return await membersData
@@ -38,6 +35,24 @@ export const getMember = prerender(
     { dynamic: true }
 );
 
+export const getGroup = prerender(
+    v.string(),
+    async (slug) => {
+        return await groupsData.filter(d => d.id == slug)
+    },
+    {dynamic: true}
+);
+
+// Helper function to safely parse JSON
+function safeParse(value) {
+    if (!value) return null;
+    try {
+        return JSON.parse(value);
+    } catch {
+        return null;
+    }
+}
+
 export const getMemberWithOpenAlex = prerender(
     v.string(),
     async (slug) => {
@@ -52,30 +67,36 @@ export const getMemberWithOpenAlex = prerender(
             return memberData
         }
         
-        // Get both author data and papers
-        const authorData = await authorsData.filter(d => d.openalex_id == memberData.openAlexId)[0]
-        const papers = await papersData.filter(d => d.author_openalex_id == memberData.openAlexId)
+        // Get author data from database
+        const authorData = await db.select()
+            .from(openalex_authors)
+            .where(eq(openalex_authors.openalex_id, memberData.openAlexId))
+            .limit(1);
         
+        // Get papers from database
+        const papers = await db.select()
+            .from(openalex_papers)
+            .where(eq(openalex_papers.author_openalex_id, memberData.openAlexId));
+
         return {
             ...memberData,
-            openAlex: authorData,
-            papers: papers
+            openAlex: authorData.length > 0 ? authorData[0] : null,
+            papers: papers.map(paper => ({
+                ...paper,
+                is_open_access: Boolean(paper.is_open_access),
+                concepts: safeParse(paper.concepts) || [],
+                primary_location: safeParse(paper.primary_location) || [],
+                topics: safeParse(paper.topics) || []
+            }))
         }
     },
     { dynamic: true }
 );
 
-export const getGroup = prerender(
-    v.string(),
-    async (slug) => {
-        return await groupsData.filter(d => d.id == slug)
-    },
-    {dynamic: true}
-);
 
 // --------------------------------- //
 //
-// Course-related remote functions (DB)
+// Course-related remote functions
 //
 // --------------------------------- //
 
