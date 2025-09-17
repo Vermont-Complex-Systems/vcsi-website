@@ -288,18 +288,39 @@ export const getOpenAlexAuthor = prerender(
 export const getMemberWithOpenAlex = prerender(
     v.string(),
     async (slug) => {
-        const member = await membersData.filter(d => d.id == slug);
-        
-        if (member.length === 0) {
-            throw error(404, 'Member not found');
-        }
+        try {
+            console.log(`getMemberWithOpenAlex called with slug: ${slug}`);
+            
+            const member = await membersData.filter(d => d.id == slug);
+            console.log(`Found ${member.length} members matching slug: ${slug}`);
+            
+            if (member.length === 0) {
+                console.error(`Member not found for slug: ${slug}`);
+                throw error(404, 'Member not found');
+            }
         
         const memberData = member[0];
+        console.log(`Member data:`, { name: memberData.name, openAlexId: memberData.openAlexId });
         
         // If member has OpenAlex ID, fetch the data
         if (memberData.openAlexId) {
             try {
+                console.log(`Fetching OpenAlex data for ${memberData.name} (${memberData.openAlexId})`);
+                
+                // Check if database connection is available
+                try {
+                    console.log(`Attempting database connection test...`);
+                    const testQuery = await db.select().from(openalex_authors).limit(1);
+                    console.log(`Database connection test successful, found ${testQuery.length} authors`);
+                } catch (dbError) {
+                    console.error(`Database connection failed:`, dbError);
+                    console.error(`Database error stack:`, dbError.stack);
+                    console.log(`Returning member data without OpenAlex due to database error`);
+                    return memberData;
+                }
+                
                 const openAlexData = await getOpenAlexAuthor(memberData.openAlexId);
+                console.log(`Successfully fetched OpenAlex data for ${memberData.name}`);
                 return {
                     ...memberData,
                     openAlex: openAlexData
@@ -307,11 +328,17 @@ export const getMemberWithOpenAlex = prerender(
             } catch (err) {
                 // If OpenAlex data not found, just return member data
                 console.warn(`OpenAlex data not available for ${memberData.name}:`, err.message);
+                console.warn(`Error details:`, err);
                 return memberData;
             }
         }
         
-        return memberData;
+            console.log(`No OpenAlex ID for ${memberData.name}, returning basic member data`);
+            return memberData;
+        } catch (err) {
+            console.error(`Error in getMemberWithOpenAlex for slug ${slug}:`, err);
+            throw err;
+        }
     },
     { dynamic: true }
 );
