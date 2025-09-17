@@ -1,6 +1,7 @@
 <script>
     import Meta from "$lib/components/Meta.svelte";
     import Groups from '$lib/components/Groups.svelte';
+    import Spinner from "$lib/components/Spinner.svelte";
     import { getGroups } from '../../data.remote'
 
      const preloadFont = [
@@ -26,7 +27,7 @@
         <p class="intro">Meet the groups who make up the Vermont Complex Systems Institute.</p>
         
         {#await getGroups()}
-            <p>Loading groups...</p>
+            <Spinner text="Loading groups..." />
         {:then groups}
             <Groups {groups} />
         {:catch error} 

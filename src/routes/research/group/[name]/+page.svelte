@@ -4,6 +4,7 @@
   
   import Meta from "$lib/components/Meta.svelte";
   import Group from "$lib/components/Group.svelte";
+  import Spinner from "$lib/components/Spinner.svelte";
   
   const preloadFont = [
     "https://pudding.cool/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
@@ -16,7 +17,7 @@
 </script>
 
 {#await getGroup(page.params.name)}
-  loading...
+  <Spinner text="Loading group data..." />
 {:then group} 
     <Meta 
       title={group[0].name}

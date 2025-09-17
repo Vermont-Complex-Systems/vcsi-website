@@ -1,6 +1,7 @@
 <script>
     import Meta from "$lib/components/Meta.svelte";
     import WhoWeAre from '$lib/components/WhoWeAre.svelte';
+    import Spinner from "$lib/components/Spinner.svelte";
     import { getMembers } from '../data.remote'
 
      const preloadFont = [
@@ -26,7 +27,7 @@
         <p class="intro">Meet the researchers, faculty, and collaborators who make up the Vermont Complex Systems Institute.</p>
         
         {#await getMembers()}
-            <p>Loading members...</p>
+            <Spinner text="Loading members..." />
         {:then members}
             <WhoWeAre {members} />
         {:catch error} 
