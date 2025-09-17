@@ -72,53 +72,45 @@
         </div>
         
         <div class="learning-grid">
-            <div class="learning-card undergraduate">
-                <a href="{base}/education/undergraduate">
-                    <img 
-                        src="{base}/common/assets/drawing/squirrel-small-01@2x.png" 
-                        alt="Squirrel logo" />
-                </a>
+            <a href="{base}/education/undergraduate" class="learning-card undergraduate">
+                <img 
+                    src="{base}/common/assets/drawing/squirrel-small-01@2x.png" 
+                    alt="Squirrel logo" />
                 <div class="card-content">
                     <p>Obtain squirrel mind. Learn more about the joint program of the Department of Mathematics and Statistics and the Department of Computer Science.</p>
                 </div>
-            </div>
+            </a>
             
-            <div class="learning-card certificate">
+            <a href="{base}/education/certificate" class="learning-card certificate">
                 <div class="card-content">
-                    <a href="{base}/education/certificate">
-                        <img 
-                            src="{base}/common/assets/drawing/platypus.png" 
-                            alt="Platypus logo"
-                        />
-                    </a>
+                    <img 
+                        src="{base}/common/assets/drawing/platypus.png" 
+                        alt="Platypus logo"
+                    />
                     <p style="margin-top: 15px;">For curious platypuses. Learn more about our broadest educational program at the graduate level—now available online!</p>
                 </div>
-            </div>
+            </a>
             
-            <div class="learning-card masters">
-                <a href="{base}/education/masters">
-                    <img 
-                            src="{base}/common/assets/drawing/fox03.png" 
-                            alt="Hedonometer"
-                        />
-                </a>
+            <a href="{base}/education/masters" class="learning-card masters">
+                <img 
+                        src="{base}/common/assets/drawing/fox03.png" 
+                        alt="Hedonometer"
+                    />
                 <div class="card-content">
                     <p style="margin-top: 15px;">Become the fox. Learn more about our newest educational program.</p>
                 </div>
-            </div>
+            </a>
             
-            <div class="learning-card phd">
-                <a href="{base}/education/phd">
-                    <img 
-                    src="{base}/common/assets/drawing/crow02.png" 
-                    alt="mce-lab"
-                    style="transform: translate(0, 50px);"
-                    />
-                </a>
-                    <div class="card-content">
-                        <p style="margin-top:90px;">Earn crow-level cleverness. Learn more about our plans.</p>
+            <a href="{base}/education/phd" class="learning-card phd">
+                <img 
+                src="{base}/common/assets/drawing/crow02.png" 
+                alt="mce-lab"
+                style="transform: translate(0, 50px);"
+                />
+                <div class="card-content">
+                    <p style="margin-top:90px;">Earn crow-level cleverness. Learn more about our plans.</p>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 </section>
@@ -259,6 +251,8 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
+        text-decoration: none;
+        color: inherit;
     }
 
      .learning-card img {

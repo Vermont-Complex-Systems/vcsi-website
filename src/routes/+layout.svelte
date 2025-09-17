@@ -14,7 +14,7 @@
 
 <Nav />
 
-<ModeWatcher />
+<ModeWatcher defaultMode="light" />
 <main id="content">
 	{@render children?.()}
 </main>
