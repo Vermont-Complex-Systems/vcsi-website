@@ -1,0 +1,11 @@
+RewriteEngine On
+
+# Handle SvelteKit static routes without .html extension
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !/$
+RewriteCond %{REQUEST_URI} !\.[^./]+$
+RewriteRule (.*) $1.html [L]
+
+# Ensure proper MIME types
+AddType text/html .html

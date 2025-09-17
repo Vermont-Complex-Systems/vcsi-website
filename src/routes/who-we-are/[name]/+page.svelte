@@ -16,7 +16,10 @@
 </script>
 
 {#await getMemberWithOpenAlex(page.params.name)}
-  loading...
+  <div class="loading-container">
+    <div class="spinner"></div>
+    <span class="loading-text">Loading member data...</span>
+  </div>
 {:then author} 
     <Meta 
       title={author.name}
@@ -28,3 +31,34 @@
 {:catch error}
   <p>Error loading member: {error.message || 'Unknown error'}</p>
 {/await}
+
+<style>
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    gap: 1rem;
+  }
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid var(--color-primary, #007acc);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  .loading-text {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    color: var(--color-gray-600);
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
