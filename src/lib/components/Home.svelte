@@ -1,6 +1,6 @@
 <script>
     import { base } from '$app/paths';
-    import SpinningDots from './SpinningDots.svelte';
+    import DotsToImage from './DotsToImage.svelte';
 </script>
 
 <div class="content-wrapper">
@@ -9,7 +9,7 @@
             <h1>Describe, Explain,  Create, Share.</h1>
             <p>The Vermont Complex Systems Institute is a post-disciplinary organization working on real-world, data-rich, and meaningful complex systems problems of all kinds.</p>
         </div>
-        <SpinningDots />
+        <DotsToImage imgFilePath={`${base}/favicon.png`} />
     </div>
 </div>
 

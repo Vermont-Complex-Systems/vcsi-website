@@ -1,6 +1,5 @@
 <script>
     import { base } from '$app/paths';
-    import DotsToPic from './DotsToPic.svelte';
     
     let { members } = $props()
 </script>

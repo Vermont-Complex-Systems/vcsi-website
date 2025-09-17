@@ -1,5 +1,68 @@
+
 <script>
+    
   import { onMount, onDestroy } from 'svelte';
+  import { base } from '$app/paths';
+    // Morph toggle
+  let morphToHeart = false; // Start as circle
+  let morphToPNG = false; // Morph to PNG shape
+  export let imgFilePath; // prop to set image filepath
+
+  // Utility: sample PNG and generate shapeTargets
+  async function getShapeTargetsFromImage(imgSrc, numPoints, minRadius, maxRadius) {
+    console.log('getting custom shape')
+    return new Promise((resolve, reject) => {
+      const img = new window.Image();
+      img.crossOrigin = 'Anonymous';
+      img.onload = () => {
+        // Draw image to offscreen canvas
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        const imageData = ctx.getImageData(0, 0, img.width, img.height);
+        // Sample points from dark pixels (for pencil sketch)
+        const points = [];
+        for (let i = 0; i < imageData.data.length; i += 4) {
+          const r = imageData.data[i];
+          const g = imageData.data[i + 1];
+          const b = imageData.data[i + 2];
+          const alpha = imageData.data[i + 3];
+          // Calculate brightness (simple average)
+          const brightness = (r + g + b) / 3;
+          // Only sample dark pixels (e.g., brightness < 180) and visible (alpha > 128)
+          if (brightness < 180 && alpha > 128) {
+            const idx = i / 4;
+            const x = (idx % img.width);
+            const y = Math.floor(idx / img.width);
+            points.push({ x, y });
+          }
+        }
+        // Center and scale points to fit inside [-1,1] using minRadius
+        const cx = img.width / 2;
+        const cy = img.height / 2;
+        const scale = minRadius * 3 / Math.max(img.width, img.height);
+        // Randomly select numPoints from points
+        const selected = [];
+        for (let i = 0; i < numPoints; i++) {
+          const pt = points[Math.floor(Math.random() * points.length)];
+          // Center and scale
+          const nx = (pt.x - cx) * scale;
+          const ny = (pt.y - cy) * scale;
+          selected.push({ x: nx, y: ny });
+        }
+        resolve(selected);
+      };
+      img.onerror = reject;
+      img.src = imgSrc;
+    });
+  }
+
+  function handleMouseEnter() {
+    morphToHeart = false;
+    morphToPNG = true;
+  }
   let canvas;
   let animationFrameId;
 
@@ -23,6 +86,8 @@
   }
   function handleMouseLeave() {
     mouseActive = false;
+    morphToHeart = false;
+    morphToPNG = false;
   }
 
   function resizeCanvas() {
@@ -38,6 +103,7 @@
 
   onMount(() => {
     canvas.addEventListener('mousemove', handleMouseMove);
+    canvas.addEventListener('mouseenter', handleMouseEnter);
     canvas.addEventListener('mouseleave', handleMouseLeave);
     const gl = canvas.getContext('webgl', { preserveDrawingBuffer: false });
     if (!gl) {
@@ -111,8 +177,15 @@
     const dots = [];
     const positions = new Float32Array(numPoints * 2);
     const randoms = new Float32Array(numPoints);
+  let shapeTargets = [];
+  let defaultShapeTargets = [];
     const minRadius = 0.4;
     const maxRadius = 0.8;
+    // Octopus shape: circle for head, 8 arms using sine waves
+    const numArms = 8;
+    const armLength = 0.7;
+    const armWiggle = 0.15;
+    const headRadius = 0.45;
     for (let i = 0; i < numPoints; i++) {
       const angle = Math.random() * Math.PI * 2;
       const radius = minRadius + Math.random() * (maxRadius - minRadius);
@@ -130,6 +203,35 @@
         jumpStart: 0,
         jumpPhase: 'idle', // idle, toCenter, hold, toPerimeter
       });
+    }
+    // Default: octopus shape
+    for (let i = 0; i < numPoints; i++) {
+      // ...existing octopus shape logic...
+      if (i < numPoints * 0.33) {
+        const t = (i / (numPoints * 0.33)) * 2 * Math.PI;
+        const ox = headRadius * Math.cos(t);
+        const oy = headRadius * Math.sin(t);
+        defaultShapeTargets.push({ x: ox, y: oy });
+      } else {
+        const armIdx = Math.floor(((i - numPoints * 0.33) / (numPoints * 0.67)) * numArms);
+        const armAngle = (armIdx / numArms) * 2 * Math.PI;
+        const armPos = ((i - numPoints * 0.33) % Math.floor(numPoints * 0.67 / numArms)) / Math.floor(numPoints * 0.67 / numArms);
+        const baseX = headRadius * Math.cos(armAngle);
+        const baseY = headRadius * Math.sin(armAngle);
+        const tipX = (headRadius + armLength) * Math.cos(armAngle);
+        const tipY = (headRadius + armLength) * Math.sin(armAngle);
+        let ax = baseX + (tipX - baseX) * armPos;
+        let ay = baseY + (tipY - baseY) * armPos;
+        ax += Math.sin(armPos * 6 * Math.PI + armIdx) * armWiggle * (1 - armPos);
+        ay += Math.cos(armPos * 6 * Math.PI + armIdx) * armWiggle * (1 - armPos);
+        defaultShapeTargets.push({ x: ax, y: ay });
+      }
+    }
+    shapeTargets = defaultShapeTargets;
+    // PNG morph: load shapeTargets from image if morphToPNG
+    async function morphToPNGShape() {
+        console.log('start')
+      shapeTargets = await getShapeTargetsFromImage(imgFilePath, numPoints, minRadius, maxRadius);
     }
 
     // Position buffer
@@ -207,8 +309,15 @@
       // Remove finished dots from jumpingIndices
       jumpingIndices = jumpingIndices.filter(idx => dots[idx].jumpPhase !== 'idle');
 
-      // Force field effect for non-jumping dots
-      if (mouseActive) {
+      // Morph logic
+      if (morphToHeart || morphToPNG) {
+        for (let i = 0; i < dots.length; i++) {
+          const dot = dots[i];
+          if (dot.jumpPhase !== 'idle') continue;
+          dot.x += (shapeTargets[i].x - dot.x) * 0.05;
+          dot.y += (shapeTargets[i].y - dot.y) * 0.05;
+        }
+      } else if (mouseActive) {
         for (let i = 0; i < dots.length; i++) {
           const dot = dots[i];
           if (dot.jumpPhase !== 'idle') continue; // Don't affect jumping dots
@@ -269,6 +378,21 @@
       animationFrameId = requestAnimationFrame(animate);
     }
     animate(0);
+    // Watch for morphToPNG toggle
+  let lastMorphToPNG = false;
+    function checkMorphToggle() {
+        
+      if (morphToPNG && !lastMorphToPNG) {
+        morphToPNGShape().then(() => {
+          // shapeTargets is set inside morphToPNGShape
+        });
+      } else if (!morphToPNG && lastMorphToPNG) {
+        shapeTargets = defaultShapeTargets;
+      }
+      lastMorphToPNG = morphToPNG;
+      requestAnimationFrame(checkMorphToggle);
+    }
+    checkMorphToggle();
 
     onDestroy(() => {
       window.removeEventListener('resize', resizeCanvas);
