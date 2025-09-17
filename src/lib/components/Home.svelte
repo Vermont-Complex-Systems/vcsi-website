@@ -1,11 +1,15 @@
 <script>
     import { base } from '$app/paths';
+    import SpinningDots from './SpinningDots.svelte';
 </script>
 
 <div class="content-wrapper">
-    <div class="hero-text">
-        <h1>Describe, Explain,  Create, Share.</h1>
-        <p>The Vermont Complex Systems Institute is a post-disciplinary organization working on real-world, data-rich, and meaningful complex systems problems of all kinds.</p>
+    <div id="hero-section">
+        <div class="hero-text">
+            <h1>Describe, Explain,  Create, Share.</h1>
+            <p>The Vermont Complex Systems Institute is a post-disciplinary organization working on real-world, data-rich, and meaningful complex systems problems of all kinds.</p>
+        </div>
+        <SpinningDots />
     </div>
 </div>
 
@@ -294,6 +298,15 @@
         mix-blend-mode: multiply;
     }
 
+    #hero-section {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 4rem;
+        height: 100vh;
+        padding-right: var(--margin-left);
+    }
+
     @media (max-width: 1200px) {
         .features-grid {
             grid-template-columns: repeat(2, 1fr);
@@ -301,6 +314,14 @@
     }
 
     @media (max-width: 768px) {
+        #hero-section {
+            flex-direction: column;
+            text-align: center;
+            justify-content: center;
+            height: auto;
+            padding: 4rem 0;
+            gap: 3rem;
+        }
         .content-wrapper {
             margin-left: var(--margin-left-mobile);
         }
