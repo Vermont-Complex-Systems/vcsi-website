@@ -13,12 +13,7 @@ const projectRoot = join(__dirname, '..');
 
 import { 
   openalex_authors,
-  openalex_affiliations,
-  openalex_topics,
-  openalex_concepts,
-  openalex_counts_by_year,
-  openalex_papers,
-  openalex_paper_authors
+  openalex_papers
 } from '../src/lib/server/db/schema.js';
 
 // Parse CSV file
@@ -200,7 +195,7 @@ async function fetchPapersData(authorOpenAlexId, sinceDate = null) {
   
   try {
     // Build URL with optional date filter
-    let baseUrl = `https://api.openalex.org/works?filter=author.id:${authorOpenAlexId}&mailto=vcsi@uvm.edu`;
+    let baseUrl = `https://api.openalex.org/works?filter=author.id:${authorOpenAlexId}&mailto=jstonge1@uvm.edu`;
     if (sinceDate) {
       // Format date for OpenAlex API (YYYY-MM-DD)
       const dateObj = sinceDate instanceof Date ? sinceDate : new Date(sinceDate);
@@ -265,11 +260,11 @@ async function fetchPapersData(authorOpenAlexId, sinceDate = null) {
 }
 
 // Extract paper data from API response
-function extractPaperData(paperApiData, authorId) {
+function extractPaperData(paperApiData, authorOpenAlexId) {
   const primaryLocation = paperApiData.primary_location || {};
   
   return {
-    author_id: authorId,
+    author_openalex_id: authorOpenAlexId,
     openalex_id: paperApiData.id?.replace('https://openalex.org/', '') || '',
     doi: paperApiData.doi,
     title: paperApiData.title || 'Untitled',
@@ -292,7 +287,7 @@ function extractPaperData(paperApiData, authorId) {
 }
 
 // Extract paper authors data
-function extractPaperAuthors(paperApiData, paperId) {
+function extractPaperAuthors(paperApiData, paperOpenAlexId) {
   const paperAuthors = [];
   
   if (paperApiData.authorships) {
@@ -302,7 +297,7 @@ function extractPaperAuthors(paperApiData, paperId) {
       const primaryInstitution = institutions[0] || {};
       
       paperAuthors.push({
-        paper_id: paperId,
+        paper_openalex_id: paperOpenAlexId,
         author_openalex_id: author.id?.replace('https://openalex.org/', '') || null,
         author_name: author.display_name,
         author_orcid: author.orcid,
@@ -366,7 +361,7 @@ async function populateOpenAlexDatabase() {
         const storedWorksCount = authorRecord[0].works_count;
         const actualPapers = await db.select({ count: sql`count(*)` })
           .from(openalex_papers)
-          .where(eq(openalex_papers.author_id, authorRecord[0].id));
+          .where(eq(openalex_papers.author_openalex_id, openAlexId));
         
         const storedPaperCount = actualPapers[0]?.count || 0;
         
@@ -405,15 +400,15 @@ async function populateOpenAlexDatabase() {
                 .from(openalex_papers)
                 .where(and(
                   eq(openalex_papers.openalex_id, paperOpenAlexId),
-                  eq(openalex_papers.author_id, authorRecord[0].id)
+                  eq(openalex_papers.author_openalex_id, openAlexId)
                 ))
                 .limit(1);
               
               if (existingPaper.length === 0) {
-                const paperData = extractPaperData(paperApiData, authorRecord[0].id);
+                const paperData = extractPaperData(paperApiData, openAlexId);
                 const [insertedPaper] = await db.insert(openalex_papers).values(paperData).returning({ id: openalex_papers.id });
                 
-                const paperAuthors = extractPaperAuthors(paperApiData, insertedPaper.id);
+                const paperAuthors = extractPaperAuthors(paperApiData, paperOpenAlexId);
                 if (paperAuthors.length > 0) {
                   await db.insert(openalex_paper_authors).values(paperAuthors);
                 }
@@ -493,11 +488,12 @@ async function populateOpenAlexDatabase() {
         
         for (const paperApiData of papersData) {
           try {
-            const paperData = extractPaperData(paperApiData, authorId);
+            const paperData = extractPaperData(paperApiData, openAlexId);
             const [insertedPaper] = await db.insert(openalex_papers).values(paperData).returning({ id: openalex_papers.id });
             
             // Insert paper authors
-            const paperAuthors = extractPaperAuthors(paperApiData, insertedPaper.id);
+            const paperOpenAlexId = paperApiData.id.replace('https://openalex.org/', '');
+            const paperAuthors = extractPaperAuthors(paperApiData, paperOpenAlexId);
             if (paperAuthors.length > 0) {
               await db.insert(openalex_paper_authors).values(paperAuthors);
             }

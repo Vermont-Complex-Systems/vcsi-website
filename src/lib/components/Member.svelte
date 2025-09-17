@@ -1,38 +1,11 @@
 <script>
   import HeroText from "$lib/components/HeroText.svelte";
-  import BarChart from "$lib/components/BarChart.svelte";
-
+  import BarChart from "./BarChart.svelte";
+  
   let { author } = $props();
 
-  const { name, email, url, social, pronoun, position, openAlex } = author;
+  const { name, email, url, social, pronoun, position, openAlex, papers } = author;
   
-  // Helper function to safely parse JSON
-  function safeParse(data) {
-    // If it's already an object, return it
-    if (typeof data === 'object' && data !== null) {
-      return data;
-    }
-    
-    // If it's a string, try to parse it
-    if (typeof data === 'string') {
-      try {
-        return JSON.parse(data);
-      } catch (e) {
-        console.warn('Failed to parse JSON:', data, e);
-        return null;
-      }
-    }
-    
-    // For any other type, return null
-    return null;
-  }
-  
-  // Helper function to get PDF URL from primary location
-  function getPdfUrl(paper) {
-    if (!paper.primary_location) return null;
-    const location = safeParse(paper.primary_location);
-    return location?.pdf_url || null;
-  }
   const bio = author.bio || "is a contributor to The VCSI.";
 
   const pronounA = pronoun === "They" ? "them" : pronoun === "He" ? "him" : "her";
@@ -55,11 +28,8 @@
   };
 
   const link = getLinkHTML();
-
-
-
+  
 </script>
-
 <section id="intro">
   <HeroText>
     <h1>{name}</h1>
@@ -72,26 +42,15 @@
   </HeroText>
 </section>
 
-{#if openAlex}
-
-
-
-<section id="research-metrics">
-
+{#if author.papers && author.papers.length > 0}
   
-  {#if openAlex.topics && openAlex.topics.length > 0}
-      <BarChart {author}/>  
-  {/if}
-
-    {#if openAlex.papers && openAlex.papers.length > 0}
-      <h3>Top Cited Papers</h3>
-      <div class="papers-grid">
-        {#each openAlex.papers.sort((a, b) => (b.cited_by_count || 0) - (a.cited_by_count || 0)).slice(0, 16) as paper}
-          {@const pdfUrl = getPdfUrl(paper)}
-          {#if paper.is_open_access && pdfUrl}
-            <!-- Clickable card for Open Access papers with PDF -->
-            <a href="{pdfUrl}" target="_blank" class="paper-card-link">
-              <div class="paper-card clickable-card">
+<section id="research-metrics">
+    <BarChart papers={author.papers}/>
+  
+    <h2>Top cited papers</h2>
+    <div class="papers-grid">
+    {#each author.papers.sort((a, b) => (b.cited_by_count || 0) - (a.cited_by_count || 0)).slice(0, 16) as paper}
+      <div class="paper-card clickable-card">
                 <div class="paper-card-header">
                   <span class="citations-badge">{paper.cited_by_count || 0}</span>
                   <span class="year-badge">{paper.publication_year}</span>
@@ -103,49 +62,31 @@
                     <span class="doi-text">DOI</span>
                   {/if}
                 </div>
-              </div>
-            </a>
-          {:else}
-            <!-- Non-clickable card for other papers -->
-            <div class="paper-card">
-              <div class="paper-card-header">
-                <span class="citations-badge">{paper.cited_by_count || 0}</span>
-                <span class="year-badge">{paper.publication_year}</span>
-              </div>
-              <h4 class="paper-card-title">{paper.title}</h4>
-              <div class="paper-card-meta">
-                {#if paper.is_open_access}
-                  <span class="oa-badge">Open Access</span>
-                {/if}
-                {#if paper.doi}
-                  <a href="https://doi.org/{paper.doi}" target="_blank" class="doi-link">DOI</a>
-                {/if}
-              </div>
             </div>
-          {/if}
-        {/each}
-      </div>
-    {/if}
+      {/each}
+    </div>
 
-    <h2>If you are into sort of thing...</h2>
+    {#if openAlex}
+    <h2>If you are into that kind of stuff</h2>
     <div class="metrics-grid">
       <div class="metric">
-        <span class="metric-value">{openAlex.works_count}</span>
+        <span class="metric-value">{openAlex.works_count || 0}</span>
         <span class="metric-label">Publications</span>
       </div>
       <div class="metric">
-        <span class="metric-value">{openAlex.cited_by_count?.toLocaleString()}</span>
+        <span class="metric-value">{openAlex.cited_by_count || 0}</span>
         <span class="metric-label">Citations</span>
       </div>
       <div class="metric">
-        <span class="metric-value">{openAlex.h_index}</span>
+        <span class="metric-value">{openAlex.h_index || 0}</span>
         <span class="metric-label">H-Index</span>
       </div>
       <div class="metric">
-        <span class="metric-value">{openAlex.i10_index}</span>
+        <span class="metric-value">{openAlex.i10_index || 0}</span>
         <span class="metric-label">i10-Index</span>
       </div>
     </div>
+    {/if}
   </section>
 {/if}
 
@@ -204,7 +145,7 @@
     margin-bottom: 1rem;
   }
 
-  /* Top Cited Papers Grid */
+  /* Top Cited author.papers Grid */
   .papers-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));

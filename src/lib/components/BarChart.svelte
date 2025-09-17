@@ -2,11 +2,12 @@
   import { Plot, BarY, RuleY,groupX} from "svelteplot"
   import * as d3 from "d3";
 
-  let { author } = $props();
+  let { papers } = $props();
 
     // Flatten once
-  const papersByTopic = author.openAlex.papers.flatMap(p =>
-    (p.topics || []).map(t => ({ topic: t.display_name }))
+    console.log(papers)
+  const papersByTopic = papers.flatMap(p =>
+    (JSON.parse(p.topics) || []).map(t => ({ topic: t.display_name }))
   );
 
   // Compute counts

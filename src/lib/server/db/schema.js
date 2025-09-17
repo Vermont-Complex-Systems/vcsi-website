@@ -81,7 +81,6 @@ export const soc_comments = sqliteTable('soc_comments', {
   comment: text('comment').notNull()
 });
 
-
 // ----------------------------
 //
 // OpenAlex Author Tables
@@ -89,8 +88,7 @@ export const soc_comments = sqliteTable('soc_comments', {
 // ----------------------------
 
 export const openalex_authors = sqliteTable('openalex_authors', {
-  id: integer('id').primaryKey(),
-  openalex_id: text('openalex_id').notNull().unique(), // A5026024797
+  openalex_id: text('openalex_id').primaryKey(), // A5026024797
   orcid: text('orcid'),
   display_name: text('display_name').notNull(),
   display_name_alternatives: text('display_name_alternatives'), // JSON array as text
@@ -105,54 +103,9 @@ export const openalex_authors = sqliteTable('openalex_authors', {
   last_updated: text('last_updated') // When we fetched this data
 });
 
-export const openalex_affiliations = sqliteTable('openalex_affiliations', {
-  id: integer('id').primaryKey(),
-  author_id: integer('author_id').references(() => openalex_authors.id),
-  institution_id: text('institution_id'),
-  institution_display_name: text('institution_display_name'),
-  institution_ror: text('institution_ror'),
-  institution_country_code: text('institution_country_code'),
-  institution_type: text('institution_type'),
-  years: text('years') // JSON array as text
-});
-
-export const openalex_topics = sqliteTable('openalex_topics', {
-  id: integer('id').primaryKey(),
-  author_id: integer('author_id').references(() => openalex_authors.id),
-  topic_id: text('topic_id'),
-  display_name: text('display_name'),
-  score: real('score'),
-  subfield_id: text('subfield_id'),
-  subfield_display_name: text('subfield_display_name'),
-  field_id: text('field_id'),
-  field_display_name: text('field_display_name'),
-  domain_id: text('domain_id'),
-  domain_display_name: text('domain_display_name')
-});
-
-export const openalex_concepts = sqliteTable('openalex_concepts', {
-  id: integer('id').primaryKey(),
-  author_id: integer('author_id').references(() => openalex_authors.id),
-  concept_id: text('concept_id'),
-  wikidata: text('wikidata'),
-  display_name: text('display_name'),
-  level: integer('level'),
-  score: real('score')
-});
-
-export const openalex_counts_by_year = sqliteTable('openalex_counts_by_year', {
-  id: integer('id').primaryKey(),
-  author_id: integer('author_id').references(() => openalex_authors.id),
-  year: integer('year'),
-  works_count: integer('works_count'),
-  cited_by_count: integer('cited_by_count'),
-  oa_works_count: integer('oa_works_count')
-});
-
 export const openalex_papers = sqliteTable('openalex_papers', {
-  id: integer('id').primaryKey(),
-  author_id: integer('author_id').references(() => openalex_authors.id),
-  openalex_id: text('openalex_id').notNull(), // W2964039088
+  openalex_id: text('openalex_id').primaryKey(), // W2964039088
+  author_openalex_id: text('author_openalex_id').notNull(), // A5026024797
   doi: text('doi'),
   title: text('title').notNull(),
   publication_year: integer('publication_year'),
@@ -170,17 +123,4 @@ export const openalex_papers = sqliteTable('openalex_papers', {
   referenced_works_count: integer('referenced_works_count'),
   created_date: text('created_date'),
   updated_date: text('updated_date')
-});
-
-export const openalex_paper_authors = sqliteTable('openalex_paper_authors', {
-  id: integer('id').primaryKey(),
-  paper_id: integer('paper_id').references(() => openalex_papers.id),
-  author_openalex_id: text('author_openalex_id'),
-  author_name: text('author_name'),
-  author_orcid: text('author_orcid'),
-  is_corresponding: integer('is_corresponding'), // 0 or 1
-  author_position: text('author_position'), // first, middle, last
-  raw_affiliation_string: text('raw_affiliation_string'),
-  institution_display_name: text('institution_display_name'),
-  institution_country_code: text('institution_country_code')
 });

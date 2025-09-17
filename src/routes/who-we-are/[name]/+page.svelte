@@ -26,11 +26,5 @@
 
     <Member {author}/>
 {:catch error}
-  <p>Error loading member: {error.message || JSON.stringify(error) || 'Unknown error'}</p>
-  {console.error('Full error object:', error) || ''}
-  {console.error('Error type:', typeof error) || ''}
-  {console.error('Error message:', error.message) || ''}
-  {console.error('Error body:', error.body) || ''}
-  {console.error('Error status:', error.status) || ''}
-  {console.error('Error string:', String(error)) || ''}
+  <p>Error loading member: {error.message || 'Unknown error'}</p>
 {/await}

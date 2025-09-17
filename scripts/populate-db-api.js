@@ -45,9 +45,6 @@ async function fetchCourseData(courseRow) {
     matched: courseRow.matched
   };
   
-  console.log(`🌐 Fetching: ${courseRow.course_code} ${courseRow.section} (CRN: ${courseRow.crn})`);
-  console.log(`📤 Payload:`, payload);
-  
   try {
     // Try POST with JSON body first
     let response = await fetch('https://soc.uvm.edu/api/?page=fose&route=details', {
