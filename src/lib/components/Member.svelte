@@ -86,10 +86,10 @@
     return null;
   }
   
-  // Wrangle data for viz
-  const papersByTopic = papers.flatMap(p =>
+  // Wrangle data for viz - only if papers exist
+  const papersByTopic = papers && papers.length > 0 ? papers.flatMap(p =>
     (p.topics || []).map(t => ({ topic: t.display_name }))
-  );
+  ) : [];
 
   // Compute counts
   const counts = Array.from(
