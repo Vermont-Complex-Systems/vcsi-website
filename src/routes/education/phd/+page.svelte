@@ -116,12 +116,6 @@
     }
     
     
-    h1 {
-        font-size: 3rem;
-        font-weight: 400;
-        font-family: var(--serif);
-        margin-bottom: 1rem;
-    }
     
     h2 {
         font-size: 1.8rem;
@@ -131,12 +125,6 @@
         margin-top: 2.5rem;
     }
     
-    .intro {
-        font-size: 1.25rem;
-        font-family: var(--serif);
-        color: var(--color-gray-600);
-        margin: 0;
-    }
     
     .program-content {
         max-width: 800px;
@@ -170,16 +158,10 @@
         }
         
         
-        h1 {
-            font-size: 2rem;
-        }
         
         h2 {
             font-size: 1.5rem;
         }
         
-        .intro {
-            font-size: 1.1rem;
-        }
     }
 </style>

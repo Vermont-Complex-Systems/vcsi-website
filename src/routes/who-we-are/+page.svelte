@@ -23,8 +23,12 @@
 
 <div class="who-we-are">
     <div class="content-wrapper">
-        <h1>Who We Are</h1>
-        <p class="intro">Meet the researchers, faculty, and collaborators who make up the Vermont Complex Systems Institute.</p>
+        <div class="page-header no-logo">
+            <div class="page-header-text">
+                <h1>Who We Are</h1>
+                <p class="intro">Meet the researchers, faculty, and collaborators who make up the Vermont Complex Systems Institute.</p>
+            </div>
+        </div>
         
         {#await getMembers()}
             <Spinner text="Loading members..." />
@@ -44,17 +48,8 @@
         margin-right: var(--margin-left);
     }
     
-    h1 {
-        font-size: 3rem;
-        font-weight: 400;
-        font-family: var(--serif);
-        margin-bottom: 1rem;
-    }
     
     .intro {
-        font-size: 1.25rem;
-        font-family: var(--serif);
-        color: var(--color-gray-600);
         margin-bottom: 3rem;
         max-width: 60%;
     }
@@ -66,13 +61,9 @@
             margin-right: var(--margin-left-mobile);
         }
         
-        h1 {
-            font-size: 2rem;
-        }
         
         .intro {
             max-width: 100%;
-            font-size: 1.1rem;
         }
     }
 </style>

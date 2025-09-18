@@ -23,8 +23,12 @@
 
 <div class="groups">
     <div class="content-wrapper">
-        <h1>Research groups</h1>
-        <p class="intro">Meet the groups who make up the Vermont Complex Systems Institute.</p>
+        <div class="page-header no-logo">
+            <div class="page-header-text">
+                <h1>Research groups</h1>
+                <p class="intro">Meet the groups who make up the Vermont Complex Systems Institute.</p>
+            </div>
+        </div>
         
         {#await getGroups()}
             <Spinner text="Loading groups..." />
@@ -44,19 +48,9 @@
         margin-right: var(--margin-left);
     }
     
-    h1 {
-        font-size: 3rem;
-        font-weight: 400;
-        font-family: var(--serif);
-        margin-bottom: 1rem;
-    }
     
     .intro {
-        font-size: 1.25rem;
-        font-family: var(--serif);
-        color: var(--color-gray-600);
         margin-bottom: 3rem;
-        max-width: 60%;
     }
     
     /* Mobile adjustments */
@@ -66,13 +60,9 @@
             margin-right: var(--margin-left-mobile);
         }
         
-        h1 {
-            font-size: 2rem;
-        }
         
         .intro {
             max-width: 100%;
-            font-size: 1.1rem;
         }
     }
 </style>

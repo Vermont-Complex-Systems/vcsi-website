@@ -73,9 +73,6 @@
     
     
     h1 {
-        font-size: 3rem;
-        font-weight: 400;
-        font-family: var(--serif);
         margin-bottom: 1rem;
     }
     
@@ -88,9 +85,6 @@
     }
     
     .intro {
-        font-size: 1.25rem;
-        font-family: var(--serif);
-        color: var(--color-gray-600);
         margin-bottom: 3rem;
     }
     
@@ -143,16 +137,10 @@
         }
         
         
-        h1 {
-            font-size: 2rem;
-        }
         
         h2 {
             font-size: 1.5rem;
         }
         
-        .intro {
-            font-size: 1.1rem;
-        }
     }
 </style>

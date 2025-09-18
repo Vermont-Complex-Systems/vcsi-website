@@ -25,8 +25,8 @@
             <div class="feature-card post-disciplinary">
                 <img 
                     src="{base}/common/assets/drawing/otter01.png" 
-                    alt="Roboctopus logo" 
-                    style="transform: translate(-30px, -50px);"/>
+                    alt="Otter logo" 
+                    style="transform: translate(-30px, -30px);"/>
                 <div class="card-content">
                     <p style="margin-top: -55px;">Nurturing collaborations taking a post-disciplinary perspective, leverage computational tools.</p>
                 </div>
@@ -56,7 +56,7 @@
                 <img 
                         src="{base}/common/assets/drawing/mce-lab.png" 
                         alt="mce-lab"
-                        style="transform: translate(0, 50px);"
+                        style="transform: translate(30px, 50px) scaleX(-1);;"
                     />
                 <div class="card-content">
                     <p style="margin-top:90px;">Translating complex data into actionable insights that inform policymakers, healthcare providers, and community.</p>
@@ -123,6 +123,7 @@
     .content-wrapper {
         padding: 0;
         margin-left: var(--margin-left);
+        margin-top: -3rem; /* Compensate for layout padding on home page */
     }
     
     .hero-text {
@@ -158,7 +159,6 @@
     /* Features Section */
 
 
-    
     .features-wrapper {
         margin-left: var(--margin-left);
         margin-right: var(--margin-left);
@@ -189,7 +189,7 @@
         border-radius: var(--border-radius);
         padding: 2rem;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
-        height: 410px;
+        height: 440px;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -220,6 +220,8 @@
         height: auto;
         object-fit: contain;
         mix-blend-mode: multiply;
+        display: block;
+        margin: 0 auto;
     }
     
     /* Learning Section */
@@ -266,6 +268,18 @@
         mix-blend-mode: multiply;
     }
     
+    .learning-card.certificate img {
+        margin-right: 3rem;
+    }
+    
+    .learning-card.masters,
+    .learning-card.phd {
+        align-items: center;
+        text-align: left;
+    }
+
+
+    
     .learning-card:hover {
         transform: translateY(-4px);
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
@@ -310,14 +324,15 @@
     @media (max-width: 768px) {
         #hero-section {
             flex-direction: column;
-            text-align: center;
+            text-align: left;
             justify-content: center;
             height: auto;
-            padding: 4rem 0;
+            padding: 3rem 0;
             gap: 3rem;
         }
         .content-wrapper {
             margin-left: var(--margin-left-mobile);
+            margin-top: 0; /* Additional compensation for mobile */
         }
         
         .hero-text {
@@ -328,7 +343,7 @@
             font-size: 2.5rem;
         }
         
-        p {
+        .hero-text p {
             font-size: 1.2rem;
         }
         
@@ -349,11 +364,36 @@
         .features-grid {
             grid-template-columns: 1fr;
             gap: 1.5rem;
+            justify-items: center;
         }
         
         .feature-card {
+            height: 370px;
             padding: 1.5rem;
-            height: 140px;
+            max-width: 300px;
+            width: 100%;
+        }
+        
+        .learning-wrapper {
+            margin-left: var(--margin-left-mobile);
+            margin-right: var(--margin-left-mobile);
+        }
+        
+        .learning-header h2 {
+            font-size: 2rem;
+        }
+        
+        .learning-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        .learning-card {
+            padding: 1.5rem;
+        }
+
+        .learning-card.certificate img {
+           margin-left: 4rem;
         }
     }
 </style>

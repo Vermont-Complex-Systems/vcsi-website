@@ -158,13 +158,20 @@ body {
     display: flex;
     align-items: flex-start;
     gap: 3rem;
+    margin-top: 4rem;
 }
 
 .page-header-text {
     display: flex;
+    text-align: left;
     flex-direction: column;
     max-width: 50%;
     gap: 2rem;
+}
+
+/* Full width when no logo present */
+.page-header.no-logo .page-header-text {
+    max-width: 100%;
 }
 
 .page-header-logo {
@@ -272,4 +279,32 @@ body {
         order: -1; /* Show image above content on mobile */
     }
     
+}
+
+/* =============================================================================
+   PAGE HEADER TEXT STYLES
+   ============================================================================= */
+
+.page-header-text h1 {
+    font-size: 3rem;
+    font-weight: 400;
+    font-family: var(--serif);
+}
+
+.page-header-text .intro {
+    font-size: 1.25rem;
+    font-family: var(--serif);
+    color: var(--color-gray-600);
+    margin: 0;
+}
+
+/* Mobile adjustments for page header text */
+@media (max-width: 768px) {
+    .page-header-text h1 {
+        font-size: 2rem;
+    }
+    
+    .page-header-text .intro {
+        font-size: 1.1rem;
+    }
 }
