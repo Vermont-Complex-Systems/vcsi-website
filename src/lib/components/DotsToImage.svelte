@@ -8,6 +8,7 @@
   let morphToHeart = false; // Start as circle
   let morphToPNG = false; // Morph to PNG shape
   export let imgFilePath; // prop to set image filepath
+  let morphToPNGSpeed = 0.2;
 
   // Utility: sample PNG and generate shapeTargets
   async function getShapeTargetsFromImage(imgSrc, numPoints, minRadius, maxRadius) {
@@ -36,7 +37,8 @@
           if (brightness < 180 && alpha > 128) {
             const idx = i / 4;
             const x = (idx % img.width);
-            const y = Math.floor(idx / img.width);
+            // Flip y-axis so image is right side up
+            const y = img.height - 1 - Math.floor(idx / img.width);
             points.push({ x, y });
           }
         }
@@ -311,7 +313,14 @@
       jumpingIndices = jumpingIndices.filter(idx => dots[idx].jumpPhase !== 'idle');
 
       // Morph logic
-      if (morphToHeart || morphToPNG) {
+      if (morphToPNG) {
+        for (let i = 0; i < dots.length; i++) {
+          const dot = dots[i];
+          if (dot.jumpPhase !== 'idle') continue;
+          dot.x += (shapeTargets[i].x - dot.x) * morphToPNGSpeed;
+          dot.y += (shapeTargets[i].y - dot.y) * morphToPNGSpeed;
+        }
+      } else if (morphToHeart) {
         for (let i = 0; i < dots.length; i++) {
           const dot = dots[i];
           if (dot.jumpPhase !== 'idle') continue;
