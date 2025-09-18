@@ -27,7 +27,9 @@
     nodeStroke = '#fff',
     nodeStrokeWidth = 1,
     lineBreak = 15,
-    textThresh = 30
+    textThresh = 30,
+    onTopicClick,
+    selectedTopic
   } = $props();
 
   /* --------------------------------------------
@@ -77,6 +79,7 @@
     tabindex="0"
     onmouseenter={() => hoveredNode = point}
     onmouseleave={() => hoveredNode = null}
+    onclick={() => onTopicClick?.(point.topic)}
     style="cursor: pointer;"
   >
     <!-- Invisible larger hover area -->
@@ -91,10 +94,11 @@
       class="node"
       {r}
       fill={nodeColor || $zGet(point)}
-      stroke={nodeStroke}
-      stroke-width={nodeStrokeWidth}
+      stroke={selectedTopic === point.topic ? "#000" : nodeStroke}
+      stroke-width={selectedTopic === point.topic ? 3 : nodeStrokeWidth}
       cx={point.x}
       cy={point.y}
+      opacity={selectedTopic && selectedTopic !== point.topic ? 0.5 : 1}
     ></circle>
     {#if r > textThresh}
     {@const wrapTextInCircle = (text, maxChars) => {

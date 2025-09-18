@@ -14,6 +14,7 @@
   
   let sortBy = $state('citations'); // 'citations', 'year', 'title'
   let showAll = $state(false);
+  let selectedTopic = $state(null); // For filtering papers by topic
   
   const bio = author.bio || "is a contributor to The VCSI.";
 
@@ -38,21 +39,29 @@
 
   const link = getLinkHTML();
   
-  // Function to sort papers based on selected criteria
+  // Function to sort and filter papers based on selected criteria
   function getSortedPapers() {
     if (!papers || papers.length === 0) return [];
     
-    let sorted = [...papers];
+    let filtered = [...papers];
     
+    // Filter by selected topic if one is selected
+    if (selectedTopic) {
+      filtered = filtered.filter(paper => 
+        paper.topics && paper.topics.some(topic => topic.display_name === selectedTopic)
+      );
+    }
+    
+    // Sort the filtered papers
     switch (sortBy) {
       case 'citations':
-        return sorted.sort((a, b) => (b.cited_by_count || 0) - (a.cited_by_count || 0));
+        return filtered.sort((a, b) => (b.cited_by_count || 0) - (a.cited_by_count || 0));
       case 'year':
-        return sorted.sort((a, b) => (b.publication_year || 0) - (a.publication_year || 0));
+        return filtered.sort((a, b) => (b.publication_year || 0) - (a.publication_year || 0));
       case 'title':
-        return sorted.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+        return filtered.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
       default:
-        return sorted;
+        return filtered;
     }
   }
   
@@ -104,6 +113,11 @@
   const maxHeight = $derived(isMobile ? 750 : 500);
   const dynamicHeight = $derived(Math.min(baseHeight + (counts.length * heightPerTopic), maxHeight));
 
+  // Handle topic selection from chart
+  function handleTopicClick(topic) {
+    selectedTopic = selectedTopic === topic ? null : topic; // Toggle selection
+  }
+
 </script>
 
 
@@ -146,13 +160,28 @@
             xStrength={mobileXStrength} 
             lineBreak={isMobile ? 8 : 10} 
             textThresh={isMobile ? 25 : 20}
+            onTopicClick={handleTopicClick}
+            {selectedTopic}
           />
         </Svg>
       </LayerCake>
     </div>
   
     <div class="papers-header">
-      <h2>Expore the papers by {sortBy}</h2>
+      <div class="papers-title">
+        <h2>
+          {#if selectedTopic}
+            Papers on "{selectedTopic}" by {sortBy}
+          {:else}
+            Explore the papers by {sortBy}
+          {/if}
+        </h2>
+        {#if selectedTopic}
+          <button class="clear-filter-btn" onclick={() => selectedTopic = null}>
+            Clear filter
+          </button>
+        {/if}
+      </div>
       <div class="sort-controls">
         <label for="sort-select">Sort by:</label>
         <select id="sort-select" bind:value={sortBy}>
@@ -280,6 +309,7 @@
     margin-right: var(--margin-left);
   }
   
+
   @media (max-width: 768px) {
     #intro {
       margin-left: var(--margin-left-mobile);
@@ -338,6 +368,28 @@
     gap: 1rem;
   }
 
+  .papers-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .clear-filter-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .clear-filter-btn:hover {
+    background: #c0392b;
+  }
+
   .sort-controls {
     display: flex;
     align-items: center;
@@ -374,7 +426,8 @@
   /* Circl pack css */
   .chart-container {
     width: 100%;
-    height: 250px;
+    height: 300px;
+    margin-bottom: 5rem;
   }
 
   label {
