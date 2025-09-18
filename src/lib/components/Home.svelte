@@ -1,6 +1,7 @@
 <script>
     import { base } from '$app/paths';
     import DotsToImage from './DotsToImage.svelte';
+    import { ArrowRight } from '@lucide/svelte';
 </script>
 
 <div class="content-wrapper">
@@ -82,6 +83,7 @@
                     alt="Squirrel logo" />
                 <div class="card-content">
                     <p>Obtain squirrel mind. Learn more about the joint program of the Department of Mathematics and Statistics and the Department of Computer Science.</p>
+                    <ArrowRight class="learn-more-arrow" size="24" />
                 </div>
             </a>
             
@@ -92,6 +94,7 @@
                         alt="Platypus logo"
                     />
                     <p style="margin-top: 15px;">For curious platypuses. Learn more about our broadest educational program at the graduate level—now available online!</p>
+                    <ArrowRight class="learn-more-arrow" size="24" />
                 </div>
             </a>
             
@@ -102,6 +105,7 @@
                     />
                 <div class="card-content">
                     <p style="margin-top: 15px;">Become the fox. Learn more about our newest educational program.</p>
+                    <ArrowRight class="learn-more-arrow" size="24" />
                 </div>
             </a>
             
@@ -113,6 +117,7 @@
                 />
                 <div class="card-content">
                     <p style="margin-top:90px;">Earn crow-level cleverness. Learn more about our plans.</p>
+                    <ArrowRight class="learn-more-arrow" size="24" />
                 </div>
             </a>
         </div>
@@ -259,6 +264,7 @@
         justify-content: flex-start;
         text-decoration: none;
         color: inherit;
+        position: relative;
     }
 
      .learning-card img {
@@ -276,6 +282,15 @@
     .learning-card.phd {
         align-items: center;
         text-align: left;
+    }
+
+    .learning-card p {
+        font-size: 1.1rem;
+    }
+
+    .card-content {
+        position: relative;
+        flex: 1;
     }
 
 
@@ -395,5 +410,19 @@
         .learning-card.certificate img {
            margin-left: 4rem;
         }
+    }
+
+    /* Learn more arrow styling */
+    :global(.learn-more-arrow) {
+        color: var(--color-primary, #007acc);
+        transition: transform 0.2s ease, color 0.2s ease;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+
+    .learning-card:hover :global(.learn-more-arrow) {
+        transform: translateX(4px);
+        color: var(--color-primary-hover, #005fa3);
     }
 </style>
