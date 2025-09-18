@@ -437,7 +437,8 @@
 <style>
     #dot-container {
   width: 100%;
-  height: 400px;
+  max-width: 600px;
+  height: 50vh;
   background-color: var(--color-bg);
 }
 canvas {
