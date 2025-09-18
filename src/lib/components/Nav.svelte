@@ -82,6 +82,8 @@
 			{#if isWhoWeAreOpen}
 				<div class="dropdown-menu">
 					<a href="{base}/who-we-are" class="dropdown-item" onclick={() => closeDropdowns()}>Who We Are</a>
+					<a href="{base}/community/paper-shredder" class="dropdown-item" onclick={() => closeDropdowns()}>Paper Shredder</a>
+					<a href="{base}/community/scraps" class="dropdown-item" onclick={() => closeDropdowns()}>SCRaPS</a>
 				</div>
 			{/if}
 		</div>

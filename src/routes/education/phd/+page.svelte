@@ -115,8 +115,6 @@
         margin-right: var(--margin-left);
     }
     
-    
-    
     h2 {
         font-size: 1.8rem;
         font-weight: 400;
@@ -156,8 +154,6 @@
             margin-left: var(--margin-left-mobile);
             margin-right: var(--margin-left-mobile);
         }
-        
-        
         
         h2 {
             font-size: 1.5rem;

@@ -260,9 +260,19 @@ body {
     mix-blend-mode: multiply;
 }
 
+/* Section with image on the left side */
+.section-with-image-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 3rem;
+    margin-bottom: 2rem;
+    flex-direction: row-reverse;
+}
+
 /* Mobile adjustments for sections with images */
 @media (max-width: 768px) {
-    .section-with-image {
+    .section-with-image,
+    .section-with-image-left {
         flex-direction: column;
         gap: 0rem;
         align-items: center;
