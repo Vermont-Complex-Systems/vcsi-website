@@ -1,8 +1,12 @@
 <script>
   import HeroText from "$lib/components/HeroText.svelte";
-	import { sort } from "svelteplot";
-  import BarChart from "./BarChart.svelte";
+	// import { scaleOrdinal, scaleBand } from 'd3-scale';
+  import { LayerCake, Svg } from 'layercake';
   import { flip } from 'svelte/animate';
+  import * as d3 from "d3";
+  	import { innerWidth } from 'svelte/reactivity/window';
+  
+  import ForceLayout from "../layerCake/CirclePackForce.svelte";
   
   let { author } = $props();
 
@@ -73,7 +77,36 @@
     return null;
   }
   
+  // Wrangle data for viz
+  const papersByTopic = papers.flatMap(p =>
+    (p.topics || []).map(t => ({ topic: t.display_name }))
+  );
+
+  // Compute counts
+  const counts = Array.from(
+    d3.rollup(
+      papersByTopic,
+      v => v.length,
+      d => d.topic
+    ),
+    ([topic, count]) => ({ topic, count })
+  );
+
+  // Responsive settings
+  let clientWidth = $state(innerWidth.current );
+  let isMobile = $derived(clientWidth < 768);
+  let mobileForceStrength = $derived(isMobile ? 0.02 : 0.0005);
+  let mobileXStrength = $derived(isMobile ? 0.02 : 0.0001);
+  
+  // Calculate dynamic height based on data and screen size
+  const baseHeight = $derived(isMobile ? 300 : 250);
+  const heightPerTopic = $derived(isMobile ? 30 : 25);
+  const maxHeight = $derived(isMobile ? 750 : 500);
+  const dynamicHeight = $derived(Math.min(baseHeight + (counts.length * heightPerTopic), maxHeight));
+
 </script>
+
+
 <section id="intro">
   <HeroText>
     <h1>{name}</h1>
@@ -89,7 +122,34 @@
 {#if author.papers && author.papers.length > 0}
   
 <section id="research-metrics">
-    <BarChart papers={author.papers}/>
+    
+    <div class="chart-container" style="height: {dynamicHeight}px;" bind:clientWidth>
+      <LayerCake
+        data={counts}
+        x={'topic'}
+        r={'count'}
+        z={'count'}
+        xScale={d3.scaleBand()}
+        rScale={d3.scaleSqrt()}
+        rRange={[13, 50]}
+        zScale={d3.scaleSequential(t => {
+          const color = d3.interpolatePlasma(t);
+          // Darken the color by reducing lightness for better text contrast
+          const hsl = d3.hsl(color);
+          hsl.l = Math.min(hsl.l * 0.7, 0.6); // Make it darker
+          return hsl.toString();
+        })}
+      >
+        <Svg>
+          <ForceLayout 
+            manyBodyStrength={mobileForceStrength} 
+            xStrength={mobileXStrength} 
+            lineBreak={isMobile ? 8 : 10} 
+            textThresh={isMobile ? 25 : 20}
+          />
+        </Svg>
+      </LayerCake>
+    </div>
   
     <div class="papers-header">
       <h2>Expore the papers by {sortBy}</h2>
@@ -310,6 +370,16 @@
     border-color: var(--primary-color);
     box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.1);
   }
+  
+  /* Circl pack css */
+  .chart-container {
+    width: 100%;
+    height: 250px;
+  }
+
+  label {
+    cursor: pointer;
+  }
 
   /* Top Cited author.papers Grid */
   .papers-grid {
@@ -515,6 +585,11 @@
     
     .papers-header h2 {
       margin-bottom: 0;
+    }
+
+    .chart-container {
+      width: 100%;
+      height: 500px;
     }
   }
 </style>

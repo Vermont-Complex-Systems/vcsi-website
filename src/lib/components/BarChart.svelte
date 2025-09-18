@@ -4,8 +4,7 @@
 
   let { papers } = $props();
 
-    // Flatten once
-    console.log(papers)
+    
   const papersByTopic = papers.flatMap(p =>
     (p.topics || []).map(t => ({ topic: t.display_name }))
   );
