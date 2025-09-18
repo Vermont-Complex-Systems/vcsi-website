@@ -104,10 +104,7 @@
         margin-bottom: 3rem;
     }
     
-    .page-header {
-        margin-bottom: 3rem;
-    }
-    
+
     .videos-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

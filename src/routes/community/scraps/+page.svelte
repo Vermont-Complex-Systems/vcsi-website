@@ -312,14 +312,6 @@ may provide a principled approach to evolving more complex robots.</pre>
             margin-top: 2.5rem;
         }
         
-        .section-divider {
-            margin: 1rem 0;
-        }
-        
-        .divider-image {
-            width: 12rem;
-            height: 12rem;
-        }
         
         .did-you-know-cards {
             margin-top: 1rem;
