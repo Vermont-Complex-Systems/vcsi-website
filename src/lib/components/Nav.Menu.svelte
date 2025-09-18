@@ -67,6 +67,7 @@
 							<li><a href="{base}/who-we-are">Who We Are</a></li>
 							<li><a href="{base}/community/paper-shredder">Paper Shredder</a></li>
 							<li><a href="{base}/community/scraps">SCRAPS</a></li>
+							<li><a href="{base}/community/talkboctopus">Talkboctopus</a></li>
 						</ul>
 					{/if}
 				</li>

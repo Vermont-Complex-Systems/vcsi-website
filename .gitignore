@@ -30,3 +30,4 @@ static/assets/people/students/*
 *.db
 !src/lib/server/db/courses.db
 drizzle/
+src/data/playlist.json
