@@ -19,11 +19,8 @@
 <div class="content-wrapper">
     <div class="page-header">
         <div class="page-header-text">
-            <h1>The MassMutual Center of Excellence in Complex Systems and Data Science</h1>
+            <img src="/common/assets/logos/mass-mutual.png" alt="The MassMutual Center of Excellence in Complex Systems and Data Science" class="logo-as-h1" />
             <p class="intro">Advancing a wide range of faculty and graduate Vermont student-driven research ranging from the social contagion of ideas to the future of work, exploring large language models in health care, incentivizing healthy behaviors, and eliminating bias in AI.</p>
-        </div>
-        <div class="page-header-logo">
-            <img src="/common/assets/logos/mmcoe-circular-01.jpg" alt="VERSO" class="page-header-image" />
         </div>
     </div>
 
@@ -57,6 +54,20 @@
         margin-right: var(--margin-left);
     }
     
+    .logo-as-h1 {
+        max-width: 100%;
+        width: 100%;
+        height: auto;
+        max-height: 6rem;
+        margin-bottom: 1rem;
+        object-fit: contain;
+        object-position: left;
+        display: block;
+        margin-left: 0;
+        margin-right: auto;
+        box-sizing: border-box;
+    }
+    
     
     h2 {
         font-size: 1.8rem;
@@ -68,14 +79,17 @@
     
     .intro {
         margin-bottom: 3rem;
+        color: var(--color-mass-mutual-darkblue) !important;
     }
     
     .content {
         max-width: 800px;
+        color: var(--color-mass-mutual-darkblue) !important;
     }
 
     section {
         margin-bottom: 2rem;
+        color: var(--color-mass-mutual-darkblue) !important;
     }
     
     p {
@@ -83,6 +97,7 @@
         line-height: 1.6;
         font-family: var(--serif);
         color: var(--color-fg);
+        color: var(--color-mass-mutual-darkblue) !important;
     }
     
     ul {
@@ -90,6 +105,7 @@
         color: var(--color-fg);
         padding-left: 1.5rem;
         list-style-type: disc;
+        color: var(--color-mass-mutual-darkblue) !important;
     }
     
     li {
@@ -104,6 +120,10 @@
             margin-right: var(--margin-left-mobile);
         }
         
+        .logo-as-h1 {
+            max-height: 4rem;
+            width: 100%;
+        }
         
         h2 {
             font-size: 1.5rem;

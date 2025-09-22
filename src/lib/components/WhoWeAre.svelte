@@ -1,28 +1,33 @@
 <script>
     import { base } from '$app/paths';
+    import { flip } from 'svelte/animate';
+    import { fade } from 'svelte/transition';
     
     let { members } = $props()
 </script>
 
 <div class="members-grid">
-    {#each members as member}
-        {#if member.id !== 'vcsi' & member.status == 'active'}
-            <div class="member-card">
-                <a href="{base}/who-we-are/{member.id}" class="member-link">
-                    <div class="member-photo">
-                        <img 
-                            src="{base}/common/assets/members/{member.id}.jpg" 
-                            alt="{member.name}"
-                            onerror={() => this.src = `${base}/common/assets/members/${member.id}.png`}
-                        />
-                    </div>
-                    <div class="member-info">
-                        <h3 class="member-name">{member.name}</h3>
-                        <p class="member-position">{member.position}</p>
-                    </div>
-                </a>
-            </div>
-        {/if}
+    {#each members.filter(member => member.id !== 'vcsi' && member.status === 'active') as member (member.id)}
+        <div 
+            class="member-card" 
+            animate:flip={{ duration: 400 }}
+            in:fade={{ duration: 300 }}
+            out:fade={{ duration: 200 }}
+        >
+            <a href="{base}/who-we-are/{member.id}" class="member-link">
+                <div class="member-photo">
+                    <img 
+                        src="{base}/common/assets/members/{member.id}.jpg" 
+                        alt="{member.name}"
+                        onerror={() => this.src = `${base}/common/assets/members/${member.id}.png`}
+                    />
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">{member.name}</h3>
+                    <p class="member-position">{member.position}</p>
+                </div>
+            </a>
+        </div>
     {/each}
 </div>
 

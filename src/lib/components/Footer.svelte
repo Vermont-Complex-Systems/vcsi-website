@@ -54,12 +54,6 @@
 						<span>LinkedIn</span>
 					</a>
 				</li>
-				<li>
-					<a href="https://discord.gg/3VYnT5D4" target="_blank" rel="noreferrer">
-						<MessageCircle class="icon" size={16} />
-						<span>Discord</span>
-					</a>
-				</li>
 			</ul>
 		</div>
 		
