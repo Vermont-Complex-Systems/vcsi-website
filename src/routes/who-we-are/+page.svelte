@@ -66,7 +66,6 @@
     
     
     .intro {
-        margin-bottom: 3rem;
         max-width: 60%;
     }
     
