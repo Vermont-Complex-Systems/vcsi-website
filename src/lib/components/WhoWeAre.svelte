@@ -24,7 +24,7 @@
                 </div>
                 <div class="member-info">
                     <h3 class="member-name">{member.name}</h3>
-                    <p class="member-position">{member.position}</p>
+                    <p class="member-position">{member.position2 || member.position}</p>
                 </div>
             </a>
         </div>
