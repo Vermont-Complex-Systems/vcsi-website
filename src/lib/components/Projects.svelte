@@ -1,24 +1,17 @@
 <script>
     import { base } from '$app/paths';
+    import projectsData from '$data/projects.csv';
     
-    const projects = [
-        {
-            id: 'lemurs',
-            name: 'Lived Experiences Measured Using Rings Study (LEMURS)',
-            description: 'A longitudinal experiment with 600+ UVM first-year students exploring health interventions through partnership with Oura ring technology, monitoring heart-rate, sleep, and activity to understand relationships between well-being, health, and cardiac activity.'
-        },
-        {
-            id: 'socks',
-            name: 'Science of Online Corpora Knowledge and Stories (SOCKS)',
-            description: 'Building and refining instruments that can distantly read and make sense of enormous collections of texts.'
-        }
-    ];
+    const projects = projectsData;
 </script>
 
 <div class="projects-grid">
     {#each projects as project}
         <div class="project-card">
             <a href="{base}/projects/{project.id}" class="project-link">
+                <div class="project-image">
+                    <img src="/common/assets/logos/{project.id}.png" alt={project.name} />
+                </div>
                 <div class="project-info">
                     <h3 class="project-name">{project.name}</h3>
                     <p class="project-description">{project.description}</p>
@@ -31,33 +24,46 @@
 <style>
     .projects-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap: 2rem;
         margin-bottom: 3rem;
     }
     
     .project-card {
         transition: transform 200ms ease;
-        border: 1px solid var(--color-border);
-        border-radius: var(--border-radius);
-        overflow: hidden;
     }
     
     .project-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transform: scale(1.02);
     }
     
     .project-link {
-        display: block;
+        display: flex;
+        flex-direction: column;
         text-decoration: none;
         color: inherit;
-        padding: 2rem;
         height: 100%;
     }
     
+    .project-image {
+        width: 100%;
+        aspect-ratio: 1;
+        overflow: hidden;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .project-image img {
+        width: 80%;
+        height: 80%;
+        object-fit: contain;
+        mix-blend-mode: multiply;
+    }
+    
     .project-info {
-        text-align: left;
+        text-align: center;
     }
     
     .project-name {

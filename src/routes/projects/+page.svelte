@@ -36,7 +36,7 @@
         margin-right: var(--margin-left);
     }
     
-    .intro {
+    .page-header {
         margin-bottom: 3rem;
     }
     
