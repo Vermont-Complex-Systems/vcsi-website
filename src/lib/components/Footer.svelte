@@ -9,6 +9,9 @@
 			<h3>Community</h3>
 			<ul>
 				<li><a href="{base}/who-we-are">Who We Are</a></li>
+				<li><a href="{base}/community/paper-shredder">Paper Shredder</a></li>
+				<li><a href="{base}/community/scraps">SCRaPS</a></li>
+				<li><a href="{base}/community/talkboctopus">Talkboctopus</a></li>
 			</ul>
 		</div>
 		

@@ -1,5 +1,10 @@
 <script>
     import Meta from "$lib/components/Meta.svelte";
+    import massMutualPapers from '$data/publications/mass-mutual.csv';
+    import { getPapersFromDOIs } from '../../data.remote.js';
+    import PapersGrid from '$lib/components/PapersGrid.svelte';
+    import TopicsChart from '$lib/components/TopicsChart.svelte';
+    import Spinner from '$lib/components/Spinner.svelte';
 
     const preloadFont = [
         "https://pudding.cool/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
@@ -8,6 +13,14 @@
         "https://pudding.cool/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
         "https://pudding.cool/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
     ];
+    
+    let sortBy = $state('citations');
+    let showAll = $state(false);
+    let selectedTopic = $state(null);
+    
+    function handleTopicClick(topic) {
+        selectedTopic = selectedTopic === topic ? null : topic;
+    }
 </script>
 
 <Meta 
@@ -47,6 +60,27 @@
         </section>
     </div>
 </div>
+
+{#await getPapersFromDOIs(massMutualPapers.map(row => `https://doi.org/${row.doi}`))}
+<div class="papers-wrapper">
+    <Spinner text="Loading papers..." />
+</div>
+{:then papers}
+{#if papers && papers.length > 0}
+<div class="papers-wrapper">
+    <section id="research-metrics">
+        <h2>Center of Excellence Publications</h2>
+                <p>You can explore the publications stemming from the MassMutual Center of Excellence by filtering topics:</p>
+                <TopicsChart {papers} {selectedTopic} onTopicClick={handleTopicClick} />
+                <PapersGrid {papers} bind:sortBy bind:showAll {selectedTopic} />
+            </section>
+        </div>
+    {/if}
+{:catch error}
+    <div class="papers-wrapper">
+        <p>Error loading papers: {error.message || 'Unknown error'}</p>
+    </div>
+{/await}
 
 <style>
     .content-wrapper {
@@ -113,6 +147,31 @@
         line-height: 1.5;
     }
     
+    .papers-wrapper {
+        margin-left: var(--margin-left);
+        margin-right: var(--margin-left);
+        margin-top: 2rem;
+    }
+    
+    #research-metrics {
+        padding: 1.5rem 0;
+        background: var(--background-light);
+        border-radius: 8px;
+    }
+    
+    #research-metrics h2 {
+        font-size: 1.8rem;
+        font-weight: 400;
+        font-family: var(--serif);
+        margin-bottom: 1rem;
+        margin-top: 0;
+        color: var(--color-mass-mutual-darkblue) !important;
+    }
+    
+    #research-metrics p {
+        margin-bottom: 1.5rem;
+    }
+    
     /* Mobile adjustments */
     @media (max-width: 768px) {
         .content-wrapper {
@@ -129,5 +188,9 @@
             font-size: 1.5rem;
         }
         
+        .papers-wrapper {
+            margin-left: var(--margin-left-mobile);
+            margin-right: var(--margin-left-mobile);
+        }
     }
 </style>

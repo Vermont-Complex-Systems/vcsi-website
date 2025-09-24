@@ -143,6 +143,15 @@
 				</div>
 			{/if}
 			</div>
+		
+		<a 
+			href="https://complex-stories.uvm.edu/"
+			target="_blank"
+			rel="noopener noreferrer"
+			class="nav-link"
+		>
+			Complex Stories
+		</a>
 		</nav>
 	</div>
 
@@ -269,6 +278,21 @@
   
   .dropdown-item:hover {
     background: var(--color-gray-300);
+  }
+
+  .nav-link {
+    background: transparent;
+    border: none;
+    color: var(--color-fg);
+    font-family: var(--serif);
+    font-size: 1rem;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    transition: color 200ms ease;
+  }
+
+  .nav-link:hover {
+    color: var(--color-gray-600);
   }
 
   /* Theme toggle - hidden but functional */

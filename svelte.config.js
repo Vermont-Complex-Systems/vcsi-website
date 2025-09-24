@@ -16,7 +16,8 @@ const config = {
 			entries: [
 				'*',
 				...memberIds.map(id => `/who-we-are/${id}`),
-				...groupIds.map(id => `/research/group/${id}`)
+				...groupIds.map(id => `/research/group/${id}`),
+				'/research/mass-mutual'
 			]
 		},
 		experimental: {
