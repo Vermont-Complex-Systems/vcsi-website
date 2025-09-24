@@ -1,6 +1,6 @@
-id,name,description
-hedonometer,Hedonometer,"Measuring the happiness (and sadness) of all kinds of texts."
-lemurs,LEMURS,"The Lived Experiences Measured Using Rings Study (LEMURS)."
-socks,Science of Online Corpora Knowledge and Stories (SOCKS),"The Science of Online Corpora, Knowledge, and Stories."
-storywrangler,Storywrangler,"Track and compare Twitter n-grams from 2008 on in 100+ languages."
-xenobots,Xenobots,"Artificial, intelligent, yet fully biological constructs."
+id,name,description,url
+hedonometer,Hedonometer,"Measuring the happiness (and sadness) of all kinds of texts.",https://hedonometer.org/timeseries/en_all/
+lemurs,LEMURS,"The Lived Experiences Measured Using Rings Study (LEMURS).",
+socks,SOCKS,"The Science of Online Corpora, Knowledge, and Stories.",https://www.uvm.edu/socks/
+storywrangler,Storywrangler,"Track and compare Twitter n-grams from 2008 on in 100+ languages.",https://storywrangling.org/
+xenobots,Xenobots,"Artificial, intelligent, yet fully biological constructs.",https://xenobots.github.io/

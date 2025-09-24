@@ -1,5 +1,6 @@
 <script>
     import { base } from '$app/paths';
+    import { ExternalLink } from '@lucide/svelte';
     import projectsData from '$data/projects.csv';
     
     const projects = projectsData;
@@ -8,12 +9,22 @@
 <div class="projects-grid">
     {#each projects as project}
         <div class="project-card">
-            <a href="{base}/projects/{project.id}" class="project-link">
+            <a 
+                href={project.url || `${base}/projects/${project.id}`}
+                class="project-link"
+                target={project.url ? "_blank" : undefined}
+                rel={project.url ? "noopener noreferrer" : undefined}
+            >
                 <div class="project-image">
                     <img src="/common/assets/logos/{project.id}.png" alt={project.name} />
                 </div>
                 <div class="project-info">
-                    <h3 class="project-name">{project.name}</h3>
+                    <h3 class="project-name">
+                        {project.name}
+                        {#if project.url}
+                            <ExternalLink size={16} />
+                        {/if}
+                    </h3>
                     <p class="project-description">{project.description}</p>
                 </div>
             </a>
@@ -31,6 +42,7 @@
     
     .project-card {
         transition: transform 200ms ease;
+        background: transparent;
     }
     
     .project-card:hover {
@@ -59,7 +71,6 @@
         width: 80%;
         height: 80%;
         object-fit: contain;
-        mix-blend-mode: multiply;
     }
     
     .project-info {
@@ -73,6 +84,10 @@
         margin-bottom: 1rem;
         color: var(--color-fg);
         line-height: 1.3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
     }
     
     .project-description {
