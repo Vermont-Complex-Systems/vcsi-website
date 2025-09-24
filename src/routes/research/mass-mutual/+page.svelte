@@ -1,7 +1,6 @@
 <script>
     import Meta from "$lib/components/Meta.svelte";
-    import massMutualPapers from '$data/publications/mass-mutual.csv';
-    import { getPapersFromDOIs } from '../../data.remote.js';
+    import { getMassMutualPapers } from '../../data.remote.js';
     import PapersGrid from '$lib/components/PapersGrid.svelte';
     import TopicsChart from '$lib/components/TopicsChart.svelte';
     import Spinner from '$lib/components/Spinner.svelte';
@@ -61,7 +60,7 @@
     </div>
 </div>
 
-{#await getPapersFromDOIs(massMutualPapers.map(row => `https://doi.org/${row.doi}`))}
+{#await getMassMutualPapers()}
 <div class="papers-wrapper">
     <Spinner text="Loading papers..." />
 </div>

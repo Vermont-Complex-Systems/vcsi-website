@@ -228,20 +228,20 @@ export const getCourseByCRN = prerender(
 //
 // --------------------------------- //
 
-export const getPapersFromDOIs = prerender(
-    v.array(v.string()),
-    async (dois) => {
-        const papers = await db.select()
-            .from(openalex_papers)
-            .where(inArray(openalex_papers.doi, dois));
-        
-        return papers.map(paper => ({
-            ...paper,
-            is_open_access: Boolean(paper.is_open_access),
-            concepts: safeParse(paper.concepts) || [],
-            primary_location: safeParse(paper.primary_location) || [],
-            topics: safeParse(paper.topics) || []
-        }));
-    },
-    { dynamic: true }
-);
+import massMutualPapersData from '$data/publications/mass-mutual.csv';
+
+export const getMassMutualPapers = prerender(async () => {
+    const dois = massMutualPapersData.map(row => `https://doi.org/${row.doi}`);
+    
+    const papers = await db.select()
+        .from(openalex_papers)
+        .where(inArray(openalex_papers.doi, dois));
+    
+    return papers.map(paper => ({
+        ...paper,
+        is_open_access: Boolean(paper.is_open_access),
+        concepts: safeParse(paper.concepts) || [],
+        primary_location: safeParse(paper.primary_location) || [],
+        topics: safeParse(paper.topics) || []
+    }));
+});
