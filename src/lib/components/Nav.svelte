@@ -1,6 +1,6 @@
 <script>
     import { base } from '$app/paths';
-    import { Menu as MenuIcon, ChevronDown, ChevronUp, Sun, Moon } from "@lucide/svelte";
+    import { Menu as MenuIcon, ChevronDown, ChevronUp, Sun, Moon, ExternalLink } from "@lucide/svelte";
     import { setMode } from "mode-watcher";
     import Menu from "./Nav.Menu.svelte";
     
@@ -85,6 +85,7 @@
 					<a href="{base}/community/paper-shredder" class="dropdown-item" onclick={() => closeDropdowns()}>Paper Shredder</a>
 					<a href="{base}/community/scraps" class="dropdown-item" onclick={() => closeDropdowns()}>SCRaPS</a>
 					<a href="{base}/community/talkboctopus" class="dropdown-item" onclick={() => closeDropdowns()}>Talkboctopus</a>
+					<a href="{base}/community/credits" class="dropdown-item" onclick={() => closeDropdowns()}>Credits</a>
 				</div>
 			{/if}
 		</div>
@@ -111,7 +112,24 @@
 					<a href="{base}/projects" class="dropdown-item" onclick={() => closeDropdowns()}>Projects</a>
 					<a href="{base}/research/group" class="dropdown-item" onclick={() => closeDropdowns()}>Groups</a>
 					<a href="{base}/funding" class="dropdown-item" onclick={() => closeDropdowns()}>Funding</a>
-					<a href="{base}/research/verso" class="dropdown-item" onclick={() => closeDropdowns()}>VERSO</a>
+					<a 
+            href="https://verso.w3.uvm.edu/" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="dropdown-item" 
+            onclick={() => closeDropdowns()}>
+              VERSO
+              <ExternalLink size={12} />
+					</a>
+					<a 
+            href="https://www.nature.com/npjcomplex/" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="dropdown-item" 
+            onclick={() => closeDropdowns()}>
+              npj Complexity
+              <ExternalLink size={12} />
+					</a>
 					<a href="{base}/research/mass-mutual" class="dropdown-item" onclick={() => closeDropdowns()}>Mass Mutual Center of Excellence</a>
 				</div>
 			{/if}
@@ -151,6 +169,7 @@
 			class="nav-link"
 		>
 			Complex Stories
+			<ExternalLink size={14} />
 		</a>
 		</nav>
 	</div>
@@ -268,7 +287,9 @@
   }
   
   .dropdown-item {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
     padding: 0.5rem 1rem;
     color: var(--color-fg);
     text-decoration: none;
@@ -289,6 +310,9 @@
     text-decoration: none;
     padding: 0.5rem 1rem;
     transition: color 200ms ease;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
   }
 
   .nav-link:hover {

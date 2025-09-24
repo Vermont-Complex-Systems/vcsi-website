@@ -32,6 +32,7 @@
 		"@types/better-sqlite3": "^7.6.12",
 		"@types/node": "^20",
 		"better-sqlite3": "^11.10.0",
+		"canvas": "^3.2.0",
 		"d3": "^7.9.0",
 		"drizzle-kit": "^0.30.6",
 		"drizzle-orm": "^0.40.1",

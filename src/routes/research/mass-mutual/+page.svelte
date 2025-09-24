@@ -6,11 +6,11 @@
     import Spinner from '$lib/components/Spinner.svelte';
 
     const preloadFont = [
-        "https://pudding.cool/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
-        "https://pudding.cool/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2",
-        "https://pudding.cool/assets/fonts/atlas/AtlasGrotesk-Regular-Web.woff2",
-        "https://pudding.cool/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
-        "https://pudding.cool/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
+        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
+        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2",
+        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/atlas/AtlasGrotesk-Regular-Web.woff2",
+        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
+        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
     ];
     
     let sortBy = $state('citations');
