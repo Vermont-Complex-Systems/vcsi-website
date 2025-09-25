@@ -1,12 +1,13 @@
 <script>
+  import { base } from '$app/paths';
   import HeroText from "$lib/components/HeroText.svelte";
+  import membersData from '$data/members.csv';
   
   let { group } = $props();
 
-  const { name, url, PI } = group[0];
-  
-  const bio = group[0].bio || "is a contributor to The VCSI.";
+  const { name, url, PI, bio } = group[0];
 
+  console.log(bio)
   
   const getLinkHTML = () => {
     const u = url ? `out their <a href="${url}">website</a>` : undefined;
@@ -20,17 +21,26 @@
     return undefined;
   };
 
+  const getPILinks = () => {
+    const piIds = PI.split(' ');
+    return piIds.map(id => {
+      const member = membersData.find(m => m.id === id);
+      const displayName = member ? member.name : id;
+      return `<a href="${base}/who-we-are/${id}">${displayName}</a>`;
+    }).join(' and ');
+  };
+
   const link = getLinkHTML();
+  const piLinks = getPILinks();
 </script>
 
 <section id="intro">
   <HeroText>
     <h1>{name}</h1>
-    <h3>Led by {PI.split(" ")}</h3>
 
     <p>
-      <span class="sr-only">{name} </span>{@html bio}
-      {#if link}{@html link}{/if}
+      The <span class="sr-only">{name} </span>{@html bio} The group is led by {@html piLinks}.
+      {#if link}You can {@html link}{/if}
     </p>
   </HeroText>
 </section>

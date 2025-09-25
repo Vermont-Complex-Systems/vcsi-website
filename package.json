@@ -15,7 +15,8 @@
 		"db:migrate": "drizzle-kit migrate",
 		"db:studio": "drizzle-kit studio",
 		"db:populate": "node scripts/populate-db-api.js",
-		"openalex:populate": "node scripts/populate-openalex-db.js"
+		"openalex:populate": "node scripts/populate-openalex-db.js",
+		"fetch-dois": "node scripts/fetch-dois.js"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-static": "^3.0.8",
@@ -34,6 +35,7 @@
 		"better-sqlite3": "^11.10.0",
 		"canvas": "^3.2.0",
 		"d3": "^7.9.0",
+		"dotenv": "^17.2.2",
 		"drizzle-kit": "^0.30.6",
 		"drizzle-orm": "^0.40.1",
 		"layercake": "^8.4.4",
