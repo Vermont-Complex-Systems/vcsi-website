@@ -2,7 +2,7 @@ import * as v from 'valibot';
 import { error } from '@sveltejs/kit';
 import { prerender } from '$app/server';
 import { db } from "$lib/server/db/index.js"
-import { eq, inArray } from 'drizzle-orm';
+import { eq, inArray, or, sql } from 'drizzle-orm';
 import { 
     courses, 
     sections, 
@@ -231,11 +231,16 @@ export const getCourseByCRN = prerender(
 import massMutualPapersData from '$data/publications/mass-mutual.csv';
 
 export const getMassMutualPapers = prerender(async () => {
-    const dois = massMutualPapersData.map(row => `https://doi.org/${row.doi}`);
+    const csvDois = massMutualPapersData.map(row => row.doi);
+    
+    // Build OR conditions for case-insensitive matching
+    const whereConditions = csvDois.map(doi => 
+        sql`LOWER(${openalex_papers.doi}) = LOWER(${'https://doi.org/' + doi})`
+    );
     
     const papers = await db.select()
         .from(openalex_papers)
-        .where(inArray(openalex_papers.doi, dois));
+        .where(or(...whereConditions));
     
     return papers.map(paper => ({
         ...paper,

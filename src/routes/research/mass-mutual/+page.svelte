@@ -69,7 +69,8 @@
 <div class="papers-wrapper">
     <section id="research-metrics">
         <h2>Center of Excellence Publications</h2>
-                <p>You can explore the publications stemming from the MassMutual Center of Excellence by filtering topics:</p>
+        
+        <p>You can explore the <u>{papers.length} publications</u> stemming from the MassMutual Center of Excellence by filtering topics:</p>
                 <TopicsChart {papers} {selectedTopic} onTopicClick={handleTopicClick} />
                 <PapersGrid {papers} bind:sortBy bind:showAll {selectedTopic} />
             </section>
