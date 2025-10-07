@@ -1,5 +1,9 @@
 <script>
     import Meta from "$lib/components/Meta.svelte";
+    import MemberCards from "$lib/components/MemberCards.svelte";
+    import projectsData from '$data/projects.csv';
+
+    const project = projectsData.find(p => p.id === 'lemurs');
 
     const preloadFont = [
         "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
@@ -32,7 +36,11 @@
         <section>
             <h2>Study Overview</h2>
             <p>At the start of Fall 2022, the Lived Experiences Measured Using Rings Study (LEMURS) recruited a cohort of more than 600 first-year students at the University of Vermont to take part in a longitudinal experiment incentivizing healthy behaviors. During the Fall of 2022, we assessed changes in students' sleep, stress, mental health, and other outcomes through a series of weekly surveys. We also monitored heart-rate (HR), sleep, and activity continuously in this cohort using Oura rings.</p>
-            
+
+            {#if project?.member}
+                <MemberCards memberIds={project.member} />
+            {/if}
+
             <p>In Spring 2023, we randomized students into four groups of 150:</p>
             <ul>
                 <li><strong>Exercise</strong> - Physical activity interventions</li>

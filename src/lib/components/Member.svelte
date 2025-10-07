@@ -2,6 +2,7 @@
   import HeroText from "$lib/components/HeroText.svelte";
   import PapersGrid from "$lib/components/PapersGrid.svelte";
   import TopicsChart from "$lib/components/TopicsChart.svelte";
+  import CitationMetrics from "$lib/components/CitationMetrics.svelte";
   
   let { author } = $props();
 
@@ -53,32 +54,12 @@
 </section>
 
 {#if author.papers && author.papers.length > 0}
-  
+
 <section id="research-metrics">
     <TopicsChart {papers} {selectedTopic} onTopicClick={handleTopicClick} />
     <PapersGrid {papers} bind:sortBy bind:showAll {selectedTopic} />
 
-    {#if openAlex}
-      <h2>If you are into that kind of stuff</h2>
-      <div class="metrics-grid">
-        <div class="metric">
-          <span class="metric-value">{openAlex.works_count || 0}</span>
-          <span class="metric-label">Publications</span>
-        </div>
-        <div class="metric">
-          <span class="metric-value">{openAlex.cited_by_count || 0}</span>
-          <span class="metric-label">Citations</span>
-        </div>
-        <div class="metric">
-          <span class="metric-value">{openAlex.h_index || 0}</span>
-          <span class="metric-label">H-Index</span>
-        </div>
-        <div class="metric">
-          <span class="metric-value">{openAlex.i10_index || 0}</span>
-          <span class="metric-label">i10-Index</span>
-        </div>
-      </div>
-    {/if}
+    <CitationMetrics {papers} {openAlex} />
   </section>
 {/if}
 
@@ -103,49 +84,9 @@
     border-radius: 8px;
   }
 
-  .metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 1rem;
-    margin: 1rem 0;
-  }
-
-  .metric {
-    text-align: center;
-    padding: 1rem;
-    background: white;
-    border-radius: 6px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  }
-
-  .metric-value {
-    display: block;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--primary-color);
-  }
-
-  .metric-label {
-    display: block;
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    margin-top: 0.25rem;
-  }
-
-
-  h2 {
-    margin-top: 1.5rem;
-    margin-bottom: 1rem;
-  }
-
-
   @media (max-width: 768px) {
     #research-metrics {
       margin: 2rem var(--margin-left-mobile);
-    }
-    
-    .metrics-grid {
-      grid-template-columns: repeat(2, 1fr);
     }
   }
 </style>

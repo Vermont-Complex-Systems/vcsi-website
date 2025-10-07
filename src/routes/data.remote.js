@@ -229,19 +229,71 @@ export const getCourseByCRN = prerender(
 // --------------------------------- //
 
 import massMutualPapersData from '$data/publications/mass-mutual.csv';
+import tgirPapersData from '$data/publications/tgir.csv';
+
+// Helper to normalize DOI for matching (handles different formats)
+function normalizeDoi(doi) {
+    if (!doi) return '';
+    // Remove common prefixes and normalize
+    return doi.toLowerCase()
+        .replace(/^https?:\/\/(dx\.)?doi\.org\//i, '')
+        .replace(/^doi:/i, '')
+        .trim();
+}
 
 export const getMassMutualPapers = prerender(async () => {
-    const csvDois = massMutualPapersData.map(row => row.doi);
-    
-    // Build OR conditions for case-insensitive matching
-    const whereConditions = csvDois.map(doi => 
-        sql`LOWER(${openalex_papers.doi}) = LOWER(${'https://doi.org/' + doi})`
-    );
-    
+    const csvDois = massMutualPapersData.map(row => row.doi).filter(doi => doi && doi.trim());
+
+    // Build OR conditions that match DOI regardless of prefix format
+    const whereConditions = csvDois.flatMap(doi => {
+        const normalized = normalizeDoi(doi);
+        return [
+            // Match with https://doi.org/ prefix
+            sql`LOWER(${openalex_papers.doi}) = LOWER(${'https://doi.org/' + normalized})`,
+            // Match with http://dx.doi.org/ prefix
+            sql`LOWER(${openalex_papers.doi}) = LOWER(${'http://dx.doi.org/' + normalized})`,
+            // Match without prefix
+            sql`LOWER(${openalex_papers.doi}) = LOWER(${normalized})`,
+            // Match with doi: prefix
+            sql`LOWER(${openalex_papers.doi}) = LOWER(${'doi:' + normalized})`
+        ];
+    });
+
     const papers = await db.select()
         .from(openalex_papers)
         .where(or(...whereConditions));
-    
+
+    return papers.map(paper => ({
+        ...paper,
+        is_open_access: Boolean(paper.is_open_access),
+        concepts: safeParse(paper.concepts) || [],
+        primary_location: safeParse(paper.primary_location) || [],
+        topics: safeParse(paper.topics) || []
+    }));
+});
+
+export const getTgirPapers = prerender(async () => {
+    const csvDois = tgirPapersData.map(row => row.doi).filter(doi => doi && doi.trim());
+
+    // Build OR conditions that match DOI regardless of prefix format
+    const whereConditions = csvDois.flatMap(doi => {
+        const normalized = normalizeDoi(doi);
+        return [
+            // Match with https://doi.org/ prefix
+            sql`LOWER(${openalex_papers.doi}) = LOWER(${'https://doi.org/' + normalized})`,
+            // Match with http://dx.doi.org/ prefix
+            sql`LOWER(${openalex_papers.doi}) = LOWER(${'http://dx.doi.org/' + normalized})`,
+            // Match without prefix
+            sql`LOWER(${openalex_papers.doi}) = LOWER(${normalized})`,
+            // Match with doi: prefix
+            sql`LOWER(${openalex_papers.doi}) = LOWER(${'doi:' + normalized})`
+        ];
+    });
+
+    const papers = await db.select()
+        .from(openalex_papers)
+        .where(or(...whereConditions));
+
     return papers.map(paper => ({
         ...paper,
         is_open_access: Boolean(paper.is_open_access),

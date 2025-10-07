@@ -27,12 +27,12 @@
 <div class="page-background"></div>
 <div class="content-wrapper">
     <div class="page-header">
-        <div class="page-header-text">
-            <h2>Mascots and random elements are furnished by the wonderful Rob Babboni.</h2>
-            <p class="intro"><a href=https://www.robertbabboni.com>Robert Babboni</a> is an award-winning print and digital illustrator and motion graphic artist who has been creating works for magazines, newspapers, digital and print publishers since 1993. He received his BFA in Illustration in 1993 and MFA in Computer Art with a concentration in digital publishing in 2015, both from the School of Visual Arts in New York City. Babboni has created illustrations for books and articles in both print and digital media with a client list that includes The Wall Street Journal, Business Week, Fast Co, Forbes, Penguin Group, Rolling Stone, and The Washington Post. His work has been exhibited in New York City at the Society of Illustrators, the Art Directors Club, the Visual Arts Museum, and American Illustration Annual Exhibitions. Whether in print or digital media, Babboni’s illustrations never fail to elevate diverse narratives into thought-provoking visual tableaux that resonate emotionally.</p>    
-        </div>
         <div class="page-header-logo">
             <img src="/common/assets/members/rob-babboni.jpg" alt="rob-flying" class="page-header-image" />
+        </div>
+        <div class="page-header-text">
+            <h2>Mascots and random elements are furnished by the wonderful Rob Babboni.</h2>
+            <p class="intro"><a href=https://www.robertbabboni.com>Robert Babboni</a> is an award-winning print and digital illustrator and motion graphic artist who has been creating works for magazines, newspapers, digital and print publishers since 1993. He received his BFA in Illustration in 1993 and MFA in Computer Art with a concentration in digital publishing in 2015, both from the School of Visual Arts in New York City. Babboni has created illustrations for books and articles in both print and digital media with a client list that includes The Wall Street Journal, Business Week, Fast Co, Forbes, Penguin Group, Rolling Stone, and The Washington Post. His work has been exhibited in New York City at the Society of Illustrators, the Art Directors Club, the Visual Arts Museum, and American Illustration Annual Exhibitions. Whether in print or digital media, Babboni's illustrations never fail to elevate diverse narratives into thought-provoking visual tableaux that resonate emotionally.</p>
         </div>
     </div>
 </div>
@@ -93,7 +93,7 @@
     }
     
     .page-header-image {
-        transform: translateY(7rem);
+        margin-top: 0;
     }
 
     .page-header-text {
@@ -102,6 +102,10 @@
         flex-direction: column;
         max-width: 80%;
         gap: 2rem;
+    }
+
+    .page-header-logo {
+        margin-top: 3.5rem;
     }
 
 

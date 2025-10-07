@@ -53,35 +53,35 @@ async function fetchAuthorData(openAlexId) {
 // Fetch papers for an author with full pagination
 async function fetchAuthorPapers(openAlexId) {
   console.log(`📄 Fetching papers for: ${openAlexId}`);
-  
+
   try {
     // Build base URL
     let baseUrl = `https://api.openalex.org/works?filter=author.id:${openAlexId}&mailto=jstonge1@uvm.edu`;
-    
+
     // Fetch all papers for this author (with full pagination)
     let allPapers = [];
     let page = 1;
-    
+
     do {
       const url = `${baseUrl}&per_page=100&page=${page}`;
-      
+
       const response = await fetch(url, {
         headers: {
           'User-Agent': 'VCSI-Website/1.0 (https://vcsi.uvm.edu; mailto:jstonge1@uvm.edu)'
         }
       });
-      
+
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
-      
+
       const data = await response.json();
-      
+
       // Check if we got results
       if (data.results && data.results.length > 0) {
         allPapers = allPapers.concat(data.results);
         console.log(`📄 Fetched page ${page}, got ${data.results.length} papers (total: ${allPapers.length})`);
-        
+
         // Continue if we got a full page (100 results)
         const hasMorePages = data.results.length === 100;
         if (!hasMorePages) {
@@ -90,23 +90,23 @@ async function fetchAuthorPapers(openAlexId) {
       } else {
         break;
       }
-      
+
       page++;
-      
+
       // Add delay between requests to respect rate limits
       await new Promise(resolve => setTimeout(resolve, 500));
-      
+
       // Safety check - if we're getting too many pages, something might be wrong
       if (page > 50) {
         console.warn(`⚠️  Fetched ${page} pages (${allPapers.length} papers) - this author is very prolific!`);
         break;
       }
-      
+
     } while (true);
-    
+
     console.log(`📄 Total papers fetched: ${allPapers.length}`);
     return allPapers;
-    
+
   } catch (error) {
     console.error(`❌ Failed to fetch papers for ${openAlexId}: ${error.message}`);
     return [];
@@ -161,12 +161,12 @@ function extractPaperData(paperApiData, authorOpenAlexId) {
 
 async function populateOpenAlexDatabase() {
   console.log('🗃️  Starting simple OpenAlex population...');
-  
-  // Read CSV file
+
+  // Read members CSV file
   const csvPath = join(projectRoot, 'src/data/members.csv');
   const csvContent = readFileSync(csvPath, 'utf8');
   const memberRows = parseCSV(csvContent);
-  
+
   // Filter members with OpenAlex IDs
   const membersWithOpenAlex = memberRows.filter(member => member.openAlexId && member.openAlexId.trim());
   console.log(`📚 Found ${membersWithOpenAlex.length} members with OpenAlex IDs`);
@@ -235,9 +235,9 @@ async function populateOpenAlexDatabase() {
       console.error(`❌ Error processing ${member.name}: ${error.message}`);
     }
   }
-  
+
   console.log('\n🎉 Simple OpenAlex population complete!');
-  
+
   // Show summary
   const authorCount = await db.select().from(openalex_authors);
   const paperCount = await db.select().from(openalex_papers);
