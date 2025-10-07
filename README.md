@@ -1,144 +1,113 @@
-# VCSI Website
+# Vermont Complex Systems Institute Website
 
-The official website for the Vermont Complex Systems Institute, built with SvelteKit and Svelte 5.
+<div align="center">
 
-## Quick Start
+**A hub for interdisciplinary research, education, and community in complex systems**
 
-```bash
-# Install dependencies
-npm install
+[Visit Website](https://vermontcomplexsystems.org) • [Research Groups](https://vermontcomplexsystems.org/research/group) • [Who We Are](https://vermontcomplexsystems.org/who-we-are)
 
-# Start development server
-npm run dev
+</div>
 
-# Build for production
-npm run build
+---
 
-# Preview production build
-npm run preview
-```
+## 🎯 About
 
-## Development
+The Vermont Complex Systems Institute (VCSI) website serves as the digital home for our research community, showcasing:
 
-### Prerequisites
+- **Research Excellence**: Faculty, students, and collaborative research groups exploring complex systems
+- **Educational Programs**: PhD, Master's, Certificate, and undergraduate programs in complex systems
+- **Research Metrics**: Integrated publication data and impact metrics via OpenAlex
+- **Course Integration**: Live course data from UVM's Schedule of Classes
+- **Community Projects**: Featured projects from Storywrangler to Xenobots
 
-- Node.js (version 18 or higher)
-- SQLite database file (`courses.db`)
-- Environment variable `DATABASE_URL` pointing to your SQLite database
+Built with modern web technologies, this site automatically integrates research metrics, generates profile pages, and provides a dynamic view into our community's work.
 
-### Available Commands
+## 🎨 Features
 
-```bash
-# Development
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run preview      # Preview production build
+- **📚 Dynamic Member Profiles** - Automatically generated pages with integrated research metrics from OpenAlex
+- **🔬 Research Groups** - Showcase collaborative research teams and their work
+- **📊 Live Course Data** - Real-time integration with UVM's Schedule of Classes
+- **📈 Research Metrics** - H-index, citation counts, and publication tracking
+- **🎓 Educational Programs** - Information about PhD, Master's, Certificate, and undergraduate programs
+- **🚀 Featured Projects** - Showcase of major research initiatives and their publications
+- **⚡ Static Site** - Fast, secure, and easy to deploy
 
-# Code Quality
-npm run format       # Format code with Prettier
-npm run lint         # Check code formatting
-
-# Database Management
-npm run db:push      # Push schema changes to database
-npm run db:generate  # Generate migrations from schema
-npm run db:migrate   # Run database migrations
-npm run db:studio    # Open Drizzle Studio for database inspection
-
-# Data Population
-npm run db:populate     # Populate course data from UVM API
-npm run openalex:populate # Populate OpenAlex research data
-```
-
-## Architecture
-
-### Technology Stack
-
-- **Framework**: SvelteKit with Svelte 5
-- **Deployment**: Static site with `@sveltejs/adapter-static`
-- **Database**: SQLite with Drizzle ORM
-- **Styling**: Custom CSS with design system
-- **Data Visualization**: D3.js, LayerCake, P5.js
-- **Icons**: Lucide Svelte
-
-### Project Structure
-
-```
-src/
-├── lib/
-│   ├── components/     # Reusable Svelte components
-│   └── server/db/      # Database schema and connection
-├── routes/             # SvelteKit pages and layouts
-├── data/              # CSV data files
-└── styles/            # CSS files and design system
-
-static/                # Static assets
-scripts/               # Database population scripts
-```
-
-### Data Sources
-
-**CSV Data** (for simple content):
-- `members.csv` - Team member information
-- `groups.csv` - Research group information
-- `course-urls.csv` - Course metadata
-
-**SQLite Database** (for complex data):
-- Course information from UVM's Schedule of Classes API
-- OpenAlex research metrics and publications
-- Comprehensive relational schema with enrollment, prerequisites, etc.
-
-## Data Management
+## 📊 Data Management
 
 ### Adding Team Members
 
-1. Add member information to `src/data/members.csv`
-2. Include OpenAlex ID for automatic research metric integration
-3. Add member photo to `static/common/assets/members/`
-4. The site will automatically generate a profile page
+Contributing new members is easy and automatically generates profile pages:
+
+1. **Edit** `src/data/members.csv` with member information
+2. **Include** [OpenAlex](https://openalex.org/) ID (format: `A1234567890`) for automatic research metrics (if available)
+3. **Add** member photo to `static/common/assets/members/[member-id].jpg`
+4. **Commit** - The site automatically generates a profile page at build time
 
 ### Adding Research Groups
 
-1. Add group information to `src/data/groups.csv`
-2. The site will automatically generate a group page
+1. **Edit** `src/data/groups.csv` with group information
+3. **Add** group logo to `static/common/assets/groups/[group-id].jpg`
+2. **Commit** - A group page is automatically generated
 
-### Course Data
+### Updating Research Metrics
 
-Course data is automatically populated from UVM's API:
+The site automatically integrates research data from OpenAlex for members who have an OpenAlex ID in their profile. To update metrics:
 
-```bash
-npm run db:populate
-```
+1. Ensure members have OpenAlex IDs in `members.csv`
+2. Run the data population script (requires database setup - see [CLAUDE.md](CLAUDE.md) for technical details)
+3. Build the site to regenerate profile pages
 
-This fetches and stores:
-- Course descriptions and requirements
-- Section meeting times and instructors
-- Enrollment numbers and availability
-- Prerequisites and cross-listings
+### Adding Project Publications
 
-### Research Metrics
+Project-specific publication lists are maintained in `src/data/publications/*.csv`. Each CSV contains DOIs that are automatically enriched with metadata from OpenAlex.
 
-Research data is populated from OpenAlex:
+## 🤝 Contributing
 
-```bash
-npm run openalex:populate
-```
+We welcome contributions from the VCSI community! Whether you're a faculty member, student, or staff, you can help keep this site current and comprehensive.
 
-This adds publication metrics and research impact data for team members.
+### Ways to Contribute
 
+- **👥 Add/Update Members** - Keep our team roster current by editing [`members.csv`](src/data/members.csv)
+- **🔬 Add Research Groups** - Showcase new collaborative groups in [`groups.csv`](src/data/groups.csv)
+- **📝 Update Projects** - Add or update project information in [`projects.csv`](src/data/projects.csv)
+- **📚 Update Publications** - Maintain project publication lists in [`publications/`](src/data/publications/)
+- **🐛 Report Issues** - Found a bug? [Open an issue](https://github.com/Vermont-Complex-Systems/vcsi-website/issues)
+- **💡 Suggest Features** - Ideas for improving the site? Start a discussion!
 
-## Configuration
+### Easy Contribution (No Technical Setup Required)
 
-### Environment Variables
+For simple content updates (CSV files):
 
-- `DATABASE_URL` - Path to SQLite database file (required for database operations)
-- `BASE_PATH` - Base path for deployment (optional, for subdirectory deployments)
+1. Navigate to the file on GitHub (e.g., [`src/data/members.csv`](src/data/members.csv))
+2. Click the ✏️ **Edit** icon
+3. Make your changes
+4. Scroll down and click **Propose changes**
+5. Create a pull request with your changes
 
-### SvelteKit Configuration
+### Technical Contributions
 
-The project uses several experimental features:
-- Remote functions for data fetching
-- Async compiler for better performance
-- Static adapter for deployment
+For developers working on features or bug fixes, see [CLAUDE.md](CLAUDE.md) for complete development setup, architecture details, and technical documentation.
 
-This project uses SvelteKit's experimental **remote functions** for data fetching.
+## 📄 License
+
+This project is maintained by the Vermont Complex Systems Institute at the University of Vermont.
+
+## 🙏 Acknowledgments
+
+- Built with [SvelteKit](https://kit.svelte.dev/) and [Svelte 5](https://svelte.dev/)
+- Research metrics powered by [OpenAlex](https://openalex.org/)
+- Course data from [UVM Schedule of Classes](https://www.uvm.edu/registrar/schedule-of-classes)
+- Inspired by open science and reproducible research practices
+
+---
+
+<div align="center">
+
+**Vermont Complex Systems Institute**
+
+*Advancing the study of complex systems through research, education, and community*
+
+[Website](https://vermontcomplexsystems.org) • [GitHub](https://github.com/Vermont-Complex-Systems)
+
+</div>
 
