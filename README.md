@@ -43,7 +43,7 @@ Contributing new members is easy and automatically generates profile pages:
 
 1. **Edit** `src/data/members.csv` with member information
 2. **Include** [OpenAlex](https://openalex.org/) ID (format: `A1234567890`) for automatic research metrics (if available)
-3. **Add** member photo to `static/common/assets/members/[member-id].jpg`
+3. **Add** member photo to `static/common/assets/members/[member-id].jpg`. It is important that the filename correspond to the member `id` provided in `member.csv`, e.g. `jso` ➜ `jso.jpg`.
 4. **Commit** - The site automatically generates a profile page at build time
 
 ### Adding Research Groups
