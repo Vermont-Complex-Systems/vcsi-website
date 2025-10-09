@@ -68,6 +68,7 @@
 							<li><a href="{base}/community/paper-shredder">Paper Shredder</a></li>
 							<li><a href="{base}/community/scraps">SCRAPS</a></li>
 							<li><a href="{base}/community/talkboctopus">Talkboctopus</a></li>
+							<li><a href="{base}/community/credits">Credits</a></li>
 						</ul>
 					{/if}
 				</li>
@@ -90,8 +91,10 @@
 							<li><a href="{base}/projects">Projects</a></li>
 							<li><a href="{base}/research/group">Groups</a></li>
 							<li><a href="{base}/funding">Funding</a></li>
-							<li><a href="{base}/research/verso">VERSO</a></li>
+							<li><a href="https://verso.w3.uvm.edu/" target="_blank" rel="noopener noreferrer">VERSO</a></li>
 							<li><a href="{base}/research/mass-mutual">Mass Mutual Center of Excellence</a></li>
+							<li><a href="{base}/research/tgir">TGIR Research</a></li>
+							<li><a href="https://www.nature.com/npjcomplex/" target="_blank" rel="noopener noreferrer">npj Complexity</a></li>
 						</ul>
 					{/if}
 				</li>
@@ -115,6 +118,7 @@
 							<li><a href="{base}/education/masters">Masters</a></li>
 							<li><a href="{base}/education/certificate">Certificate</a></li>
 							<li><a href="{base}/education/phd">PhD</a></li>
+							<li><a href="{base}/education/BilDS">BilDS</a></li>
 						</ul>
 					{/if}
 				</li>

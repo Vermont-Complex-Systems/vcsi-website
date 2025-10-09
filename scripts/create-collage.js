@@ -6,9 +6,9 @@ import { join } from 'path';
 const DRAWING_DIR = './static/common/assets/drawing';
 
 const SIZES = [
-  { name: 'desktop', width: 1920, height: 1080, imageSize: 120, padding: 15 },
+  { name: 'desktop', width: 1920, height: 800, imageSize: 150, padding: 20 },
   { name: 'tablet', width: 1024, height: 768, imageSize: 80, padding: 10 },
-  { name: 'mobile', width: 768, height: 1024, imageSize: 60, padding: 8 }
+  { name: 'mobile', width: 768, height: 1024, imageSize: 130, padding: 15 }
 ];
 
 async function createCollage(size) {

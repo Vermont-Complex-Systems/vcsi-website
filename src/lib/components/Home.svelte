@@ -10,7 +10,7 @@
             <h1>Describe, Explain,  Create, Share.</h1>
             <p>The Vermont Complex Systems Institute is a post-disciplinary organization working on real-world, data-rich, and meaningful complex systems problems of all kinds.</p>
         </div>
-        <DotsToImage imgFilePath={`${base}/favicon.png`} />
+        <DotsToImage imgFilePath={`${base}/favicon.jpg`} />
     </div>
 </div>
 
@@ -26,7 +26,7 @@
             <div class="feature-card post-disciplinary">
                 <img 
                     src="{base}/common/assets/drawing/otter01.png" 
-                    alt="Otter logo" 
+                    alt="Otter Drawing" 
                     style="transform: translate(-30px, -30px);"/>
                 <div class="card-content">
                     <p style="margin-top: -55px;">Nurturing collaborations taking a post-disciplinary perspective, leverage computational tools.</p>
@@ -37,9 +37,9 @@
                 <div class="card-content">
                     <img 
                         src="{base}/common/assets/drawing/roboctopus01.jpg" 
-                        alt="Roboctopus logo"
+                        alt="Roboctopus Drawing"
                     />
-                    <p style="margin-top: 15px;">Integrating surveys, experiment, simulation, and theory to tackle complex problems.</p>
+                    <p style="margin-top: 15px;">Integrating surveys, experiments, simulations, and theory to tackle complex problems.</p>
                 </div>
             </div>
             
@@ -49,7 +49,7 @@
                         alt="Hedonometer"
                     />
                 <div class="card-content">
-                    <p style="margin-top: 15px;">Birds-eye view meets qualitative approaches and measurements, making the best of both world.</p>
+                    <p style="margin-top: 15px;">Bird's-eye view meets qualitative approaches and measurements, making the best of both worlds.</p>
                 </div>
             </div>
             
@@ -60,27 +60,41 @@
                         style="transform: translate(30px, 50px) scaleX(-1);;"
                     />
                 <div class="card-content">
-                    <p style="margin-top:90px;">Translating complex data into actionable insights that inform policymakers, healthcare providers, and community.</p>
+                    <p style="margin-top:90px;">Translating complex data into actionable insights that inform policymakers, healthcare providers, and communities.</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<hr>
+<div class="separator-wrapper">
+    <img
+        src="{base}/common/assets/drawing/tentacle.png"
+        alt="Tentacle Drawing"
+        class="tentacle-image"
+    />
+    <hr>
+</div>
 
 <section class="learning-section">
     <div class="learning-wrapper">
         <div class="learning-header">
-            <h2>Scales of learning</h2>
-            <p>Learning the tools of complexity</p>
+            <div class="learning-header-text">
+                <h2>Scales of learning</h2>
+                <p>Learning the tools of complexity</p>
+            </div>
+            <img
+                src="{base}/common/assets/drawing/paws02.png"
+                alt="Paws Drawing"
+                class="learning-header-image"
+            />
         </div>
         
         <div class="learning-grid">
             <a href="{base}/education/undergraduate" class="learning-card undergraduate">
                 <img 
                     src="{base}/common/assets/drawing/squirrel-small-01@2x.png" 
-                    alt="Squirrel logo" />
+                    alt="Squirrel Drawing" />
                 <div class="card-content">
                     <p>Obtain squirrel mind. Learn more about the joint program of the Department of Mathematics and Statistics and the Department of Computer Science.</p>
                     <ArrowRight class="learn-more-arrow" size="24" />
@@ -91,7 +105,7 @@
                 <div class="card-content">
                     <img 
                         src="{base}/common/assets/drawing/platypus.png" 
-                        alt="Platypus logo"
+                        alt="Platypus Drawing"
                     />
                     <p style="margin-top: 15px;">For curious platypuses. Learn more about our broadest educational program at the graduate level—now available online!</p>
                     <ArrowRight class="learn-more-arrow" size="24" />
@@ -155,14 +169,28 @@
         margin: 0;
     }
 
+    .separator-wrapper {
+        position: relative;
+    }
+
     hr {
         margin-top: 12rem;
         margin-bottom: 6rem;
         border-bottom: 1px solid #888;
     }
-    
-    /* Features Section */
 
+    .tentacle-image {
+        position: absolute;
+        right: var(--margin-left);
+        width: 200px;
+        height: auto;
+        object-fit: contain;
+        mix-blend-mode: multiply;
+        transform: translateX(80%) translateY(-95%);
+        z-index: 1;
+    }
+
+    /* Features Section */
 
     .features-wrapper {
         margin-left: var(--margin-left);
@@ -231,23 +259,39 @@
     
     /* Learning Section */
 
-    
     .learning-wrapper {
         margin-left: var(--margin-left);
         margin-right: var(--margin-left);
     }
     
     .learning-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         text-align: left;
         margin-bottom: 4rem;
+        gap: 0;
     }
-    
+
+    .learning-header-text {
+        flex: 1;
+    }
+
     .learning-header h2 {
         font-size: 3rem;
         font-weight: 400;
         font-family: var(--serif);
         margin: 0 0 1rem 0;
         color: var(--color-fg);
+    }
+
+    .learning-header-image {
+        width: 25rem;
+        height: auto;
+        object-fit: contain;
+        mix-blend-mode: multiply;
+        flex-shrink: 0;
+        transform: rotate(20deg) translateX(8rem) translateY(-5rem);
     }
         
     .learning-grid {
@@ -394,8 +438,18 @@
             margin-right: var(--margin-left-mobile);
         }
         
+        .learning-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
         .learning-header h2 {
             font-size: 2rem;
+        }
+
+        .learning-header-image {
+            width: 150px;
+            margin-left: 0;
         }
         
         .learning-grid {
@@ -409,6 +463,12 @@
 
         .learning-card.certificate img {
            margin-left: 4rem;
+        }
+
+        .tentacle-image {
+            right: var(--margin-left-mobile);
+            width: 120px;
+            bottom: -1rem;
         }
     }
 

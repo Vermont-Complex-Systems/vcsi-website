@@ -6,11 +6,11 @@
     import Spinner from '$lib/components/Spinner.svelte';
 
     const preloadFont = [
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2",
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/atlas/AtlasGrotesk-Regular-Web.woff2",
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
+        "/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
+        "/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2",
+        "/assets/fonts/atlas/AtlasGrotesk-Regular-Web.woff2",
+        "/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
+        "/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
     ];
     
     let sortBy = $state('citations');
@@ -29,7 +29,7 @@
 />
 
 <div class="content-wrapper">
-    <div class="page-header">
+    <div class="page-header no-logo">
         <div class="page-header-text">
             <img src="/common/assets/logos/mass-mutual.png" alt="The MassMutual Center of Excellence in Complex Systems and Data Science" class="logo-as-h1" />
             <p class="intro">Advancing a wide range of faculty and graduate Vermont student-driven research ranging from the social contagion of ideas to the future of work, exploring large language models in health care, incentivizing healthy behaviors, and eliminating bias in AI.</p>
@@ -39,7 +39,9 @@
     <div class="content">
         <section>
             <h2>Overview</h2>
-            <p>The MassMutual Center of Excellence represents a strategic partnership focused on advancing complex systems research and data science applications. Our center brings together interdisciplinary expertise to tackle challenging problems at the intersection of technology, human behavior, and societal impact.</p>
+            <p>The MassMutual Center of Excellence in Complex Systems & Data Science supports a growing collection of talented faculty, postdocs, graduate and undergraduate students on research projects related to data visualization, computational finance, mortality modeling, algorithmic fairness, physical & mental health, and sleep. Students on the UVM team are enrolled in academic degree programs in Complex Systems & Data Science, Mathematical Sciences, and Computer Science.</p>
+
+            <p>In 2018, the CoE was established with a gift from MassMutual to the Vermont Complex Systems Center at the University of Vermont. This gift was <a href="https://www.massmutual.com/about-us/news-and-press-releases/press-releases/2023/11/uvm-massmutual-renew-partnership-to-help-people-live">renewed</a> in 2023.</p>
         </section>
             
         <section>
@@ -92,7 +94,7 @@
         max-width: 100%;
         width: 100%;
         height: auto;
-        max-height: 6rem;
+        max-height: 5rem;
         margin-bottom: 1rem;
         object-fit: contain;
         object-position: left;
@@ -113,17 +115,14 @@
     
     .intro {
         margin-bottom: 3rem;
-        color: var(--color-mass-mutual-darkblue) !important;
     }
     
     .content {
         max-width: 800px;
-        color: var(--color-mass-mutual-darkblue) !important;
     }
 
     section {
         margin-bottom: 2rem;
-        color: var(--color-mass-mutual-darkblue) !important;
     }
     
     p {
@@ -131,7 +130,7 @@
         line-height: 1.6;
         font-family: var(--serif);
         color: var(--color-fg);
-        color: var(--color-mass-mutual-darkblue) !important;
+        margin-bottom: 1rem;
     }
     
     ul {
@@ -139,7 +138,6 @@
         color: var(--color-fg);
         padding-left: 1.5rem;
         list-style-type: disc;
-        color: var(--color-mass-mutual-darkblue) !important;
     }
     
     li {
@@ -165,7 +163,6 @@
         font-family: var(--serif);
         margin-bottom: 1rem;
         margin-top: 0;
-        color: var(--color-mass-mutual-darkblue) !important;
     }
     
     #research-metrics p {

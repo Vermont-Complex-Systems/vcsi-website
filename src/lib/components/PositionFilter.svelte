@@ -4,7 +4,7 @@
     const positions = [
         'All',
         'Core team', 
-        'External faculty',
+        'External Affiliate',
         'PostDoc'
     ];
     

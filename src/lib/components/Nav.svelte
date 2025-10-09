@@ -58,7 +58,7 @@
 <header class="header" class:scrolled={isScrolled}>
 	<div class="header-left">
 		<a href="{base}/" class="vsci-logo-container">
-			<img src="{base}/vcsi-bumper-sticker-horizontal.jpg" alt="Home" class="vcsi-logo" />
+			<img src="{base}/vcsi-bumper-sticker-horizontal-arial.png" alt="Home" class="vcsi-logo" />
 		</a>
 
 		<nav class="desktop-nav">
@@ -108,29 +108,34 @@
 			</button>
 			
 			{#if isResearchOpen}
-				<div class="dropdown-menu">
-					<a href="{base}/projects" class="dropdown-item" onclick={() => closeDropdowns()}>Projects</a>
-					<a href="{base}/research/group" class="dropdown-item" onclick={() => closeDropdowns()}>Groups</a>
-					<a href="{base}/funding" class="dropdown-item" onclick={() => closeDropdowns()}>Funding</a>
-					<a 
-            href="https://verso.w3.uvm.edu/" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            class="dropdown-item" 
-            onclick={() => closeDropdowns()}>
-              VERSO
-              <ExternalLink size={12} />
-					</a>
-					<a 
-            href="https://www.nature.com/npjcomplex/" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            class="dropdown-item" 
-            onclick={() => closeDropdowns()}>
-              npj Complexity
-              <ExternalLink size={12} />
-					</a>
-					<a href="{base}/research/mass-mutual" class="dropdown-item" onclick={() => closeDropdowns()}>Mass Mutual Center of Excellence</a>
+				<div class="dropdown-menu two-column">
+          <div class="header-section-research">
+            <a href="{base}/projects" class="dropdown-item" onclick={() => closeDropdowns()}>Projects</a>
+            <a href="{base}/research/group" class="dropdown-item" onclick={() => closeDropdowns()}>Groups</a>
+            <a href="{base}/funding" class="dropdown-item" onclick={() => closeDropdowns()}>Funding</a>
+            <a
+              href="https://verso.w3.uvm.edu/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="dropdown-item"
+              onclick={() => closeDropdowns()}>
+                VERSO
+                <ExternalLink size={12} />
+            </a>
+            <a href="{base}/research/mass-mutual" class="dropdown-item" onclick={() => closeDropdowns()}>Mass Mutual Center of Excellence</a>
+          </div>
+          <div class="header-section-research">
+            <a href="{base}/research/tgir" class="dropdown-item" onclick={() => closeDropdowns()}>TGIR Research</a>
+            <a
+              href="https://www.nature.com/npjcomplex/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="dropdown-item"
+              onclick={() => closeDropdowns()}>
+                npj Complexity
+                <ExternalLink size={12} />
+            </a>
+          </div>
 				</div>
 			{/if}
 		</div>
@@ -153,12 +158,17 @@
 			</button>
 			
 			{#if isEducationOpen}
-				<div class="dropdown-menu">
-					<a href="{base}/education/undergraduate" class="dropdown-item" onclick={() => closeDropdowns()}>Undergraduate</a>
-					<a href="{base}/education/masters" class="dropdown-item" onclick={() => closeDropdowns()}>Masters</a>
-					<a href="{base}/education/certificate" class="dropdown-item" onclick={() => closeDropdowns()}>Certificate</a>
-					<a href="{base}/education/phd" class="dropdown-item" onclick={() => closeDropdowns()}>PhD</a>
-				</div>
+        <div class="dropdown-menu two-column">
+          <div class="header-section-research">
+            <a href="{base}/education/undergraduate" class="dropdown-item" onclick={() => closeDropdowns()}>Undergraduate</a>
+            <a href="{base}/education/masters" class="dropdown-item" onclick={() => closeDropdowns()}>Masters</a>
+            <a href="{base}/education/certificate" class="dropdown-item" onclick={() => closeDropdowns()}>Certificate</a>
+            <a href="{base}/education/phd" class="dropdown-item" onclick={() => closeDropdowns()}>PhD</a>
+          </div>
+          <div class="header-section-research">
+            <a href="{base}/education/BilDS" class="dropdown-item" onclick={() => closeDropdowns()}>BilDS</a>
+          </div>
+        </div>
 			{/if}
 			</div>
 		
@@ -202,6 +212,12 @@
 <Menu visible={isMenuOpen} close={closeMenu} />
 
 <style>
+  .header-section-research {
+    flex: 1;
+  }
+  .header-section-research:nth-child(1) { grid-column: 1;} 
+  .header-section-research:nth-child(2) { grid-column: 2;} 
+
   .header {
     display: flex;
     align-items: center;
@@ -268,12 +284,18 @@
     padding: 0.5rem 1rem;
     transition: color 200ms ease;
   }
-  
+
+  .nav-button :global(svg) {
+    pointer-events: none;
+  }
+
   .nav-button:hover {
     color: var(--color-gray-600);
   }
-  
+
   .dropdown-menu {
+    display: flex;
+    flex-direction: column;
     position: absolute;
     top: 100%;
     left: 0;
@@ -281,11 +303,32 @@
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius);
     padding: 0.5rem 0;
-    min-width: 18rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    min-width: 14rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     z-index: 1000;
   }
-  
+
+  .dropdown-menu::before {
+    content: none;
+  }
+
+  .dropdown-menu.two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    min-width: 24rem;
+  }
+
+  .dropdown-menu.two-column::before {
+    content: "";
+    position: absolute;
+    top: 1rem;
+    bottom: 1rem;
+    left: 50%;
+    width: 1px;
+    background: var(--color-border, #ccc);
+  }
+
   .dropdown-item {
     display: flex;
     align-items: center;

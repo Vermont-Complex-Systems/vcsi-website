@@ -9,11 +9,11 @@
     let filteredMembers = $state([]);
 
      const preloadFont = [
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2",
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/atlas/AtlasGrotesk-Regular-Web.woff2",
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
+        "/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
+        "/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2",
+        "/assets/fonts/atlas/AtlasGrotesk-Regular-Web.woff2",
+        "/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
+        "/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
     ];
 
     function handleFilterChange(position) {
@@ -63,10 +63,9 @@
         margin-left: var(--margin-left);
         margin-right: var(--margin-left);
     }
-    
-    
+
     .intro {
-        max-width: 60%;
+        max-width: 100%;
     }
     
     /* Mobile adjustments */
@@ -74,11 +73,6 @@
         .content-wrapper {
             margin-left: var(--margin-left-mobile);
             margin-right: var(--margin-left-mobile);
-        }
-        
-        
-        .intro {
-            max-width: 100%;
         }
     }
 </style>

@@ -2,11 +2,11 @@
     import Meta from "$lib/components/Meta.svelte";
 
     const preloadFont = [
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2",
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/atlas/AtlasGrotesk-Regular-Web.woff2",
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
+        "/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
+        "/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2",
+        "/assets/fonts/atlas/AtlasGrotesk-Regular-Web.woff2",
+        "/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
+        "/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
     ];
 </script>
 
@@ -14,6 +14,9 @@
     <style>
         .header {
             background: transparent !important;
+        }
+        .header.scrolled {
+            background: whitesmoke !important;
         }
     </style>
 </svelte:head>
@@ -38,42 +41,44 @@
 </div>
 
 <style>
+
     .page-background {
         position: fixed;
         top: 0;
         left: 0;
         width: 100vw;
         height: 100vh;
-        background-image: url('/common/assets/drawing/collage-background-desktop.png');
+        background-image: url('/common/assets/drawing/collage-background-desktop.png?v=5');
         background-size: cover;
         background-position: top center;
         background-repeat: no-repeat;
         z-index: -1;
         pointer-events: none;
+        opacity: 0.5;
     }
     
     @media (max-width: 1024px) {
         .page-background {
-            background-image: url('/common/assets/drawing/collage-background-tablet.png');
+            background-image: url('/common/assets/drawing/collage-background-tablet.png?v=3');
         }
     }
-    
+
     @media (max-width: 768px) {
         .page-background {
-            background-image: url('/common/assets/drawing/collage-background-mobile.png');
+            background-image: url('/common/assets/drawing/collage-background-mobile.png?v=3');
         }
     }
 
     .content-wrapper {
         margin-left: var(--margin-left);
         margin-right: var(--margin-left);
-        min-height: 100vh;
         position: relative;
         z-index: 1;
     }
     
     .intro {
         max-width: 100%;
+        font-size: 1.2rem !important;
         color: black !important;
     }
     
@@ -82,7 +87,7 @@
         font-weight: 600;
         font-family: var(--serif);
         margin-bottom: 1rem;
-        margin-top: 2.5rem;
+        margin-top: 0;
     }
 
     p {
@@ -91,21 +96,29 @@
         font-family: var(--serif);
         color: var(--color-fg);
     }
-    
+
+    /* Aligned on the p tag: h2 font-size + h2 margin-bottom + gap*/
     .page-header-image {
-        margin-top: 0;
+        margin-top: calc(1.8rem + 1rem + 3rem) !important;
+    }
+
+    .page-header {
+        display: flex;
+        align-items: start;
+        gap: 2rem;
     }
 
     .page-header-text {
         display: flex;
         text-align: left;
         flex-direction: column;
-        max-width: 80%;
-        gap: 2rem;
+        max-width: 100%;
+        gap: 1rem;
+        flex: 1;
     }
 
     .page-header-logo {
-        margin-top: 3.5rem;
+        flex-shrink: 0;
     }
 
 
@@ -114,9 +127,33 @@
             margin-left: var(--margin-left-mobile);
             margin-right: var(--margin-left-mobile);
         }
-     
+
+        .page-header {
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .page-header-text {
+            display: contents;
+        }
+
+        .page-header-text h2 {
+            order: 1;
+            margin-bottom: 0;
+        }
+
+        .page-header-logo {
+            order: 2;
+        }
+
+        .page-header-text .intro {
+            order: 3;
+        }
+
         .page-header-image {
             transform: none;
+            margin-top: 1rem !important;
+            margin-bottom: 1rem;
         }
     }
 </style>

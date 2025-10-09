@@ -9,10 +9,10 @@
             <div class="group-card">
                 <a href="{base}/research/group/{group.id}" class="group-link">
                     <div class="group-photo">
-                        <img 
-                            src="{base}/common/assets/groups/{group.id}.jpg" 
+                        <img
+                            src="{base}/common/assets/groups/{group.id}.jpg"
                             alt="{group.name}"
-                            onerror={() => this.src = `${base}/common/assets/groups/${group.id}.png`}
+                            onerror={(e) => e.target.src = `${base}/common/assets/groups/${group.id}.png`}
                         />
                     </div>
                     <div class="group-info">

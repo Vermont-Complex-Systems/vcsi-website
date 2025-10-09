@@ -5,11 +5,11 @@
     import { getGroups } from '../../data.remote'
 
      const preloadFont = [
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2",
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/atlas/AtlasGrotesk-Regular-Web.woff2",
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
+        "/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
+        "/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2",
+        "/assets/fonts/atlas/AtlasGrotesk-Regular-Web.woff2",
+        "/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
+        "/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
     ];
 
 </script>
@@ -33,8 +33,20 @@
         {#await getGroups()}
             <Spinner text="Loading groups..." />
         {:then groups}
-            <Groups {groups} />
-        {:catch error} 
+            {#if groups.filter(g => g.status === 'Core team').length > 0}
+                <section class="groups-section">
+                    <h2 class="section-header">Core teams</h2>
+                    <Groups groups={groups.filter(g => g.status === 'Core team')} />
+                </section>
+            {/if}
+
+            {#if groups.filter(g => g.status === 'External affiliate').length > 0}
+                <section class="groups-section">
+                    <h2 class="section-header">External affiliate teams</h2>
+                    <Groups groups={groups.filter(g => g.status === 'External affiliate')} />
+                </section>
+            {/if}
+        {:catch error}
             <div>
                 <p>Error loading groups: {error.message}</p>
             </div>
@@ -47,20 +59,28 @@
         margin-left: var(--margin-left);
         margin-right: var(--margin-left);
     }
-    
-    
-    .intro {
+
+    .groups-section {
+        margin-top: 3rem;
         margin-bottom: 3rem;
     }
-    
+
+    .section-header {
+        font-size: 1.5rem;
+        font-weight: 500;
+        font-family: var(--serif);
+        margin-bottom: 1.5rem;
+        margin-top: 0;
+        color: var(--color-gray-700);
+    }
+
     /* Mobile adjustments */
     @media (max-width: 768px) {
         .content-wrapper {
             margin-left: var(--margin-left-mobile);
             margin-right: var(--margin-left-mobile);
         }
-        
-        
+
         .intro {
             max-width: 100%;
         }

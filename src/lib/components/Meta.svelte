@@ -12,9 +12,11 @@
     author = "Vermont Complex Systems Institute"
   } = $props();
   
-  const baseUrl = "https://vermontcomplexsystems.org/"; // Your actual domain
-  const url = `${baseUrl}${base}${page.url.pathname}`;
-  const fullImageUrl = image.startsWith('http') ? image : `${baseUrl}${base}${image}`;
+  const baseUrl = "https://vermontcomplexsystems.org"; // Your actual domain
+  // Normalize pathname to remove base and ensure clean path
+  const pathname = page.url.pathname.replace(base, '').replace(/^\/+/, '/');
+  const url = `${baseUrl}${pathname}`;
+  const fullImageUrl = image.startsWith('http') ? image : `${baseUrl}${image}`;
 </script>
 
 <svelte:head>
