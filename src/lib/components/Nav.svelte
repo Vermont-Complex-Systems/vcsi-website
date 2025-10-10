@@ -173,15 +173,21 @@
 			{/if}
 			</div>
 		
-		<a 
-			href="https://complex-stories.uvm.edu/"
-			target="_blank"
-			rel="noopener noreferrer"
-			class="nav-link"
-		>
-			Complex Stories
-			<ExternalLink size={14} />
-		</a>
+    <a 
+      href="{base}/events"
+      class="nav-link"
+    >
+      Events
+    </a>
+    <a 
+      href="https://complex-stories.uvm.edu/"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="nav-link"
+    >
+      Complex Stories
+      <ExternalLink size={14} />
+    </a>
 		</nav>
 	</div>
 
