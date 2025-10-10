@@ -242,7 +242,7 @@
     
     .feature-card p {
         font-family: var(--serif);
-        font-size: 1.2rem;
+        font-size: 1rem;
         line-height: 1.5;
         margin: 0;
         color: var(--color-gray-700);
@@ -309,6 +309,8 @@
         text-decoration: none;
         color: inherit;
         position: relative;
+        height: 440px;
+        overflow: hidden;
     }
 
      .learning-card img {
@@ -329,7 +331,7 @@
     }
 
     .learning-card p {
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
 
     .card-content {
@@ -352,7 +354,7 @@
     
     .feature-card p {
         font-family: var(--serif);
-        font-size: 1.2rem;
+        font-size: 1rem;
         line-height: 1.5;
         margin: 0;
         color: var(--color-gray-700);
@@ -424,6 +426,10 @@
             grid-template-columns: 1fr;
             gap: 1.5rem;
             justify-items: center;
+        }
+
+        .feature-card p {
+            font-size: 1.3rem;
         }
         
         .feature-card {

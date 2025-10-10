@@ -1,7 +1,7 @@
 <script>
 	import { base } from "$app/paths";
 	import { afterNavigate } from "$app/navigation";
-	import { X, Youtube, Github, MessageCircle, Linkedin, ChevronDown, ChevronUp } from "@lucide/svelte";
+	import { X, Youtube, Github, MessageCircle, Linkedin, ChevronDown, ChevronUp, ExternalLink } from "@lucide/svelte";
 	
 	let { visible, close } = $props();
 	
@@ -45,10 +45,7 @@
 		</button>
 		
 		<div class="nav-links">
-			<h4>Navigate</h4>
-			<ul>
-				<li><a href="{base}/">Home</a></li>
-				
+			<ul>				
 				<li class="dropdown-section">
 					<button 
 						onclick={() => isWhoWeAreOpen = !isWhoWeAreOpen}
@@ -100,7 +97,7 @@
 				</li>
 				
 				<li class="dropdown-section">
-					<button 
+					<button
 						onclick={() => isEducationOpen = !isEducationOpen}
 						class="section-button"
 					>
@@ -111,7 +108,7 @@
 							<ChevronDown size={16} />
 						{/if}
 					</button>
-					
+
 					{#if isEducationOpen}
 						<ul class="sub-menu">
 							<li><a href="{base}/education/undergraduate">Undergraduate</a></li>
@@ -122,28 +119,32 @@
 						</ul>
 					{/if}
 				</li>
+
+				<li>
+					<a href="https://complex-stories.uvm.edu/" target="_blank" rel="noopener noreferrer">
+						Complex Stories
+						<ExternalLink size={14} />
+					</a>
+				</li>
 			</ul>
 		</div>
 		
 		<div class="social-links">
-			<h4>Connect</h4>
-			<ul>
+			<h4>Follow Us</h4>
+			<ul class="social-icons">
 				<li>
-					<a href="https://www.youtube.com/@UVMcomplexity" target="_blank" rel="noreferrer">
-						<Youtube class="icon" size={18} />
-						<span>YouTube</span>
+					<a href="https://www.youtube.com/@UVMcomplexity" target="_blank" rel="noreferrer" aria-label="YouTube">
+						<Youtube class="icon" size={24} />
 					</a>
 				</li>
 				<li>
-					<a href="https://github.com/Vermont-complex-systems" target="_blank" rel="noreferrer">
-						<Github class="icon" size={18} />
-						<span>GitHub</span>
+					<a href="https://github.com/Vermont-complex-systems" target="_blank" rel="noreferrer" aria-label="GitHub">
+						<Github class="icon" size={24} />
 					</a>
 				</li>
 				<li>
-					<a href="https://linkedin.com/school/uvm-vcsc/" target="_blank" rel="noreferrer">
-						<Linkedin class="icon" size={18} />
-						<span>LinkedIn</span>
+					<a href="https://linkedin.com/school/uvm-vcsc/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+						<Linkedin class="icon" size={24} />
 					</a>
 				</li>
 			</ul>
@@ -339,6 +340,21 @@
 	.sub-menu a {
 		font-size: var(--font-size-small);
 		opacity: 0.9;
+	}
+
+	.social-icons {
+		display: flex;
+		gap: 1.5rem;
+		padding-left: 0;
+	}
+
+	.social-icons li {
+		list-style: none;
+		margin-bottom: 0;
+	}
+
+	.social-icons a {
+		padding: 0;
 	}
 
 </style>

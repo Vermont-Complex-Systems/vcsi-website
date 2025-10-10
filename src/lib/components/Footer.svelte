@@ -12,6 +12,7 @@
 				<li><a href="{base}/community/paper-shredder">Paper Shredder</a></li>
 				<li><a href="{base}/community/scraps">SCRaPS</a></li>
 				<li><a href="{base}/community/talkboctopus">Talkboctopus</a></li>
+				<li><a href="{base}/community/credits">Credits</a></li>
 			</ul>
 		</div>
 		
@@ -21,8 +22,10 @@
 				<li><a href="{base}/projects">Projects</a></li>
 				<li><a href="{base}/research/group">Groups</a></li>
 				<li><a href="{base}/funding">Funding</a></li>
-				<li><a href="{base}/research/verso">VERSO</a></li>
+				<li><a href="https://verso.w3.uvm.edu/" target="_blank" rel="noopener noreferrer">VERSO <ExternalLink size={14} /></a></li>
 				<li><a href="{base}/research/mass-mutual">Mass Mutual Center of Excellence</a></li>
+				<li><a href="{base}/research/tgir">TGIR Research</a></li>
+				<li><a href="https://www.nature.com/npjcomplex/" target="_blank" rel="noopener noreferrer">npj Complexity <ExternalLink size={14} /></a></li>
 			</ul>
 		</div>
 		
@@ -33,28 +36,26 @@
 				<li><a href="{base}/education/masters">Masters</a></li>
 				<li><a href="{base}/education/certificate">Certificate</a></li>
 				<li><a href="{base}/education/phd">PhD</a></li>
+				<li><a href="{base}/education/BilDS">BilDS</a></li>
 			</ul>
 		</div>
 		
 		<div class="footer-section">
 			<h3>Follow Us</h3>
-			<ul>
+			<ul class="social-icons">
 				<li>
-					<a href="https://www.youtube.com/@UVMcomplexity" target="_blank" rel="noreferrer">
-						<Youtube class="icon" size={16} />
-						<span>YouTube</span>
+					<a href="https://www.youtube.com/@UVMcomplexity" target="_blank" rel="noreferrer" aria-label="YouTube">
+						<Youtube class="icon" size={20} />
 					</a>
 				</li>
 				<li>
-					<a href="https://github.com/Vermont-complex-systems" target="_blank" rel="noreferrer">
-						<Github class="icon" size={16} />
-						<span>GitHub</span>
+					<a href="https://github.com/Vermont-complex-systems" target="_blank" rel="noreferrer" aria-label="GitHub">
+						<Github class="icon" size={20} />
 					</a>
 				</li>
 				<li>
-					<a href="https://linkedin.com/school/uvm-vcsc/" target="_blank" rel="noreferrer">
-						<Linkedin class="icon" size={16} />
-						<span>LinkedIn</span>
+					<a href="https://linkedin.com/school/uvm-vcsc/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+						<Linkedin class="icon" size={20} />
 					</a>
 				</li>
 			</ul>
@@ -147,6 +148,15 @@
 
 :global(.dark) .footer-section a:hover {
 	color: var(--color-gray-100);
+}
+
+.social-icons {
+	display: flex;
+	gap: 1rem;
+}
+
+.social-icons a {
+	text-decoration: none;
 }
 
 .footer-logo {

@@ -12,10 +12,18 @@
 
 <svelte:head>
     <style>
+        /* Light mode: default background */
         .header {
-            background: transparent !important;
+            background: var(--color-bg) !important;
         }
         .header.scrolled {
+            background: var(--color-bg) !important;
+        }
+        /* Dark mode: transparent header to show collage */
+        .dark .header {
+            background: transparent !important;
+        }
+        .dark .header.scrolled {
             background: whitesmoke !important;
         }
     </style>
@@ -48,7 +56,7 @@
         left: 0;
         width: 100vw;
         height: 100vh;
-        background-image: url('/common/assets/drawing/collage-background-desktop.png?v=5');
+        background-image: none;
         background-size: cover;
         background-position: top center;
         background-repeat: no-repeat;
@@ -56,15 +64,19 @@
         pointer-events: none;
         opacity: 0.5;
     }
-    
+
+    :global(.dark) .page-background {
+        background-image: url('/common/assets/drawing/collage-background-desktop.png?v=5');
+    }
+
     @media (max-width: 1024px) {
-        .page-background {
+        :global(.dark) .page-background {
             background-image: url('/common/assets/drawing/collage-background-tablet.png?v=3');
         }
     }
 
     @media (max-width: 768px) {
-        .page-background {
+        :global(.dark) .page-background {
             background-image: url('/common/assets/drawing/collage-background-mobile.png?v=3');
         }
     }
@@ -77,8 +89,8 @@
     }
     
     .intro {
-        max-width: 100%;
-        font-size: 1.2rem !important;
+        max-width: 80%;
+        font-size: var(--font-size-small) !important;
         color: black !important;
     }
     
@@ -88,6 +100,7 @@
         font-family: var(--serif);
         margin-bottom: 1rem;
         margin-top: 0;
+        max-width: 80%;
     }
 
     p {
@@ -99,7 +112,7 @@
 
     /* Aligned on the p tag: h2 font-size + h2 margin-bottom + gap*/
     .page-header-image {
-        margin-top: calc(1.8rem + 1rem + 3rem) !important;
+        margin-top: calc(4.6rem) !important;
     }
 
     .page-header {

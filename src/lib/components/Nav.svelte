@@ -58,7 +58,7 @@
 <header class="header" class:scrolled={isScrolled}>
 	<div class="header-left">
 		<a href="{base}/" class="vsci-logo-container">
-			<img src="{base}/vcsi-bumper-sticker-horizontal-arial.png" alt="Home" class="vcsi-logo" />
+			<img src="{base}/vcsi-bumper-sticker-horizontal-arial-transparent.png" alt="Home" class="vcsi-logo" />
 		</a>
 
 		<nav class="desktop-nav">
@@ -224,7 +224,7 @@
     justify-content: space-between;
     gap: 3rem;
     margin: 0;
-    padding: 0.8rem var(--margin-left) 0.5rem var(--margin-left);
+    padding: 1rem var(--margin-left) 0.5rem var(--margin-left);
     position: fixed;
     top: 0;
     left: 0;
@@ -235,25 +235,28 @@
     width: 100%;
     transition: border-bottom-color 200ms ease;
     box-sizing: border-box;
+    /* transform: translateY(-0.5rem); */
   }
 
   .header-left {
     display: flex;
     align-items: center;
     gap: 3rem;
+    transform: translateY(-0.3rem);
   }
 
   .header-right {
     display: flex;
     align-items: center;
     gap: 1rem;
+    transform: translateY(-0.3rem);
   }
   
   .vcsi-logo {
     border-radius: var(--border-radius);
-    max-height: 2.3rem;
+    max-height: 2rem;
     object-fit: contain;
-    mix-blend-mode: multiply;
+    transform: translateY(0.2rem);
   }
   
   /* Show border when scrolled */
@@ -316,7 +319,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.5rem;
-    min-width: 24rem;
+    min-width: 28rem;
   }
 
   .dropdown-menu.two-column::before {
@@ -396,7 +399,11 @@
   :global(.dark) .header {
     background: var(--color-bg);
   }
-  
+
+  :global(.dark) .dropdown-menu {
+    background: var(--color-gray-200);
+  }
+
   :global(.dark) .nav-button {
 		color: var(--color-gray-800);
 	}

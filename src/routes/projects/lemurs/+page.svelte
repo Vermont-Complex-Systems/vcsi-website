@@ -36,6 +36,18 @@
         <section>
             <h2>Study Overview</h2>
             <p>At the start of Fall 2022, the Lived Experiences Measured Using Rings Study (LEMURS) recruited a cohort of more than 600 first-year students at the University of Vermont to take part in a longitudinal experiment incentivizing healthy behaviors. During the Fall of 2022, we assessed changes in students' sleep, stress, mental health, and other outcomes through a series of weekly surveys. We also monitored heart-rate (HR), sleep, and activity continuously in this cohort using Oura rings.</p>
+            <p>Today, the project is in its fourth year, with Over 1,250 days (and nights) of data during the first 3 (soon to be 4) years of college. The LEMURS team has published over 15 peer reviewed publications and conference proceedings.</p>
+
+            <div class="partner-logos">
+                <img src="/common/assets/logos/sst5.png" alt="sst5" />
+                <img src="/common/assets/logos/abct.jpg" alt="ABCT" />
+                <img src="/common/assets/logos/apa.png" alt="APA" />
+                <img src="/common/assets/logos/bhi-bsn2022.png" alt="BHI-BSN 2022" />
+                <img src="/common/assets/logos/bsn-2024.png" alt="BSN 2024" />
+                <img src="/common/assets/logos/istss.png" alt="ISTSS" />
+                <img src="/common/assets/logos/isrii.jpg" alt="ISRII" />
+                <img src="/common/assets/logos/embc25.png" alt="EMBC 2025" />
+            </div>
 
             {#if project?.member}
                 <MemberCards memberIds={project.member} />
@@ -136,7 +148,24 @@
     .resources {
         margin-top: 1rem;
     }
-    
+
+    .partner-logos {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+        justify-content: center;
+        margin: 1.5rem 0;
+        padding: 1.5rem 0;
+    }
+
+    .partner-logos img {
+        height: 100px;
+        width: auto;
+        object-fit: contain;
+        mix-blend-mode: multiply;
+    }
+
     /* Mobile adjustments */
     @media (max-width: 768px) {
         .content-wrapper {
