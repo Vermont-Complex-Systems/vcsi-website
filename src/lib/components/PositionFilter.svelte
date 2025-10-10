@@ -3,9 +3,10 @@
     
     const positions = [
         'All',
-        'Core team', 
-        'External Affiliate',
-        'PostDoc'
+        'Core team',
+        'External affiliate',
+        'UVM affiliate',
+        'Postdoctoral researcher'
     ];
     
     function handleFilterClick(position) {

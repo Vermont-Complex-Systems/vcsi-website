@@ -39,11 +39,11 @@
                     <Groups groups={groups.filter(g => g.status === 'Core team')} />
                 </section>
             {/if}
-
-            {#if groups.filter(g => g.status === 'External affiliate').length > 0}
+            
+            {#if groups.filter(g => g.status === 'UVM affiliate').length > 0}
                 <section class="groups-section">
-                    <h2 class="section-header">External affiliate teams</h2>
-                    <Groups groups={groups.filter(g => g.status === 'External affiliate')} />
+                    <h2 class="section-header">UVM affiliate teams</h2>
+                    <Groups groups={groups.filter(g => g.status === 'UVM affiliate')} />
                 </section>
             {/if}
         {:catch error}

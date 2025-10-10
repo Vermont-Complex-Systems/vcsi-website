@@ -64,7 +64,7 @@
 		
 		<div class="footer-logo">
 			<img src="{base}/UVM_Logo_Primary_Horiz_W_PunchOut.png" alt="UVM Logo" class="uvm-logo-img" />
-			<img src="{base}/vcsi-bumper-sticker-horizontal-arial-transparent.png" alt="Roboctopus Logo" class="roboctopus-logo-img" />
+			<img src="{base}/favicon.jpg" alt="Roboctopus Logo" class="roboctopus-logo-img" />
 			<a class="cc-footer-copy" href="https://www.uvm.edu/equal-opportunity/americans-disabilities-act-and-reasonable-accommodations" target="_blank" rel="noreferrer">
 				<span class="link-text">Accessibility <ExternalLink class="icon" size={14} /></span>
 			</a>
@@ -188,11 +188,12 @@
 	width: auto;
 	max-width: 100%;
 	height: auto;
-	max-height: 8rem;
+	max-height: 5rem;
 	border-radius: var(--border-radius);
 	transition: transform var(--transition-medium);
 	object-fit: contain;
 	align-self: flex-start;
+	mix-blend-mode: multiply;
 }
 
 .roboctopus-logo-img:hover {
