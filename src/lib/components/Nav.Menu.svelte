@@ -122,6 +122,12 @@
 				</li>
 
 				<li>
+					<a href="{base}/events" rel="noopener noreferrer">
+						Events
+					</a>
+				</li>
+
+				<li>
 					<a href="https://complex-stories.uvm.edu/" target="_blank" rel="noopener noreferrer">
 						Complex Stories
 						<ExternalLink size={14} />
