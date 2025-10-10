@@ -4,11 +4,11 @@
 
   // To change when we can, it is pudding property
   const preloadFont = [
-    "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
-    "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2",
-    "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/atlas/AtlasGrotesk-Regular-Web.woff2",
-    "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
-    "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
+    "/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
+    "/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2",
+    "/assets/fonts/atlas/AtlasGrotesk-Regular-Web.woff2",
+    "/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
+    "/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
   ];
 
 </script>

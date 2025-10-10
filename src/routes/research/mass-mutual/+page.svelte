@@ -3,14 +3,18 @@
     import { getMassMutualPapers } from '../../data.remote.js';
     import PapersGrid from '$lib/components/PapersGrid.svelte';
     import TopicsChart from '$lib/components/TopicsChart.svelte';
+    import MemberCards from "$lib/components/MemberCards.svelte";
     import Spinner from '$lib/components/Spinner.svelte';
+    import miscData from '$data/misc.csv';
+
+    const entry = miscData.find(p => p.id === 'mmcoe');
 
     const preloadFont = [
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2",
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/atlas/AtlasGrotesk-Regular-Web.woff2",
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
+        "/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
+        "/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2",
+        "/assets/fonts/atlas/AtlasGrotesk-Regular-Web.woff2",
+        "/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
+        "/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
     ];
     
     let sortBy = $state('citations');
@@ -29,7 +33,7 @@
 />
 
 <div class="content-wrapper">
-    <div class="page-header">
+    <div class="page-header no-logo">
         <div class="page-header-text">
             <img src="/common/assets/logos/mass-mutual.png" alt="The MassMutual Center of Excellence in Complex Systems and Data Science" class="logo-as-h1" />
             <p class="intro">Advancing a wide range of faculty and graduate Vermont student-driven research ranging from the social contagion of ideas to the future of work, exploring large language models in health care, incentivizing healthy behaviors, and eliminating bias in AI.</p>
@@ -38,27 +42,53 @@
 
     <div class="content">
         <section>
-            <h2>Overview</h2>
-            <p>The MassMutual Center of Excellence represents a strategic partnership focused on advancing complex systems research and data science applications. Our center brings together interdisciplinary expertise to tackle challenging problems at the intersection of technology, human behavior, and societal impact.</p>
-        </section>
-            
-        <section>
-            <h2>Research Areas</h2>
-            <ul>
-                <li><strong>Social Contagion of Ideas:</strong> Understanding how ideas spread through networks and communities</li>
-                <li><strong>Future of Work:</strong> Exploring how technological advances reshape employment and workplace dynamics</li>
-                <li><strong>Large Language Models in Healthcare:</strong> Investigating applications of AI and machine learning in medical settings</li>
-                <li><strong>Health Behavior Incentivization:</strong> Developing systems to encourage and maintain healthy behaviors</li>
-                <li><strong>AI Bias Elimination:</strong> Working to identify and eliminate bias in artificial intelligence systems</li>
-            </ul>
+            <h2>About</h2>
+            <p>The MassMutual Center of Excellence (CoE) in Complex Systems & Data Science supports a growing collection of talented faculty, postdocs, graduate and undergraduate students on research projects related to data visualization, artificial intelligence, computational finance, algorithmic fairness, physical & mental health, and sleep. Students on the UVM team are enrolled in academic degree programs in Complex Systems & Data Science, Mathematical Sciences, Psychology, and Computer Science.</p>
+            <p>In 2018, the CoE was established with a <a href="https://www.uvm.edu/uvmnews/news/massmutual-and-uvm-expand-groundbreaking-data-science-partnership">gift</a> from MassMutual to the Vermont Complex Systems Center at the University of Vermont, and the partnership was <a href="https://www.massmutual.com/about-us/news-and-press-releases/press-releases/2023/11/uvm-massmutual-renew-partnership-to-help-people-live">renewed</a> in 2023 to continue to support research to enhance human well-being.</p>
         </section>
         
         <section>
-            <h2>Impact</h2>
-            <p>Our research contributes to both theoretical understanding and practical applications in complex systems, with real-world implications for healthcare, workplace dynamics, and social behavior. Through this partnership, we aim to advance knowledge while training the next generation of data scientists and complex systems researchers.</p>
+            <h2>Lived Experience Measured Using Rings Study (LEMURS)</h2>
+            <h3>Fellowship Opportunities</h3>
+            <h4>Postdoctoral Fellowship</h4>
+            <p>The MassMutual Center of Excellence <b>Postdoctoral Fellowship</b> at the University of Vermont's Complex Systems Center offers early-career scientists a unique experience to tackle open questions related to complex systems and data science that are of utmost importance in science, industry, and society. This postdoctoral fellowship provides a high level of intellectual freedom and the opportunity to work alongside leading academic researchers and industry partners.</p>
+            <p>This postdoctoral fellowship is supported by our groundbreaking data science partnership with MassMutual. The MassMutual Center of Excellence for Complex Systems and Data Science engages in research projects and programs aimed at better understanding human wellness through data analytics, as well as programming to cultivate a strong pipeline of data science talent.</p>
+            <h4>Eligibility Requirements</h4>
+            <p>A Ph.D.(or expected Ph.D.) in a relevant field (Such as, Physics, Mathematics, Computer Science, Statistics, Computational Social Science, Computational Biology, Data Science)</p>
+            <li>
+                <ul>Exemplary knowledge of data science and computational tools</ul>
+                <ul>Ability to work independently and lead a research project from the ground-up</ul>
+                <ul>Intellectual curiosity and interest in working in a highly-collaborative complex systems science environment</ul>
+            </li>
+            <h4>Graduate Fellowship</h4>
+            <p>The MassMutual Center of Excellence in Complex Systems and Data Science <b>Graduate Fellowship</b> at University of Vermont offers annual graduate fellowships to students enrolled in the UVM Complex Systems Center's MS and PhD in Complex Systems and Data Science. These fellowships offer a unique experience for students to tackle real world health and wellness problems that matter most for science, industry, and society.</p>
+            <p>This graduate fellowship is supported by our groundbreaking data science partnership with MassMutual. The MassMutual Center of Excellence for Complex Systems and Data Science engages in research projects and programs aimed at better understanding human wellness through data analytics, as well as programming to cultivate a strong pipeline of data science talent.</p>
+            <p>This fellowship provides an opportunity to work alongside leading academic researchers and industry partners.</p>
+            <p>Examples of research projects that will be conducted at the MassMutual Center of Excellence include study in the following areas:</p>
+            <li>
+                <ul>Longevity and wellness, including the link between physical and financial health and environmental impacts on wellness.</ul>
+                <ul>Wearable devices, health incentives, and healthy behaviors</ul>
+                <ul>Algorithmic fairness, accountability and transparency, which will encompass alternative underwriting data, methods for controlling bias and data ethics.</ul>
+                <ul>Measurement methodologies for large scale social systems, covering such topics as macroeconomic events, mortality risk and social cohesion, among others.</ul>
+            </li>
+            <h4>Eligibility Requirements</h4>
+            <li>
+                <ul>For PhD Fellowship: a completed Master's Degree</ul>
+                <ul>For Master's Fellowship: a completed Bachelor's Degree</ul>
+                <ul>Knowledge of data science and computational tools</ul>
+                <ul>Ability to work independently</ul>
+                <ul>Intellectual curiosity and interest in working in a highly-collaborative complex systems science environment</ul>
+
+            </li>
         </section>
     </div>
+    
+    <section>
+        <h2>Center of Excellence Team</h2>
+        <MemberCards memberIds={entry.member} />
+    </section>
 </div>
+
 
 {#await getMassMutualPapers()}
 <div class="papers-wrapper">
@@ -92,7 +122,7 @@
         max-width: 100%;
         width: 100%;
         height: auto;
-        max-height: 6rem;
+        max-height: 5rem;
         margin-bottom: 1rem;
         object-fit: contain;
         object-position: left;
@@ -113,25 +143,22 @@
     
     .intro {
         margin-bottom: 3rem;
-        color: var(--color-mass-mutual-darkblue) !important;
+        max-width: 80%;
     }
     
     .content {
-        max-width: 800px;
-        color: var(--color-mass-mutual-darkblue) !important;
+        max-width: 60%;
     }
 
     section {
         margin-bottom: 2rem;
-        color: var(--color-mass-mutual-darkblue) !important;
     }
     
     p {
-        font-size: 1rem;
         line-height: 1.6;
         font-family: var(--serif);
         color: var(--color-fg);
-        color: var(--color-mass-mutual-darkblue) !important;
+        margin-bottom: 1rem;
     }
     
     ul {
@@ -139,7 +166,6 @@
         color: var(--color-fg);
         padding-left: 1.5rem;
         list-style-type: disc;
-        color: var(--color-mass-mutual-darkblue) !important;
     }
     
     li {
@@ -165,7 +191,6 @@
         font-family: var(--serif);
         margin-bottom: 1rem;
         margin-top: 0;
-        color: var(--color-mass-mutual-darkblue) !important;
     }
     
     #research-metrics p {
@@ -178,10 +203,24 @@
             margin-left: var(--margin-left-mobile);
             margin-right: var(--margin-left-mobile);
         }
+
+        p {
+            font-size: 1.2rem;
+        }
         
         .logo-as-h1 {
             max-height: 4rem;
             width: 100%;
+        }
+
+        .intro {
+            max-width: 100%;
+            font-size: 1.4rem;
+        }
+
+        
+        .content {
+            max-width: 100%;
         }
         
         h2 {

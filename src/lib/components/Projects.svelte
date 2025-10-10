@@ -1,19 +1,16 @@
 <script>
     import { base } from '$app/paths';
-    import { ExternalLink } from '@lucide/svelte';
     import projectsData from '$data/projects.csv';
-    
+
     const projects = projectsData;
 </script>
 
 <div class="projects-grid">
     {#each projects as project}
         <div class="project-card">
-            <a 
-                href={project.url || `${base}/projects/${project.id}`}
+            <a
+                href={`${base}/projects/${project.id}`}
                 class="project-link"
-                target={project.url ? "_blank" : undefined}
-                rel={project.url ? "noopener noreferrer" : undefined}
             >
                 <div class="project-image">
                     <img src="/common/assets/logos/{project.id}.png" alt={project.name} />
@@ -21,9 +18,6 @@
                 <div class="project-info">
                     <h3 class="project-name">
                         {project.name}
-                        {#if project.url}
-                            <ExternalLink size={16} />
-                        {/if}
                     </h3>
                     <p class="project-description">{project.description}</p>
                 </div>

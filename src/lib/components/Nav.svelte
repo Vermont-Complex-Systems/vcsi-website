@@ -58,7 +58,7 @@
 <header class="header" class:scrolled={isScrolled}>
 	<div class="header-left">
 		<a href="{base}/" class="vsci-logo-container">
-			<img src="{base}/vcsi-bumper-sticker-horizontal.jpg" alt="Home" class="vcsi-logo" />
+			<img src="{base}/vcsi-bumper-sticker-horizontal-arial-transparent.png" alt="Home" class="vcsi-logo" />
 		</a>
 
 		<nav class="desktop-nav">
@@ -82,6 +82,7 @@
 			{#if isWhoWeAreOpen}
 				<div class="dropdown-menu">
 					<a href="{base}/who-we-are" class="dropdown-item" onclick={() => closeDropdowns()}>Who We Are</a>
+					<a href="{base}/community/students" class="dropdown-item" onclick={() => closeDropdowns()}>Students</a>
 					<a href="{base}/community/paper-shredder" class="dropdown-item" onclick={() => closeDropdowns()}>Paper Shredder</a>
 					<a href="{base}/community/scraps" class="dropdown-item" onclick={() => closeDropdowns()}>SCRaPS</a>
 					<a href="{base}/community/talkboctopus" class="dropdown-item" onclick={() => closeDropdowns()}>Talkboctopus</a>
@@ -108,29 +109,34 @@
 			</button>
 			
 			{#if isResearchOpen}
-				<div class="dropdown-menu">
-					<a href="{base}/projects" class="dropdown-item" onclick={() => closeDropdowns()}>Projects</a>
-					<a href="{base}/research/group" class="dropdown-item" onclick={() => closeDropdowns()}>Groups</a>
-					<a href="{base}/funding" class="dropdown-item" onclick={() => closeDropdowns()}>Funding</a>
-					<a 
-            href="https://verso.w3.uvm.edu/" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            class="dropdown-item" 
-            onclick={() => closeDropdowns()}>
-              VERSO
-              <ExternalLink size={12} />
-					</a>
-					<a 
-            href="https://www.nature.com/npjcomplex/" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            class="dropdown-item" 
-            onclick={() => closeDropdowns()}>
-              npj Complexity
-              <ExternalLink size={12} />
-					</a>
-					<a href="{base}/research/mass-mutual" class="dropdown-item" onclick={() => closeDropdowns()}>Mass Mutual Center of Excellence</a>
+				<div class="dropdown-menu two-column">
+          <div class="header-section-research">
+            <a href="{base}/projects" class="dropdown-item" onclick={() => closeDropdowns()}>Projects</a>
+            <a href="{base}/research/group" class="dropdown-item" onclick={() => closeDropdowns()}>Groups</a>
+            <a href="{base}/funding" class="dropdown-item" onclick={() => closeDropdowns()}>Funding</a>
+            <a
+              href="https://verso.w3.uvm.edu/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="dropdown-item"
+              onclick={() => closeDropdowns()}>
+                VERSO
+                <ExternalLink size={12} />
+            </a>
+            <a href="{base}/research/mass-mutual" class="dropdown-item" onclick={() => closeDropdowns()}>Mass Mutual Center of Excellence</a>
+          </div>
+          <div class="header-section-research">
+            <a href="{base}/research/tgir" class="dropdown-item" onclick={() => closeDropdowns()}>TGIR Research</a>
+            <a
+              href="https://www.nature.com/npjcomplex/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="dropdown-item"
+              onclick={() => closeDropdowns()}>
+                npj Complexity
+                <ExternalLink size={12} />
+            </a>
+          </div>
 				</div>
 			{/if}
 		</div>
@@ -153,12 +159,17 @@
 			</button>
 			
 			{#if isEducationOpen}
-				<div class="dropdown-menu">
-					<a href="{base}/education/undergraduate" class="dropdown-item" onclick={() => closeDropdowns()}>Undergraduate</a>
-					<a href="{base}/education/masters" class="dropdown-item" onclick={() => closeDropdowns()}>Masters</a>
-					<a href="{base}/education/certificate" class="dropdown-item" onclick={() => closeDropdowns()}>Certificate</a>
-					<a href="{base}/education/phd" class="dropdown-item" onclick={() => closeDropdowns()}>PhD</a>
-				</div>
+        <div class="dropdown-menu two-column">
+          <div class="header-section-research">
+            <a href="{base}/education/undergraduate" class="dropdown-item" onclick={() => closeDropdowns()}>Undergraduate</a>
+            <a href="{base}/education/masters" class="dropdown-item" onclick={() => closeDropdowns()}>Masters</a>
+            <a href="{base}/education/certificate" class="dropdown-item" onclick={() => closeDropdowns()}>Certificate</a>
+            <a href="{base}/education/phd" class="dropdown-item" onclick={() => closeDropdowns()}>PhD</a>
+          </div>
+          <div class="header-section-research">
+            <a href="{base}/education/BilDS" class="dropdown-item" onclick={() => closeDropdowns()}>BilDS</a>
+          </div>
+        </div>
 			{/if}
 			</div>
 		
@@ -208,13 +219,19 @@
 <Menu visible={isMenuOpen} close={closeMenu} />
 
 <style>
+  .header-section-research {
+    flex: 1;
+  }
+  .header-section-research:nth-child(1) { grid-column: 1;} 
+  .header-section-research:nth-child(2) { grid-column: 2;} 
+
   .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 3rem;
     margin: 0;
-    padding: 0.8rem var(--margin-left) 0.5rem var(--margin-left);
+    padding: 1rem var(--margin-left) 0.5rem var(--margin-left);
     position: fixed;
     top: 0;
     left: 0;
@@ -225,25 +242,28 @@
     width: 100%;
     transition: border-bottom-color 200ms ease;
     box-sizing: border-box;
+    /* transform: translateY(-0.5rem); */
   }
 
   .header-left {
     display: flex;
     align-items: center;
     gap: 3rem;
+    transform: translateY(-0.3rem);
   }
 
   .header-right {
     display: flex;
     align-items: center;
     gap: 1rem;
+    transform: translateY(-0.3rem);
   }
   
   .vcsi-logo {
     border-radius: var(--border-radius);
-    max-height: 2.3rem;
+    max-height: 2rem;
     object-fit: contain;
-    mix-blend-mode: multiply;
+    transform: translateY(0.2rem);
   }
   
   /* Show border when scrolled */
@@ -274,12 +294,18 @@
     padding: 0.5rem 1rem;
     transition: color 200ms ease;
   }
-  
+
+  .nav-button :global(svg) {
+    pointer-events: none;
+  }
+
   .nav-button:hover {
     color: var(--color-gray-600);
   }
-  
+
   .dropdown-menu {
+    display: flex;
+    flex-direction: column;
     position: absolute;
     top: 100%;
     left: 0;
@@ -287,11 +313,32 @@
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius);
     padding: 0.5rem 0;
-    min-width: 18rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    min-width: 14rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     z-index: 1000;
   }
-  
+
+  .dropdown-menu::before {
+    content: none;
+  }
+
+  .dropdown-menu.two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    min-width: 28rem;
+  }
+
+  .dropdown-menu.two-column::before {
+    content: "";
+    position: absolute;
+    top: 1rem;
+    bottom: 1rem;
+    left: 50%;
+    width: 1px;
+    background: var(--color-border, #ccc);
+  }
+
   .dropdown-item {
     display: flex;
     align-items: center;
@@ -359,7 +406,11 @@
   :global(.dark) .header {
     background: var(--color-bg);
   }
-  
+
+  :global(.dark) .dropdown-menu {
+    background: var(--color-gray-200);
+  }
+
   :global(.dark) .nav-button {
 		color: var(--color-gray-800);
 	}

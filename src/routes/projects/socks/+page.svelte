@@ -1,12 +1,17 @@
 <script>
     import Meta from "$lib/components/Meta.svelte";
+    import { ExternalLink } from '@lucide/svelte';
+    import MemberCards from "$lib/components/MemberCards.svelte";
+    import projectsData from '$data/projects.csv';
+
+    const project = projectsData.find(p => p.id === 'socks');
 
     const preloadFont = [
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2",
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/atlas/AtlasGrotesk-Regular-Web.woff2",
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
-        "https://vcsi.cmplxsys.w3.uvm.edu/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
+        "/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
+        "/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2",
+        "/assets/fonts/atlas/AtlasGrotesk-Regular-Web.woff2",
+        "/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
+        "/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
     ];
 </script>
 
@@ -22,6 +27,11 @@
             <div class="page-header-text">
                 <h1>Science of Online Corpora Knowledge and Stories (SOCKS)</h1>
                 <p class="intro">SOCKS focuses on building and refining instruments that can distantly read and make sense of enormous collections of texts.</p>
+                {#if project?.url}
+                    <a href={project.url} target="_blank" rel="noopener noreferrer" class="external-link">
+                        Visit the SOCKS website <ExternalLink size={18} />
+                    </a>
+                {/if}
             </div>
             <div class="page-header-logo">
             <img src="/common/assets/logos/socks.png" alt="VERSO" class="page-header-image" />
@@ -32,6 +42,10 @@
             <section>
                 <h2>Overview</h2>
                 <p>The Science of Online Corpora Knowledge and Stories project develops computational methods and tools for analyzing vast text collections, enabling researchers to extract insights from large-scale textual data.</p>
+
+                {#if project?.member}
+                    <MemberCards memberIds={project.member} />
+                {/if}
             </section>
             
             <section>
@@ -64,12 +78,6 @@
         font-family: var(--serif);
         margin-bottom: 1rem;
         margin-top: 2.5rem;
-    }
-    
-    .intro {
-        margin-bottom: 3rem;
-        max-width: 80%;
-        line-height: 1.5;
     }
     
     .content {

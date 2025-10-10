@@ -1,6 +1,7 @@
-id,name,description,url
-hedonometer,Hedonometer,"Measuring the happiness (and sadness) of all kinds of texts.",https://hedonometer.org/timeseries/en_all/
-lemurs,LEMURS,"The Lived Experiences Measured Using Rings Study (LEMURS).",
-socks,SOCKS,"The Science of Online Corpora, Knowledge, and Stories.",https://www.uvm.edu/socks/
-storywrangler,Storywrangler,"Track and compare Twitter n-grams from 2008 on in 100+ languages.",https://storywrangling.org/
-xenobots,Xenobots,"Artificial, intelligent, yet fully biological constructs.",https://xenobots.github.io/
+id,name,description,url,award_id,member
+hedonometer,Hedonometer,"Measuring the happiness (and sadness) of all kinds of texts.",https://hedonometer.org/timeseries/en_all/,,chris peter
+lemurs,LEMURS,"The Lived Experiences Measured Using Rings Study (LEMURS).",,,chris juni peter matthew-price
+socks,SOCKS,"The Science of Online Corpora, Knowledge, and Stories.",https://www.uvm.edu/socks/,,chris juni peter
+storywrangler,Storywrangler,"Track and compare Twitter n-grams from 2008 on in 100+ languages.",https://storywrangling.org/,,chris peter
+xenobots,Xenobots,"Artificial, intelligent, yet fully biological constructs.",https://xenobots.github.io/,,josh
+barracuda,Barracuda,"Biodiversity and Rural Response to Climate Change Using Data Analysis",https://biobarracuda.org/,,lhd meredith

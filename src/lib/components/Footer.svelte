@@ -9,9 +9,11 @@
 			<h3>Community</h3>
 			<ul>
 				<li><a href="{base}/who-we-are">Who We Are</a></li>
+				<li><a href="{base}/community/students">Students</a></li>
 				<li><a href="{base}/community/paper-shredder">Paper Shredder</a></li>
 				<li><a href="{base}/community/scraps">SCRaPS</a></li>
 				<li><a href="{base}/community/talkboctopus">Talkboctopus</a></li>
+				<li><a href="{base}/community/credits">Credits</a></li>
 			</ul>
 		</div>
 		
@@ -21,8 +23,10 @@
 				<li><a href="{base}/projects">Projects</a></li>
 				<li><a href="{base}/research/group">Groups</a></li>
 				<li><a href="{base}/funding">Funding</a></li>
-				<li><a href="{base}/research/verso">VERSO</a></li>
+				<li><a href="https://verso.w3.uvm.edu/" target="_blank" rel="noopener noreferrer">VERSO <ExternalLink size={14} /></a></li>
 				<li><a href="{base}/research/mass-mutual">Mass Mutual Center of Excellence</a></li>
+				<li><a href="{base}/research/tgir">TGIR Research</a></li>
+				<li><a href="https://www.nature.com/npjcomplex/" target="_blank" rel="noopener noreferrer">npj Complexity <ExternalLink size={14} /></a></li>
 			</ul>
 		</div>
 		
@@ -33,28 +37,26 @@
 				<li><a href="{base}/education/masters">Masters</a></li>
 				<li><a href="{base}/education/certificate">Certificate</a></li>
 				<li><a href="{base}/education/phd">PhD</a></li>
+				<li><a href="{base}/education/BilDS">BilDS</a></li>
 			</ul>
 		</div>
 		
 		<div class="footer-section">
 			<h3>Follow Us</h3>
-			<ul>
+			<ul class="social-icons">
 				<li>
-					<a href="https://www.youtube.com/@UVMcomplexity" target="_blank" rel="noreferrer">
-						<Youtube class="icon" size={16} />
-						<span>YouTube</span>
+					<a href="https://www.youtube.com/@UVMcomplexity" target="_blank" rel="noreferrer" aria-label="YouTube">
+						<Youtube class="icon" size={20} />
 					</a>
 				</li>
 				<li>
-					<a href="https://github.com/Vermont-complex-systems" target="_blank" rel="noreferrer">
-						<Github class="icon" size={16} />
-						<span>GitHub</span>
+					<a href="https://github.com/Vermont-complex-systems" target="_blank" rel="noreferrer" aria-label="GitHub">
+						<Github class="icon" size={20} />
 					</a>
 				</li>
 				<li>
-					<a href="https://linkedin.com/school/uvm-vcsc/" target="_blank" rel="noreferrer">
-						<Linkedin class="icon" size={16} />
-						<span>LinkedIn</span>
+					<a href="https://linkedin.com/school/uvm-vcsc/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+						<Linkedin class="icon" size={20} />
 					</a>
 				</li>
 			</ul>
@@ -62,7 +64,7 @@
 		
 		<div class="footer-logo">
 			<img src="{base}/UVM_Logo_Primary_Horiz_W_PunchOut.png" alt="UVM Logo" class="uvm-logo-img" />
-			<img src="{base}/Roboctopus_2024.png" alt="Roboctopus Logo" class="roboctopus-logo-img" />
+			<img src="{base}/vcsi-bumper-sticker-horizontal-arial-transparent.png" alt="Roboctopus Logo" class="roboctopus-logo-img" />
 			<a class="cc-footer-copy" href="https://www.uvm.edu/equal-opportunity/americans-disabilities-act-and-reasonable-accommodations" target="_blank" rel="noreferrer">
 				<span class="link-text">Accessibility <ExternalLink class="icon" size={14} /></span>
 			</a>
@@ -147,6 +149,15 @@
 
 :global(.dark) .footer-section a:hover {
 	color: var(--color-gray-100);
+}
+
+.social-icons {
+	display: flex;
+	gap: 1rem;
+}
+
+.social-icons a {
+	text-decoration: none;
 }
 
 .footer-logo {
