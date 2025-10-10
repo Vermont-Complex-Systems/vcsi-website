@@ -437,7 +437,7 @@
     }
 
     .program-content {
-        max-width: 1000px;
+        max-width: 80%;
     }
 
     section {

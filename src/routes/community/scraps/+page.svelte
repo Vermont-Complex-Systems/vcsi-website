@@ -22,7 +22,7 @@
             <h1>Student Complexity Research and Pizza Seminar (SCRaPS)</h1>
         </div>
         <div class="page-header-logo">
-            <img src="/common/assets/logos/SCRAPS_logo.png" alt="SCRAPS" class="page-header-image" />
+            <img src="/common/assets/logos/scraps.jpg" alt="SCRAPS" class="page-header-image" />
         </div>
     </div>
     
@@ -30,7 +30,8 @@
         <section>
             <div class="section-content">
                 <h2>Why SCRaPS</h2>
-                <p>SCRaPS is a student-organized weekly seminar group that provides undergraduates and graduates the opportunity to: (1) practice presenting research; (2) learn about each other's work; and (3) provide feedback to one another in a comfortable, low-pressure atmosphere. No professors allowed! We meet every Friday from 11:30am to 12:30pm at Innovation Hall. Lunch is provided by the Vermont Complex Systems Center, often pizza as our name suggests, along with the academic jet fuel known as coffee. All students are welcome to attend, and attendance does not obligate you to present. Come check it out!</p>
+                <p>SCRaPS is a student-organized weekly seminar group that provides undergraduates and graduates the opportunity to: (1) practice presenting research; (2) learn about each other's work; and (3) provide feedback to one another in a comfortable, low-pressure atmosphere. No professors allowed!</p> 
+                <p>See events page for time meeting. Lunch is provided by the Vermont Complex Systems Center, often pizza as our name suggests, along with the academic jet fuel known as coffee. All students are welcome to attend, and attendance does not obligate you to present. Come check it out!</p>
             </div>
         </section>
         
