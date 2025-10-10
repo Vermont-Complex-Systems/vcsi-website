@@ -52,22 +52,11 @@
             {#if project?.member}
                 <MemberCards memberIds={project.member} />
             {/if}
-
-            <p>In Spring 2023, we randomized students into four groups of 150:</p>
-            <ul>
-                <li><strong>Exercise</strong> - Physical activity interventions</li>
-                <li><strong>Nature Experiences</strong> - Outdoor and nature-based wellness activities</li>
-                <li><strong>Group Therapy</strong> - Structured therapeutic group sessions</li>
-                <li><strong>Self-Monitoring</strong> - Individual wellness tracking and reflection</li>
-            </ul>
-            
-            <p>Students were engaged in these wellness interventions and completed weekly surveys via a bespoke mobile application platform developed in Fall 2022.</p>
         </section>
         
         <section>
             <h2>Research Findings</h2>
             <p>Using over 10 million heart-rate and activity measurements over a 6-month period, we've begun to identify intriguing patterns in the survey and Oura ring data that advance our understanding of relationships between well-being, health, cardiac activity, and sleep.</p>
-            
             <p>College students are at high-risk for mental-health related challenges—determining which objective markers from a popular consumer wearable are associated with stress and anxiety provides opportunities to identify specifically who is at risk, and intervene at scale in real time.</p>
         </section>
         

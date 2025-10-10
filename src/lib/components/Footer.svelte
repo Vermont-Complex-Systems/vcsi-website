@@ -9,6 +9,7 @@
 			<h3>Community</h3>
 			<ul>
 				<li><a href="{base}/who-we-are">Who We Are</a></li>
+				<li><a href="{base}/community/students">Students</a></li>
 				<li><a href="{base}/community/paper-shredder">Paper Shredder</a></li>
 				<li><a href="{base}/community/scraps">SCRaPS</a></li>
 				<li><a href="{base}/community/talkboctopus">Talkboctopus</a></li>
@@ -63,7 +64,7 @@
 		
 		<div class="footer-logo">
 			<img src="{base}/UVM_Logo_Primary_Horiz_W_PunchOut.png" alt="UVM Logo" class="uvm-logo-img" />
-			<img src="{base}/Roboctopus_2024.png" alt="Roboctopus Logo" class="roboctopus-logo-img" />
+			<img src="{base}/vcsi-bumper-sticker-horizontal-arial-transparent.png" alt="Roboctopus Logo" class="roboctopus-logo-img" />
 			<a class="cc-footer-copy" href="https://www.uvm.edu/equal-opportunity/americans-disabilities-act-and-reasonable-accommodations" target="_blank" rel="noreferrer">
 				<span class="link-text">Accessibility <ExternalLink class="icon" size={14} /></span>
 			</a>

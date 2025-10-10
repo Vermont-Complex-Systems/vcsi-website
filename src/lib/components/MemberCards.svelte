@@ -1,11 +1,14 @@
 <script>
     import membersData from '$data/members.csv';
+    import studentData from '$data/students.csv';
 
     let { memberIds } = $props();
 
+    const allPeople = [...membersData, ...studentData];
+
     const members = memberIds
         .split(' ')
-        .map(id => membersData.find(m => m.id === id.trim()))
+        .map(id => allPeople.find(m => m.id === id.trim()))
         .filter(member => member !== undefined);
 </script>
 
