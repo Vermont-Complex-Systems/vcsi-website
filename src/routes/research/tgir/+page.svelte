@@ -2,14 +2,15 @@
     import Meta from "$lib/components/Meta.svelte";
     import { ExternalLink } from '@lucide/svelte';
     import MemberCards from "$lib/components/MemberCards.svelte";
-    import projectsData from '$data/projects.csv';
     import { getTgirPapers } from '../../data.remote.js';
     import PapersGrid from '$lib/components/PapersGrid.svelte';
     import TopicsChart from '$lib/components/TopicsChart.svelte';
     import Spinner from '$lib/components/Spinner.svelte';
     import CitationMetrics from '$lib/components/CitationMetrics.svelte';
 
-    const project = projectsData.find(p => p.id === 'tgir');
+    import miscData from '$data/misc.csv';
+
+    const entry = miscData.find(p => p.id === 'tgir');
 
     const preloadFont = [
         "/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
@@ -34,17 +35,14 @@
   {preloadFont}
 />
 
-
     <div class="content-wrapper">
         <div class="page-header">
             <div class="page-header-text">
                 <h1>Translational Global Infectious Diseases Research Center (TGIR)</h1>
-                <p class="intro">The TGIR develops outstanding junior faculty Research Project Leaders (RPLs), Pilot Project Leaders (PPLs), and Faculty Recruits via funding, mentorship, and access to Core research capabilities. These scientists bridge the gap between biological and quantitative research in the study of infectious disease.</p>
-                {#if project?.url}
-                    <a href={project.url} target="_blank" rel="noopener noreferrer" class="external-link">
-                        Visit the TGIR website <ExternalLink size={18} />
-                    </a>
-                {/if}
+                <p class="intro">The TGIR develops outstanding junior faculty Research Project Leader, Pilot Project Leaders, and Faculty Recruits via funding, mentorship, and access to Core research capabilities. These scientists bridge the gap between biological and quantitative research in the study of infectious disease.</p>
+                <a href={entry.url} target="_blank" rel="noopener noreferrer" class="external-link">
+                    Visit the TGIR website <ExternalLink size={18} />
+                </a>
             </div>
             <div class="page-header-logo">
                 <img src="/common/assets/logos/tgir.png" alt="TGIR" class="page-header-image" />
@@ -56,8 +54,8 @@
                 <h2>Overview</h2>
                 <p>The TGIR research cores are the Mathematical and Computational Predictive Modeling Core (MCP) and the Human Population Research Core (HPR).</p>
 
-                {#if project?.member}
-                    <MemberCards memberIds={project.member} />
+                {#if entry?.member}
+                    <MemberCards memberIds={entry.member} />
                 {/if}
             </section>
 

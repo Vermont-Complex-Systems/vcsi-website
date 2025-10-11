@@ -40,7 +40,7 @@
   // Replace the example events with your real data or a fetch call
   const bigEvents = [
     {
-      title: 'IC2S2 is coming to Burlington!',
+      title: 'IC²S² is coming to Burlington!',
       date: 'July 28-31, 2026',
       description: 'University of Vermont is hosting the International Conference on Computational Social Science (IC2S2) in 2026.',
       image: '/common/assets/events/green-mountains.png'

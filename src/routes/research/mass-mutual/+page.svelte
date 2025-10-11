@@ -38,6 +38,9 @@
             <img src="/common/assets/logos/mass-mutual.png" alt="The MassMutual Center of Excellence in Complex Systems and Data Science" class="logo-as-h1" />
             <p class="intro">Advancing a wide range of faculty and graduate Vermont student-driven research ranging from the social contagion of ideas to the future of work, exploring large language models in health care, incentivizing healthy behaviors, and eliminating bias in AI.</p>
         </div>
+        <div class="page-header-logo">
+                <img src="/common/assets/drawing/tardi01.png" alt="Tardigrade-drawing" class="page-header-image"/>
+        </div>
     </div>
 
     <div class="content">
@@ -48,7 +51,10 @@
         </section>
 
         <section>
-            <h2>Fellowship Opportunities</h2>
+            <div class="section-with-image">
+                <h2>Fellowship Opportunities</h2>
+                <img src="/common/assets/drawing/tardi05.png" alt="Tardigrade-flying" class="section-image" />
+            </div>
 
             <h3>Postdoctoral Fellowship</h3>
             <p>The MassMutual Center of Excellence <strong>Postdoctoral Fellowship</strong> at the University of Vermont's Complex Systems Center offers early-career scientists a unique experience to tackle open questions related to complex systems and data science that are of utmost importance in science, industry, and society. This postdoctoral fellowship provides a high level of intellectual freedom and the opportunity to work alongside leading academic researchers and industry partners.</p>
@@ -75,7 +81,10 @@
                 <li>Measurement methodologies for large scale social systems, covering such topics as macroeconomic events, mortality risk and social cohesion, among others.</li>
             </ul>
 
-            <h4>Eligibility Requirements</h4>
+            <div class="section-with-image">
+                <h4>Eligibility Requirements</h4>
+                <img src="/common/assets/drawing/tardi06.png" alt="Tardigrade-subscribing" class="section-image"/>
+            </div>
             <ul>
                 <li>For PhD Fellowship: a completed Master's Degree</li>
                 <li>For Master's Fellowship: a completed Bachelor's Degree</li>
@@ -120,10 +129,18 @@
         margin-left: var(--margin-left);
         margin-right: var(--margin-left);
     }
+
+    .section-image {
+        width: 200px;
+        height: auto;
+        object-fit: contain;
+        mix-blend-mode: multiply;
+        transform: translateX(-5rem);
+    }
     
     .logo-as-h1 {
-        max-width: 100%;
-        width: 100%;
+        max-width: 80%;
+        width: 80%;
         height: auto;
         max-height: 5rem;
         margin-bottom: 1rem;
@@ -164,16 +181,17 @@
 
     .intro {
         margin-bottom: 3rem;
-        max-width: 800px;
+        max-width: 80%;
         font-size: 1.1rem;
     }
 
     .content {
-        max-width: 800px;
+        max-width: 80%;
     }
 
     section {
         margin-bottom: 3rem;
+        max-width: 80%;
     }
 
     p {
@@ -238,29 +256,37 @@
             margin-right: var(--margin-left-mobile);
         }
 
-        p {
-            font-size: 1.2rem;
-        }
         
         .logo-as-h1 {
-            max-height: 4rem;
+            max-width: 100%;
             width: 100%;
+            height: auto;
+            max-height: 10rem;
         }
 
-        .intro {
-            max-width: 100%;
-            font-size: 1.4rem;
-        }
 
-        
-        .content {
-            max-width: 100%;
-        }
-        
         h2 {
             font-size: 1.5rem;
         }
+
+        .intro {
+            max-width: 100%;;
+            font-size: 1.4rem;
+        }
+
+        .content {
+            max-width: 100%;
+        }
+
+        section {
+            max-width: 100%;
+        }
         
+        section p {
+            font-size: 1.2rem;
+        }
+         
+        /* CCOE pubs header */
         .papers-wrapper {
             margin-left: var(--margin-left-mobile);
             margin-right: var(--margin-left-mobile);

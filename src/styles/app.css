@@ -152,6 +152,30 @@ body {
 }
 
 /* =============================================================================
+   BASE LINKS
+   ============================================================================= */
+
+a {
+  outline-color: transparent;
+}
+
+a:link {
+  color: #006aff;
+}
+
+a:visited {
+  color: #6b2e76;
+}
+
+a:focus {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+/* =============================================================================
    REUSABLE PAGE HEADER LAYOUT
    ============================================================================= */
 
@@ -237,7 +261,7 @@ body {
 
 .section-with-image {
     display: flex;
-    align-items: flex-start;
+    align-items: left;
     gap: 3rem;
     margin-bottom: 2rem;
 }
@@ -252,6 +276,7 @@ body {
     display: flex;
     align-items: flex-start;
     padding-top: 1rem;
+    padding-left: 5rem;
 }
 
 .section-drawing {
@@ -276,8 +301,8 @@ body {
     .section-with-image-left {
         flex-direction: column;
         gap: 0rem;
-        align-items: center;
-        text-align: center;
+        align-items: left;
+        text-align: left;
     }
     
     .section-content {
@@ -287,6 +312,7 @@ body {
     
     .section-image {
         padding-top: 0;
+        margin-left: 5rem;
         order: -1; /* Show image above content on mobile */
     }
     

@@ -102,28 +102,13 @@
     .page-header {
         margin-bottom: 3rem;
     }
-
-    h1 {
+    
+    h2 {
         margin-bottom: 1rem;
     }
 
-    h2 {
-        font-size: 1.8rem;
-        font-weight: 400;
-        font-family: var(--serif);
-        margin-bottom: 1.5rem;
-        margin-top: 3rem;
-    }
-
-    .intro {
-        font-size: 1.2rem;
-        line-height: 1.6;
-        font-family: var(--serif);
-        color: var(--color-fg);
-    }
-
     .content {
-        max-width: 1200px;
+        max-width: 100%;
     }
 
     section {

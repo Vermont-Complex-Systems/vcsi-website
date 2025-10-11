@@ -3,9 +3,10 @@
 import { readFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { csvParse } from 'd3-dsv';
 import { db } from '../src/lib/server/db/index.js';
 import { eq } from 'drizzle-orm';
-import { 
+import {
   openalex_authors,
   openalex_papers
 } from '../src/lib/server/db/schema.js';
@@ -13,36 +14,46 @@ import {
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const projectRoot = join(__dirname, '..');
 
-// Parse CSV file
-function parseCSV(csvContent) {
-  const lines = csvContent.trim().split('\n');
-  const headers = lines[0].split(',');
-  
-  return lines.slice(1).map(line => {
-    const values = line.split(',');
-    const row = {};
-    headers.forEach((header, index) => {
-      row[header] = values[index];
-    });
-    return row;
-  });
+
+// Rate limiter: ensures we don't exceed 10 requests per second
+const RATE_LIMIT_DELAY = 150; // 150ms = ~6.6 requests/second (safe margin under 10/sec)
+let lastRequestTime = 0;
+
+async function rateLimitedFetch(url, options = {}) {
+  const now = Date.now();
+  const timeSinceLastRequest = now - lastRequestTime;
+
+  if (timeSinceLastRequest < RATE_LIMIT_DELAY) {
+    const waitTime = RATE_LIMIT_DELAY - timeSinceLastRequest;
+    await new Promise(resolve => setTimeout(resolve, waitTime));
+  }
+
+  lastRequestTime = Date.now();
+  return fetch(url, options);
 }
 
 // Fetch author data from OpenAlex API
 async function fetchAuthorData(openAlexId) {
   console.log(`🌐 Fetching author: ${openAlexId}`);
-  
+  console.log(`   Full URL: https://api.openalex.org/authors/${openAlexId}`);
+
   try {
-    const response = await fetch(`https://api.openalex.org/authors/${openAlexId}`, {
+    const response = await rateLimitedFetch(`https://api.openalex.org/authors/${openAlexId}`, {
       headers: {
         'User-Agent': 'VCSI-Website/1.0 (https://vcsi.uvm.edu; mailto:jstonge1@uvm.edu)'
       }
     });
-    
+
+    if (response.status === 429) {
+      console.warn('⚠️  Rate limited! Waiting 2 seconds...');
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      return fetchAuthorData(openAlexId); // Retry
+    }
+
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
-    
+
     return await response.json();
   } catch (error) {
     console.error(`❌ Failed to fetch ${openAlexId}: ${error.message}`);
@@ -65,11 +76,17 @@ async function fetchAuthorPapers(openAlexId) {
     do {
       const url = `${baseUrl}&per_page=100&page=${page}`;
 
-      const response = await fetch(url, {
+      const response = await rateLimitedFetch(url, {
         headers: {
           'User-Agent': 'VCSI-Website/1.0 (https://vcsi.uvm.edu; mailto:jstonge1@uvm.edu)'
         }
       });
+
+      if (response.status === 429) {
+        console.warn('⚠️  Rate limited! Waiting 2 seconds...');
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        continue; // Retry this page
+      }
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -92,9 +109,6 @@ async function fetchAuthorPapers(openAlexId) {
       }
 
       page++;
-
-      // Add delay between requests to respect rate limits
-      await new Promise(resolve => setTimeout(resolve, 500));
 
       // Safety check - if we're getting too many pages, something might be wrong
       if (page > 50) {
@@ -165,7 +179,7 @@ async function populateOpenAlexDatabase() {
   // Read members CSV file
   const csvPath = join(projectRoot, 'src/data/members.csv');
   const csvContent = readFileSync(csvPath, 'utf8');
-  const memberRows = parseCSV(csvContent);
+  const memberRows = csvParse(csvContent);
 
   // Filter members with OpenAlex IDs
   const membersWithOpenAlex = memberRows.filter(member => member.openAlexId && member.openAlexId.trim());
@@ -174,6 +188,7 @@ async function populateOpenAlexDatabase() {
   for (const member of membersWithOpenAlex) {
     const openAlexId = member.openAlexId.trim();
     console.log(`\n👤 Processing: ${member.name} (${openAlexId})`);
+    console.log(`   Status: ${member.status}, ID from CSV: "${member.openAlexId}"`);
     
     try {
       // Check if author already exists

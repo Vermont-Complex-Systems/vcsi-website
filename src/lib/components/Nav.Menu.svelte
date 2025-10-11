@@ -88,11 +88,20 @@
 						<ul class="sub-menu">
 							<li><a href="{base}/projects">Projects</a></li>
 							<li><a href="{base}/research/group">Groups</a></li>
+							<li><a href="{base}/explore">Explore</a></li>
 							<li><a href="{base}/funding">Funding</a></li>
-							<li><a href="https://verso.w3.uvm.edu/" target="_blank" rel="noopener noreferrer">VERSO</a></li>
+							<li>
+								<a href="https://verso.w3.uvm.edu/" target="_blank" rel="noopener noreferrer">
+									VERSO
+									<ExternalLink size={14}/>
+								</a></li>
 							<li><a href="{base}/research/mass-mutual">Mass Mutual Center of Excellence</a></li>
 							<li><a href="{base}/research/tgir">TGIR Research</a></li>
-							<li><a href="https://www.nature.com/npjcomplex/" target="_blank" rel="noopener noreferrer">npj Complexity</a></li>
+							<li>
+								<a href="https://www.nature.com/npjcomplex/" target="_blank" rel="noopener noreferrer">
+									npj Complexity
+									<ExternalLink size={14}/>
+								</a></li>
 						</ul>
 					{/if}
 				</li>

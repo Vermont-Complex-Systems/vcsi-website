@@ -222,7 +222,7 @@
         border-radius: var(--border-radius);
         padding: 2rem;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
-        height: 440px;
+        height: 420px;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -454,8 +454,13 @@
         }
 
         .learning-header-image {
-            width: 150px;
-            margin-left: 0;
+            width: 25rem;
+            height: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+            flex-shrink: 0;
+            overflow: hidden;
+            transform: rotate(4deg) translateX(-1rem) translateY(2rem);
         }
         
         .learning-grid {
@@ -465,6 +470,11 @@
         
         .learning-card {
             padding: 1.5rem;
+            height: 360px;
+        }
+       
+        .learning-card p {
+            font-size: 1.3rem;
         }
 
         .learning-card.certificate img {
@@ -473,8 +483,13 @@
 
         .tentacle-image {
             right: var(--margin-left-mobile);
-            width: 120px;
-            bottom: -1rem;
+            position: absolute;
+            width: 170px;
+            height: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+            transform: translateY(-95%);
+            z-index: 1;
         }
     }
 

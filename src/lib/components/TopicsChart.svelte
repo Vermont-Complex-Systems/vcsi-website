@@ -1,7 +1,7 @@
 <script>
   import { LayerCake, Svg } from 'layercake';
   import * as d3 from "d3";
-  import { innerWidth } from 'svelte/reactivity/window';
+  import { isMobile } from '$lib/state.svelte'
   import ForceLayout from "../layerCake/CirclePackForce.svelte";
   
   let { papers = [], selectedTopic = null, onTopicClick } = $props();
@@ -18,21 +18,20 @@
     ),
     ([topic, count]) => ({ topic, count })
   );
-
-  let clientWidth = $state(innerWidth.current);
-  let isMobile = $derived(clientWidth < 768);
-  let mobileForceStrength = $derived(isMobile ? 0.02 : 0.0005);
-  let mobileXStrength = $derived(isMobile ? 0.02 : 0.0001);
   
-  const baseHeight = $derived(isMobile ? 250 : 200);
-  const heightPerTopic = $derived(isMobile ? 15 : 10);
-  const maxHeight = $derived(isMobile ? 600 : 400);
+  let mobileForceStrength = $derived(isMobile() ? 0.02 : 0.0005);
+  let mobileXStrength = $derived(isMobile() ? 0.1 : 0.0001);
+  let mobileYStrength = $derived(isMobile() ? 0.02 : (counts.length > 30 ? 0.05 : 0.01));
+
+  const baseHeight = $derived(isMobile() ? 250 : 200);
+  const heightPerTopic = $derived(isMobile() ? 15 : 10);
+  const maxHeight = $derived(isMobile() ? (counts.length > 200 ? 800 : 600) : 400);
   const dynamicHeight = $derived(Math.min(baseHeight + (counts.length * heightPerTopic), maxHeight));
   
   const dynamicMargin = $derived(counts.length > 100 ? '3rem' : '0.5rem');
 </script>
 
-<div class="chart-container" style="height: {dynamicHeight}px; margin-bottom: {dynamicMargin};" bind:clientWidth>
+<div class="chart-container" style="height: {dynamicHeight}px; margin-bottom: {dynamicMargin};">
   <LayerCake
     data={counts}
     x={'topic'}
@@ -49,11 +48,14 @@
     })}
   >
     <Svg>
-      <ForceLayout 
-        manyBodyStrength={mobileForceStrength} 
-        xStrength={mobileXStrength} 
-        lineBreak={isMobile ? 8 : 10} 
-        textThresh={isMobile ? 25 : 20}
+      <ForceLayout
+        manyBodyStrength={mobileForceStrength}
+        xStrength={mobileXStrength}
+        yStrength={mobileYStrength}
+        yOffset={50}
+        lineBreak={isMobile() ? 8 : 10}
+        textThresh={isMobile() ? 25 : 20}
+        vertical={isMobile()}
         {onTopicClick}
         {selectedTopic}
       />

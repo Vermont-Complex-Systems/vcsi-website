@@ -54,13 +54,11 @@
 </section>
 
 {#if author.papers && author.papers.length > 0}
-
-<section id="research-metrics">
-    <TopicsChart {papers} {selectedTopic} onTopicClick={handleTopicClick} />
-    <PapersGrid {papers} bind:sortBy bind:showAll {selectedTopic} />
-
-    <CitationMetrics {papers} {openAlex} />
-  </section>
+  <section id="research-metrics">
+      <TopicsChart {papers} {selectedTopic} onTopicClick={handleTopicClick} />
+      <PapersGrid {papers} bind:sortBy bind:showAll {selectedTopic} />
+      <CitationMetrics {papers} {openAlex} />
+    </section>
 {/if}
 
 <style>
@@ -87,6 +85,65 @@
   @media (max-width: 768px) {
     #research-metrics {
       margin: 2rem var(--margin-left-mobile);
+    }
+  }
+
+  #all-authors {
+    margin: 3rem var(--margin-left);
+  }
+
+  #all-authors h2 {
+    font-size: 2rem;
+    font-family: var(--serif);
+    margin-bottom: 2rem;
+  }
+
+  .authors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .author-card {
+    padding: 1.5rem;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--border-radius);
+    background: var(--color-bg);
+    transition: transform 200ms ease, box-shadow 200ms ease;
+  }
+
+  .author-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .author-card h3 {
+    font-size: 1.2rem;
+    font-family: var(--serif);
+    margin-bottom: 0.5rem;
+    color: var(--color-fg);
+  }
+
+  .author-meta {
+    font-size: 0.9rem;
+    color: var(--color-gray-600);
+    margin-bottom: 0.5rem;
+  }
+
+  .author-institution {
+    font-size: 0.85rem;
+    color: var(--color-gray-500);
+    font-style: italic;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    #all-authors {
+      margin: 3rem var(--margin-left-mobile);
+    }
+
+    .authors-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>

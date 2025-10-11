@@ -4,7 +4,7 @@
  -->
 <script>
   import { getContext } from 'svelte';
-  import { forceSimulation, forceX, forceManyBody, forceCollide, forceCenter } from 'd3-force';
+  import { forceSimulation, forceX, forceY, forceManyBody, forceCollide, forceCenter } from 'd3-force';
 
   const { data, width, height, xScale, xGet, rGet, zGet } = getContext('LayerCake');
 
@@ -12,6 +12,9 @@
    * @typedef {Object} Props
    * @property {number} [manyBodyStrength=5] - The value passed into the `.strength` method on `forceManyBody`, which is used as the `'charge'` property on the simulation. See [the documentation](https://github.com/d3/d3-force#manyBody_strength) for more.
    * @property {number} [xStrength=0.1] - The value passed into the `.strength` method on `forceX`, which is used as the `'x'` property on the simulation. See [the documentation](https://github.com/d3/d3-force#x_strength) for more.
+   * @property {number} [yStrength=0.1] - The value passed into the `.strength` method on `forceY`, which is used as the `'y'` property on the simulation. See [the documentation](https://github.com/d3/d3-force#y_strength) for more.
+   * @property {number} [yOffset=50] - Vertical offset in pixels to shift the visualization up or down from center.
+   * @property {boolean} [vertical=false] - If true, align dots vertically (y-axis spread) instead of horizontally (x-axis spread).
    * @property {string|undefined} [nodeColor] - Set a color manually otherwise it will default to the `zScale`.
    * @property {string} [nodeStroke='#fff'] - The circle's stroke color.
    * @property {number} [nodeStrokeWidth=1] - The circle's stroke width, in pixels.
@@ -23,6 +26,9 @@
   let {
     manyBodyStrength = 5,
     xStrength = 0.1,
+    yStrength = 0.1,
+    yOffset = 50,
+    vertical = false,
     nodeColor,
     nodeStroke = '#fff',
     nodeStrokeWidth = 1,
@@ -50,25 +56,61 @@
    * When variables change, set forces and restart the simulation
    */
   $effect(() => {
-    simulation
-      .force(
-        'x',
-        forceX()
-          .x(/** @param {any} d */ d => {
-            return $width / 2;
+    if (vertical) {
+      // Vertical layout: spread on y-axis, anchor to x-axis center
+      simulation
+        .force(
+          'x',
+          forceX()
+            .x($width / 2)
+            .strength(xStrength)
+        )
+        .force(
+          'y',
+          forceY()
+            .y(/** @param {any} d */ d => {
+              return $xGet(d); // Use x-scale for y positioning
+            })
+            .strength(yStrength)
+        )
+        .force('center', forceCenter($width / 2, $height / 2))
+        .force('charge', forceManyBody().strength(manyBodyStrength))
+        .force(
+          'collision',
+          forceCollide().radius(/** @param {any} d */ d => {
+            return $rGet(d) + nodeStrokeWidth / 2;
           })
-          .strength(xStrength)
-      )
-      .force('center', forceCenter($width / 2, $height / 2 + 15))
-      .force('charge', forceManyBody().strength(manyBodyStrength))
-      .force(
-        'collision',
-        forceCollide().radius(/** @param {any} d */ d => {
-          return $rGet(d) + nodeStrokeWidth / 2; // Divide this by two because an svg stroke is drawn halfway out
-        })
-      )
-      .alpha(1)
-      .restart();
+        )
+        .alpha(1)
+        .restart();
+    } else {
+      // Horizontal layout: spread on x-axis, anchor to y-axis center
+      simulation
+        .force(
+          'x',
+          forceX()
+            .x(/** @param {any} d */ d => {
+              return $xGet(d);
+            })
+            .strength(xStrength)
+        )
+        .force(
+          'y',
+          forceY()
+            .y($height / 2 - yOffset)
+            .strength(yStrength)
+        )
+        .force('center', forceCenter($width / 2, $height / 2 - yOffset))
+        .force('charge', forceManyBody().strength(manyBodyStrength))
+        .force(
+          'collision',
+          forceCollide().radius(/** @param {any} d */ d => {
+            return $rGet(d) + nodeStrokeWidth / 2;
+          })
+        )
+        .alpha(1)
+        .restart();
+    }
   });
 </script>
 

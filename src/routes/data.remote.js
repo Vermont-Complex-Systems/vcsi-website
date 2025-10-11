@@ -53,6 +53,42 @@ function safeParse(value) {
     }
 }
 
+export const getAllAuthors = prerender(async () => {
+    const allAuthors = await db.select()
+        .from(openalex_authors)
+        .orderBy(openalex_authors.cited_by_count);
+
+    return allAuthors;
+});
+
+export const getAllAuthorsWithPapers = prerender(async () => {
+    // Get all authors
+    const allAuthors = await db.select()
+        .from(openalex_authors);
+
+    // Get all papers
+    const allPapers = await db.select()
+        .from(openalex_papers);
+
+    // Create an aggregated "author" object for the explore page
+    return {
+        name: "VCSI",
+        bio: " is an interdisplinary research institute working on complex systems problems of all kinds.",
+        openAlex: {
+            works_count: allAuthors.reduce((sum, a) => sum + (a.works_count || 0), 0),
+            cited_by_count: allAuthors.reduce((sum, a) => sum + (a.cited_by_count || 0), 0),
+            h_index: Math.max(...allAuthors.map(a => a.h_index || 0))
+        },
+        papers: allPapers.map(paper => ({
+            ...paper,
+            is_open_access: Boolean(paper.is_open_access),
+            concepts: safeParse(paper.concepts) || [],
+            primary_location: safeParse(paper.primary_location) || [],
+            topics: safeParse(paper.topics) || []
+        }))
+    };
+});
+
 export const getMemberWithOpenAlex = prerender(
     v.string(),
     async (slug) => {
@@ -60,19 +96,32 @@ export const getMemberWithOpenAlex = prerender(
         if (member.length === 0) {
             return null
         }
-        
+
         const memberData = member[0];
-        
+
+        // Special case: if slug is 'vcsi', return all authors from database
+        if (slug === 'vcsi') {
+            const allAuthors = await db.select()
+                .from(openalex_authors);
+
+            return {
+                ...memberData,
+                openAlex: null,
+                papers: [],
+                allAuthors: allAuthors
+            };
+        }
+
         if (!memberData.openAlexId) {
             return memberData
         }
-        
+
         // Get author data from database
         const authorData = await db.select()
             .from(openalex_authors)
             .where(eq(openalex_authors.openalex_id, memberData.openAlexId))
             .limit(1);
-        
+
         // Get papers from database
         const papers = await db.select()
             .from(openalex_papers)

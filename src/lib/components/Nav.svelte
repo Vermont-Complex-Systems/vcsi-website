@@ -126,6 +126,7 @@
             <a href="{base}/research/mass-mutual" class="dropdown-item" onclick={() => closeDropdowns()}>Mass Mutual Center of Excellence</a>
           </div>
           <div class="header-section-research">
+            <a href="{base}/explore" class="dropdown-item" onclick={() => closeDropdowns()}>Explore</a>
             <a href="{base}/research/tgir" class="dropdown-item" onclick={() => closeDropdowns()}>TGIR Research</a>
             <a
               href="https://www.nature.com/npjcomplex/"
