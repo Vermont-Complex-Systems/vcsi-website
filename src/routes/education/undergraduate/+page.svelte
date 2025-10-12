@@ -1,5 +1,6 @@
 <script>
     import Meta from "$lib/components/Meta.svelte";
+    import { base } from '$app/paths';
     import { ArrowRight } from '@lucide/svelte';
 
     const preloadFont = [
@@ -13,7 +14,7 @@
 
 <Meta 
   title="Undergraduate Degree in Data Science"
-  description="BS in Data Science - Joint program between Mathematics & Statistics and Computer Science at UVM."
+  description="BS in Data Science - Joint progrxam between Mathematics & Statistics and Computer Science at UVM."
   {preloadFont}
 />
 
@@ -48,9 +49,9 @@
                         </div>
                     </a>
 
-                    <a href="https://www.uvm.edu/cems/accelerated_masters_programs" target="_blank" rel="noopener noreferrer" class="learn-more-card fox-card">
+                    <a href="{base}/education/masters" class="learn-more-card fox-card">
                         <img src="/common/assets/drawing/fox01.png" alt="Fox" class="card-image fox-image" style="transform: scaleX(-1)" />
-                        <div class="card-content" style="transform: translateY(-30px);">
+                        <div class="card-content" style="transform: translateY(-10px);">
                             <h3>Accelerated Masters Programs</h3>
                             <p>Interested in the 4+1 accelerated masters pathway? Learn more about UVM's Accelerated Masters Programs.</p>
                             <ArrowRight class="external-arrow" size={24} />
@@ -88,7 +89,6 @@
     }
     
     p {
-        font-size: 1rem;
         line-height: 1.6;
         font-family: var(--serif);
         color: var(--color-fg);
@@ -110,7 +110,7 @@
         text-decoration: none;
         color: inherit;
         position: relative;
-        height: 23rem;
+        height: 25rem;
         background: #fafafa;
         border: 2px solid #4a4a4a;
         border-radius: var(--border-radius);
@@ -136,9 +136,9 @@
     }
 
     .fox-image {
-        width: 300px;
+        width: 250px;
         height: auto;
-        transform: scaleX(-1) translateY(20%);
+        transform: scaleX(-1) translateY(30%);
     }
 
     .learn-more-card h3 {
@@ -151,7 +151,6 @@
     }
 
     .learn-more-card p {
-        font-size: 1rem;
         line-height: 1.5;
         margin-bottom: 0;
         color: var(--color-gray-700);
@@ -188,9 +187,7 @@
         .content-wrapper {
             margin-left: var(--margin-left-mobile);
             margin-right: var(--margin-left-mobile);
-        }
-        
-        
+        }        
         
         h2 {
             font-size: 1.5rem;
@@ -203,11 +200,11 @@
 
         .learn-more-card {
             height: auto;
-            min-height: 280px;
+            height: 27rem;
         }
 
         .card-image {
-            width: 100px;
+            width: 200px;
         }
     }
 </style>

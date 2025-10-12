@@ -125,9 +125,14 @@
 {/await}
 
 <style>
-    .content-wrapper {
+    .content-wrapper,
+    .papers-wrapper {
         margin-left: var(--margin-left);
         margin-right: var(--margin-left);
+    }
+
+    .papers-wrapper {
+        margin-top: 2rem;
     }
 
     .section-image {
@@ -137,22 +142,14 @@
         mix-blend-mode: multiply;
         transform: translateX(-5rem);
     }
-    
+
     .logo-as-h1 {
         max-width: 80%;
-        width: 80%;
-        height: auto;
         max-height: 5rem;
         margin-bottom: 1rem;
         object-fit: contain;
-        object-position: left;
-        display: block;
-        margin-left: 0;
-        margin-right: auto;
-        box-sizing: border-box;
     }
-    
-    
+
     h2 {
         font-size: 1.8rem;
         font-weight: 400;
@@ -167,7 +164,6 @@
         font-family: var(--serif);
         margin-bottom: 1rem;
         margin-top: 2.5rem;
-        color: var(--color-fg);
     }
 
     h4 {
@@ -176,44 +172,26 @@
         font-family: var(--sans);
         margin-bottom: 0.75rem;
         margin-top: 1.5rem;
-        color: var(--color-fg);
     }
 
-    .intro {
+    .page-header-text .intro {
         margin-bottom: 3rem;
-        max-width: 80%;
         font-size: 1.1rem;
     }
 
-    .content {
+    .content,
+    section {
         max-width: 80%;
     }
 
     section {
         margin-bottom: 3rem;
-        max-width: 80%;
     }
 
     p {
-        font-size: 1rem;
         line-height: 1.6;
         font-family: var(--serif);
-        color: var(--color-fg);
         margin-bottom: 1rem;
-    }
-
-    ul {
-        font-family: var(--serif);
-        color: var(--color-fg);
-        padding-left: 1.5rem;
-        list-style-type: disc;
-        margin-bottom: 1.5rem;
-        margin-top: 0.5rem;
-    }
-
-    li {
-        margin-bottom: 0.5rem;
-        line-height: 1.6;
     }
 
     a {
@@ -224,72 +202,52 @@
     a:hover {
         color: var(--color-accent-hover);
     }
-    
-    .papers-wrapper {
-        margin-left: var(--margin-left);
-        margin-right: var(--margin-left);
-        margin-top: 2rem;
-    }
-    
+
     #research-metrics {
         padding: 1.5rem 0;
         background: var(--background-light);
         border-radius: 8px;
     }
-    
+
     #research-metrics h2 {
-        font-size: 1.8rem;
-        font-weight: 400;
-        font-family: var(--serif);
-        margin-bottom: 1rem;
         margin-top: 0;
     }
-    
+
     #research-metrics p {
         margin-bottom: 1.5rem;
     }
-    
-    /* Mobile adjustments */
+
     @media (max-width: 768px) {
-        .content-wrapper {
+        .content-wrapper,
+        .papers-wrapper {
             margin-left: var(--margin-left-mobile);
             margin-right: var(--margin-left-mobile);
         }
 
-        
-        .logo-as-h1 {
-            max-width: 100%;
-            width: 100%;
-            height: auto;
-            max-height: 10rem;
+        .page-header-logo {
+            align-self: center;
         }
 
+        .section-image {
+            transform: none;
+        }
+
+        .logo-as-h1 {
+            max-width: 100%;
+            max-height: 15rem;
+        }
 
         h2 {
             font-size: 1.5rem;
         }
 
-        .intro {
-            max-width: 100%;;
+        .page-header-text .intro {
             font-size: 1.4rem;
         }
 
-        .content {
-            max-width: 100%;
-        }
-
+        .content,
         section {
             max-width: 100%;
-        }
-        
-        section p {
-            font-size: 1.2rem;
-        }
-         
-        /* CCOE pubs header */
-        .papers-wrapper {
-            margin-left: var(--margin-left-mobile);
-            margin-right: var(--margin-left-mobile);
         }
     }
 </style>

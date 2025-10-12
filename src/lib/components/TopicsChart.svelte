@@ -22,6 +22,7 @@
   let mobileForceStrength = $derived(isMobile() ? 0.02 : 0.0005);
   let mobileXStrength = $derived(isMobile() ? 0.1 : 0.0001);
   let mobileYStrength = $derived(isMobile() ? 0.02 : (counts.length > 30 ? 0.05 : 0.01));
+  let yOffset = $derived(isMobile() ? 70 : 50);
 
   const baseHeight = $derived(isMobile() ? 250 : 200);
   const heightPerTopic = $derived(isMobile() ? 15 : 10);
@@ -29,6 +30,7 @@
   const dynamicHeight = $derived(Math.min(baseHeight + (counts.length * heightPerTopic), maxHeight));
   
   const dynamicMargin = $derived(counts.length > 100 ? '3rem' : '0.5rem');
+
 </script>
 
 <div class="chart-container" style="height: {dynamicHeight}px; margin-bottom: {dynamicMargin};">
@@ -52,7 +54,7 @@
         manyBodyStrength={mobileForceStrength}
         xStrength={mobileXStrength}
         yStrength={mobileYStrength}
-        yOffset={50}
+        {yOffset}
         lineBreak={isMobile() ? 8 : 10}
         textThresh={isMobile() ? 25 : 20}
         vertical={isMobile()}

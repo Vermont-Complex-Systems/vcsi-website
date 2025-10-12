@@ -146,6 +146,10 @@
             gap: 0;
         }
 
+        .intro {
+            max-width: 90%;
+        }
+
         .page-header-text {
             display: contents;
         }
@@ -157,6 +161,7 @@
 
         .page-header-logo {
             order: 2;
+            align-self: flex-start;
         }
 
         .page-header-text .intro {

@@ -31,13 +31,13 @@
         <section class="section-with-image-left">
             <div class="section-content">
                 <h2>Mission</h2>
-                <p>Every two (or three or four) weeks, and in the grand tradition of courageous academics everywhere, we review the painstaking, meticulous work of others not present to defend themselves. Pure of motivation, we endeavor to instantly and yet casually see where the paper obviously goes wrong and how work we did 15 years ago contains the entire paper’s thesis as a footnote on page 17. Finally, based on a loudness of ritualistic chant measure, we decide whether the paper lives to be read again, or dies by shredding, cited nevermore.</p>
+                <p>Every two (or three or four) weeks, and in the grand tradition of courageous academics everywhere, we review the painstaking, meticulous work of others not present to defend themselves. Pure of motivation, we endeavor to instantly and yet casually see where the paper obviously goes wrong and how work we did 15 years ago contains the entire paper's thesis as a footnote on page 17. Finally, based on a loudness of ritualistic chant measure, we decide whether the paper lives to be read again, or dies by shredding, cited nevermore.</p>
             </div>
             <div class="section-image">
                 <img src="/common/assets/drawing/pages_flying.png" alt="Pages flying illustration" class="section-drawing"/>
-        </div>
+            </div>
         </section>
-        
+
     </div>
 </div>
 
@@ -47,37 +47,13 @@
         margin-right: var(--margin-left);
     }
     
-    h2 {
-        font-size: 1.8rem;
-        font-weight: 400;
-        font-family: var(--serif);
-        margin-bottom: 1rem;
-        margin-top: 2.5rem;
-    }
-    
-    .intro {
-        margin-bottom: 3rem;
-    }
-
-    p {
-        font-size: 1rem;
-        line-height: 1.6;
-        font-family: var(--serif);
-        color: var(--color-fg);
-    }
-
     /* Mobile adjustments */
     @media (max-width: 768px) {
         .content-wrapper {
             margin-left: var(--margin-left-mobile);
             margin-right: var(--margin-left-mobile);
         }
-        
-        
-        h2 {
-            font-size: 1.5rem;
-        }
-        
+
         .intro {
             margin-bottom: 0;
         }

@@ -5,45 +5,11 @@
 
 <footer class="footer">
 	<div class="footer-content">
-		<div class="footer-section">
-			<h3>Community</h3>
-			<ul>
-				<li><a href="{base}/who-we-are">Who We Are</a></li>
-				<li><a href="{base}/community/students">Students</a></li>
-				<li><a href="{base}/community/paper-shredder">Paper Shredder</a></li>
-				<li><a href="{base}/community/scraps">SCRaPS</a></li>
-				<li><a href="{base}/community/talkboctopus">Talkboctopus</a></li>
-				<li><a href="{base}/community/credits">Credits</a></li>
-			</ul>
-		</div>
-		
-		<div class="footer-section">
-			<h3>Research</h3>
-			<ul>
-				<li><a href="{base}/projects">Projects</a></li>
-				<li><a href="{base}/research/group">Groups</a></li>
-				<li><a href="{base}/explore">Explore</a></li>
-				<li><a href="{base}/funding">Funding</a></li>
-				<li><a href="https://verso.w3.uvm.edu/" target="_blank" rel="noopener noreferrer">VERSO <ExternalLink size={14} /></a></li>
-				<li><a href="{base}/research/mass-mutual">Mass Mutual Center of Excellence</a></li>
-				<li><a href="{base}/research/tgir">TGIR Research</a></li>
-				<li><a href="https://www.nature.com/npjcomplex/" target="_blank" rel="noopener noreferrer">npj Complexity <ExternalLink size={14} /></a></li>
-			</ul>
-		</div>
-		
-		<div class="footer-section">
-			<h3>Education</h3>
-			<ul>
-				<li><a href="{base}/education/undergraduate">Undergraduate</a></li>
-				<li><a href="{base}/education/masters">Masters</a></li>
-				<li><a href="{base}/education/certificate">Certificate</a></li>
-				<li><a href="{base}/education/phd">PhD</a></li>
-				<li><a href="{base}/education/BilDS">BilDS</a></li>
-			</ul>
-		</div>
-		
-		<div class="footer-section">
-			<h3>Follow Us</h3>
+		<div class="footer-logo">
+			<div class="logo-row">
+				<img src="{base}/UVM_Logo_Primary_Horiz_W_PunchOut.png" alt="UVM Logo" class="uvm-logo-img" />
+				<img src="{base}/bumper-sticker2-white-transparent.png" alt="Roboctopus Logo" class="roboctopus-logo-img" />
+			</div>
 			<ul class="social-icons">
 				<li>
 					<a href="https://www.youtube.com/@UVMcomplexity" target="_blank" rel="noreferrer" aria-label="YouTube">
@@ -62,15 +28,50 @@
 				</li>
 			</ul>
 		</div>
-		
-		<div class="footer-logo">
-			<img src="{base}/UVM_Logo_Primary_Horiz_W_PunchOut.png" alt="UVM Logo" class="uvm-logo-img" />
-			<img src="{base}/bumper-sticker2-white-transparent.png" alt="Roboctopus Logo" class="roboctopus-logo-img" />
+
+		<div class="footer-section">
+			<h3>Community</h3>
+			<ul>
+				<li><a href="{base}/who-we-are">Who We Are</a></li>
+				<li><a href="{base}/community/students">Students</a></li>
+				<li><a href="{base}/community/paper-shredder">Paper Shredder</a></li>
+				<li><a href="{base}/community/scraps">SCRaPS</a></li>
+				<li><a href="{base}/community/talkboctopus">Talkboctopus</a></li>
+				<li><a href="{base}/community/credits">Credits</a></li>
+			</ul>
+		</div>
+
+		<div class="footer-section">
+			<h3>Research</h3>
+			<ul>
+				<li><a href="{base}/projects">Projects</a></li>
+				<li><a href="{base}/research/group">Groups</a></li>
+				<li><a href="{base}/explore">Explore</a></li>
+				<li><a href="{base}/funding">Funding</a></li>
+				<li><a href="https://verso.w3.uvm.edu/" target="_blank" rel="noopener noreferrer">VERSO <ExternalLink size={14} /></a></li>
+				<li><a href="{base}/research/mass-mutual">Mass Mutual Center of Excellence</a></li>
+				<li><a href="{base}/research/tgir">TGIR Research</a></li>
+				<li><a href="https://www.nature.com/npjcomplex/" target="_blank" rel="noopener noreferrer">npj Complexity <ExternalLink size={14} /></a></li>
+			</ul>
+		</div>
+
+		<div class="footer-section">
+			<h3>Education</h3>
+			<ul>
+				<li><a href="{base}/education/undergraduate">Undergraduate</a></li>
+				<li><a href="{base}/education/masters">Masters</a></li>
+				<li><a href="{base}/education/certificate">Certificate</a></li>
+				<li><a href="{base}/education/phd">PhD</a></li>
+				<li><a href="{base}/education/BilDS">BilDS</a></li>
+			</ul>
+		</div>
+
+		<div class="footer-bottom">
 			<a class="cc-footer-copy" href="https://www.uvm.edu/equal-opportunity/americans-disabilities-act-and-reasonable-accommodations" target="_blank" rel="noreferrer">
 				<span class="link-text">Accessibility <ExternalLink class="icon" size={14} /></span>
 			</a>
 			<a class="cc-footer-copy" href="https://www.uvm.edu/compliance/website-privacy-policy/terms-use" target="_blank" rel="noreferrer">
-				<span class="privacy-text">Privacy/<br>Terms of Use <ExternalLink class="icon" size={14} /></span>
+				<span class="privacy-text">Privacy/Terms of Use <ExternalLink class="icon" size={14} /></span>
 			</a>
 			<div class="cc-footer-copy">© 2025, Vermont Complex Systems Institute at UVM</div>
 		</div>
@@ -93,15 +94,49 @@
 }
 
 .footer-content {
-	display: flex;
-	justify-content: space-between;
-	align-items: flex-start;
-	gap: 1rem;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 2rem;
 	padding: 0 var(--margin-left) 0 var(--margin-left);
+	align-items: start;
 }
 
 .footer-section {
 	flex: 1;
+}
+
+.footer-logo {
+	grid-column: 1;
+}
+
+.footer-section:nth-child(2) {
+	grid-column: 2;
+}
+
+.footer-section:nth-child(3) {
+	grid-column: 3;
+}
+
+.footer-section:nth-child(4) {
+	grid-column: 4;
+}
+
+.footer-bottom {
+	grid-column: 1 / -1;
+	display: flex;
+	gap: 1.5rem;
+	align-items: center;
+	padding-top: 1.5rem;
+	margin-top: 1rem;
+	border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+:global(.dark) .footer-bottom {
+	border-top-color: var(--color-gray-700);
+}
+
+.footer-bottom .cc-footer-copy:last-child {
+	margin-left: auto;
 }
 
 .footer-section h3 {
@@ -155,6 +190,9 @@
 .social-icons {
 	display: flex;
 	gap: 1rem;
+	list-style: none;
+	padding: 0;
+	margin: 0;
 }
 
 .social-icons a {
@@ -189,7 +227,7 @@
 	width: auto;
 	max-width: 100%;
 	height: auto;
-	max-height: 3rem;
+	max-height: 4rem;
 	margin-bottom: 0.5rem;
 	border-radius: var(--border-radius);
 	transition: transform var(--transition-medium);
@@ -263,31 +301,69 @@
 	}
 
 	.roboctopus-logo-img {
-		max-height: 1.7rem;
+		max-height: 2.5rem;
 	}
 
 	.footer-content {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	grid-template-rows: auto auto;
-	gap: 1.5rem 1rem;
-	padding: 0 var(--margin-left-mobile);
-}
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		grid-template-rows: auto auto auto auto;
+		gap: 1.5rem 1rem;
+		padding: 0 var(--margin-left-mobile);
+	}
 
-/* Explicit placement: 4 sections */
-.footer-section:nth-child(1) { grid-column: 1; grid-row: 1; } /* Community */
-.footer-section:nth-child(2) { grid-column: 2; grid-row: 1; } /* Research */
-.footer-section:nth-child(3) { grid-column: 1; grid-row: 2; } /* Education */
-.footer-section:nth-child(4) { grid-column: 2; grid-row: 2; } /* Follow Us */
+	/* Logo + social icons in first row, spanning both columns */
+	.footer-logo {
+		grid-column: 1 / 3;
+		grid-row: 1;
+		max-width: 100%;
+		min-width: 0;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.75rem;
+	}
 
-/* Logo pinned top-right, spans both rows */
-.footer-logo {
-	grid-column: 3;
-	grid-row: 1 / 3;
-	max-width: 6.5rem;
-	min-width: 0;
-}
+	.logo-row {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		flex-wrap: wrap;
+		width: 100%;
+	}
 
+	.footer-logo .uvm-logo-img,
+	.footer-logo .roboctopus-logo-img {
+		max-width: 40%;
+		flex: 0 1 auto;
+	}
+
+	.footer-logo .social-icons {
+		padding: 0;
+		margin: 0;
+	}
+
+	/* Three sections in 2-column grid */
+	.footer-section:nth-child(2) { grid-column: 1; grid-row: 2; } /* Community */
+	.footer-section:nth-child(3) { grid-column: 2; grid-row: 2; } /* Research */
+	.footer-section:nth-child(4) { grid-column: 1; grid-row: 3; } /* Education */
+
+	/* Footer bottom spanning both columns at the end */
+	.footer-bottom {
+		grid-column: 1 / 3;
+		grid-row: 4;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+		align-items: center;
+	}
+
+	.footer-bottom .cc-footer-copy {
+		flex: 0 1 auto;
+	}
+
+	.footer-bottom .cc-footer-copy:last-child {
+		width: 100%;
+	}
 
 	.footer-section h3 {
 		font-size: var(--font-size-xsmall);

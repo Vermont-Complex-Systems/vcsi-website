@@ -445,7 +445,6 @@
     }
 
     p {
-        font-size: 1rem;
         line-height: 1.6;
         font-family: var(--serif);
         color: var(--color-fg);
@@ -781,7 +780,6 @@
 
     .overview-card p {
         margin: 0;
-        font-size: 1rem;
         line-height: 1.6;
     }
 
@@ -1050,7 +1048,6 @@
     }
 
     .learn-more-card p {
-        font-size: 1rem;
         line-height: 1.5;
         margin-bottom: 0;
         color: var(--color-gray-700);
@@ -1114,6 +1111,10 @@
             font-size: 1rem;
         }
 
+        details summary::before {
+            font-size: 1rem;
+        }
+
         .path-card h3 {
             padding-right: 2.5rem;
         }
@@ -1136,12 +1137,16 @@
         }
 
         .section-header-with-image {
-            flex-direction: column;
-            align-items: flex-start;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
         }
 
         .section-image {
-            width: 120px;
+            width: 150px;
+            transform: none;
+            flex-shrink: 0;
         }
     }
 </style>

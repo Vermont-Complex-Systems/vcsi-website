@@ -533,7 +533,6 @@
 
     .overview-card p {
         margin-bottom: 1rem;
-        font-size: 1rem;
         line-height: 1.6;
     }
 
@@ -996,7 +995,8 @@
         }
         
         .section-image {
-            width: 120px;
+            width: 200px;
+            transform: translateX(-5%);
         }
 
         h2 {

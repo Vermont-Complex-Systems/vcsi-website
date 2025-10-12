@@ -129,18 +129,6 @@
         color: var(--color-fg);
     }
 
-    ul {
-        font-family: var(--serif);
-        color: var(--color-fg);
-        padding-left: 1.5rem;
-        list-style-type: disc;
-    }
-
-    li {
-        margin-bottom: 0.5rem;
-        line-height: 1.5;
-    }
-
     .papers-wrapper {
         margin-left: var(--margin-left);
         margin-right: var(--margin-left);

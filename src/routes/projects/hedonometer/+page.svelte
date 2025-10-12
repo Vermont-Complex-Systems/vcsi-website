@@ -118,7 +118,6 @@
             margin-right: var(--margin-left-mobile);
         }
 
-
         h2 {
             font-size: 1.5rem;
         }

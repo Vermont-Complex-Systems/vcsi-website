@@ -250,21 +250,18 @@
     display: flex;
     align-items: center;
     gap: 3rem;
-    transform: translateY(-0.3rem);
   }
 
   .header-right {
     display: flex;
     align-items: center;
     gap: 1rem;
-    transform: translateY(-0.3rem);
   }
-  
+
   .vcsi-logo {
     border-radius: var(--border-radius);
-    max-height: 2rem;
+    max-height: 2.6rem;
     object-fit: contain;
-    transform: translateY(0.2rem);
   }
   
   /* Show border when scrolled */
