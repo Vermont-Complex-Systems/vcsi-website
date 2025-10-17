@@ -58,6 +58,51 @@
     }
   ];
 
+  const specialEvents = [
+    {
+      'event': 'VCSI Fall Speaker Series',
+      'date': '2025-10-20',
+      'name': 'Matt Devost - UVM trustee',
+      'location': 'Innovation E100'
+    },
+    {
+      'event': 'VCSI Fall Speaker Series',
+      'date': '2025-10-20',
+      'name': 'Brennan Dell',
+      'location': 'Innovation E100'
+    },
+    {
+      'event': 'VCSI Fall Speaker Series',
+      'date': '2025-11-03',
+      'name': 'Hunter Priniski',
+      'location': 'Innovation E100'
+    },
+    {
+      'event': 'VCSI Fall Speaker Series',
+      'date': '2025-11-10',
+      'name': 'Joe Near',
+      'location': 'Innovation E100'
+    },
+    {
+      'event': 'VCSI Fall Speaker Series',
+      'date': '2025-11-17',
+      'name': 'Phil Chodrow',
+      'location': 'Innovation E100'
+    },
+    {
+      'event': 'VCSI Fall Speaker Series',
+      'date': '2025-12-01',
+      'name': 'Ellen Kozelka',
+      'location': 'Innovation E100'
+    },
+    {
+      'event': 'VCSI Fall Speaker Series',
+      'date': '2025-12-08',
+      'name': 'Ben Cooley',
+      'location': 'Innovation E100'
+    }
+  ];
+
 
 </script>
 
@@ -101,31 +146,20 @@
 
   <div class="column special-events">
     <h2 style="margin-bottom: 20px">Special Events</h2>
-    {#if state.loading}
-      <img src="/common/assets/thumbnails/squirrel.png" alt="Loading..." class="spinner" />
-      <br>
-      <p>Plumbing the depths...</p>
-    {:else if state.error}
-      <p>Error loading events: {state.error}</p>
-      {:else if state.items.filter(event => !event.recurring && event.date).length === 0}
-      <p>Nothing to see here!</p>
-    {:else}
-      {#each state.items.filter(event => !event.recurring && event.date) as event}
-        <div class="banner-event" style="background-image: url('{event.image}'); position: relative;">
-          {#if event.recurring}
-            <div class="recurring-pill">{event.recurring}</div>
-          {/if}
-          <div class="banner-overlay">
-            <h3>{event.name}</h3>
-            <p class="card-date">{formatDate(event.date)}</p>
-            <p>{event.description}</p>
-            {#if event.link}
-              <a href={event.link} class="banner-link">Learn more</a>
-            {/if}
-          </div>
-        </div>
-      {/each}
-    {/if}
+      
+        <ul>
+        {#each specialEvents as event}
+          
+            <li class="news-item" style="position: relative;">
+              <h3>{event.event}</h3>
+              <h4 style="font-weight: 300">{event.name}</h4>
+                <div class="card-date">{formatDate(event.date)} in {event.location}</div>
+            </li>
+          
+        {/each}
+      </ul>
+      
+    
   </div>
 </section>
 
@@ -217,6 +251,10 @@
 .news-link {
   color: #0056b3;
   text-decoration: underline;
+}
+
+ul {
+  padding-left: 0; /* Remove default padding */
 }
 .date {
   color: #e1e1e1;
