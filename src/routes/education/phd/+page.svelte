@@ -415,7 +415,7 @@
         height: auto;
         object-fit: contain;
         mix-blend-mode: multiply;
-        transform: translateY(1rem) translateX(5rem);
+        transform: translateY(1rem);
     }
 
     h2 {

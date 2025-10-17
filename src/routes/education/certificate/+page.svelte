@@ -301,7 +301,6 @@
     }
 
     p {
-        font-size: 1rem;
         line-height: 1.6;
         font-family: var(--serif);
         color: var(--color-fg);

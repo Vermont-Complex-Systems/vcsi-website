@@ -1,8 +1,15 @@
 <script>
   import { flip } from 'svelte/animate';
-  
+
   let { papers = [], sortBy = $bindable('citations'), showAll = $bindable(false), selectedTopic = null } = $props();
-  
+
+  $effect(() => {
+    // Reset showAll when filter changes
+    if (selectedTopic) {
+      showAll = false;
+    }
+  });
+
   function getSortedPapers() {
     if (!papers || papers.length === 0) return [];
     
@@ -144,13 +151,13 @@
 {/each}
 </div>
 
-{#if papers && papers.length > 16}
+{#if getSortedPapers().length > 16}
   <div class="show-more-container">
-    <button 
-      class="show-more-btn" 
+    <button
+      class="show-more-btn"
       onclick={() => showAll = !showAll}
     >
-      {showAll ? `Show Less` : `Show All ${papers.length} Papers`}
+      {showAll ? `Show Less` : `Show All ${getSortedPapers().length} Papers`}
     </button>
   </div>
 {/if}

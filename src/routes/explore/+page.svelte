@@ -3,7 +3,7 @@
     import Member from "$lib/components/Member.svelte";
     import Spinner from "$lib/components/Spinner.svelte";
     import { getAllAuthorsWithPapers } from '../data.remote.js';
-
+    import { isMobile } from '$lib/state.svelte'
     const preloadFont = [
         "/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
         "/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2",
@@ -12,7 +12,7 @@
         "/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
     ];
 
-    const TOPIC_THRESHOLD = 10;
+    const TOPIC_THRESHOLD = isMobile() ?  15 : 5;
 
     // Filter papers to only include topics that appear in at least 3 papers
     function filterTopics(authorData) {

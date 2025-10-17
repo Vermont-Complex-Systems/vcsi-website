@@ -22,11 +22,11 @@
   let mobileForceStrength = $derived(isMobile() ? 0.02 : 0.0005);
   let mobileXStrength = $derived(isMobile() ? 0.1 : 0.0001);
   let mobileYStrength = $derived(isMobile() ? 0.02 : (counts.length > 30 ? 0.05 : 0.01));
-  let yOffset = $derived(isMobile() ? 70 : 50);
+  let yOffset = $derived(isMobile() ? 70 : 10);
 
-  const baseHeight = $derived(isMobile() ? 250 : 200);
-  const heightPerTopic = $derived(isMobile() ? 15 : 10);
-  const maxHeight = $derived(isMobile() ? (counts.length > 200 ? 800 : 600) : 400);
+  const baseHeight = $derived(isMobile() ? 100 : 200);
+  const heightPerTopic = $derived(isMobile() ? 10 : 10);
+  const maxHeight = $derived(isMobile() ? (counts.length > 200 ? 700 : 500) : 300);
   const dynamicHeight = $derived(Math.min(baseHeight + (counts.length * heightPerTopic), maxHeight));
   
   const dynamicMargin = $derived(counts.length > 100 ? '3rem' : '0.5rem');
@@ -41,7 +41,7 @@
     z={'count'}
     xScale={d3.scaleBand()}
     rScale={d3.scaleSqrt()}
-    rRange={[13, 50]}
+    rRange={[8, 50]}
     zScale={d3.scaleSequential(t => {
       const color = d3.interpolatePlasma(t);
       const hsl = d3.hsl(color);

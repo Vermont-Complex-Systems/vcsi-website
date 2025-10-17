@@ -70,6 +70,14 @@ export const getAllAuthorsWithPapers = prerender(async () => {
     const allPapers = await db.select()
         .from(openalex_papers);
 
+    const formattedPapers = allPapers.map(paper => ({
+        ...paper,
+        is_open_access: Boolean(paper.is_open_access),
+        concepts: safeParse(paper.concepts) || [],
+        primary_location: safeParse(paper.primary_location) || [],
+        topics: safeParse(paper.topics) || []
+    }));
+
     // Create an aggregated "author" object for the explore page
     return {
         name: "VCSI",
@@ -79,13 +87,7 @@ export const getAllAuthorsWithPapers = prerender(async () => {
             cited_by_count: allAuthors.reduce((sum, a) => sum + (a.cited_by_count || 0), 0),
             h_index: Math.max(...allAuthors.map(a => a.h_index || 0))
         },
-        papers: allPapers.map(paper => ({
-            ...paper,
-            is_open_access: Boolean(paper.is_open_access),
-            concepts: safeParse(paper.concepts) || [],
-            primary_location: safeParse(paper.primary_location) || [],
-            topics: safeParse(paper.topics) || []
-        }))
+        papers: deduplicatePapers(formattedPapers)
     };
 });
 
@@ -127,16 +129,18 @@ export const getMemberWithOpenAlex = prerender(
             .from(openalex_papers)
             .where(eq(openalex_papers.author_openalex_id, memberData.openAlexId));
 
+        const formattedPapers = papers.map(paper => ({
+            ...paper,
+            is_open_access: Boolean(paper.is_open_access),
+            concepts: safeParse(paper.concepts) || [],
+            primary_location: safeParse(paper.primary_location) || [],
+            topics: safeParse(paper.topics) || []
+        }));
+
         return {
             ...memberData,
             openAlex: authorData.length > 0 ? authorData[0] : null,
-            papers: papers.map(paper => ({
-                ...paper,
-                is_open_access: Boolean(paper.is_open_access),
-                concepts: safeParse(paper.concepts) || [],
-                primary_location: safeParse(paper.primary_location) || [],
-                topics: safeParse(paper.topics) || []
-            }))
+            papers: deduplicatePapers(formattedPapers)
         }
     },
     { dynamic: true }
@@ -290,6 +294,69 @@ function normalizeDoi(doi) {
         .trim();
 }
 
+// Helper to deduplicate papers by title, preferring non-preprints
+function deduplicatePapers(papers) {
+    // Normalize title for comparison
+    const normalizeTitle = (title) => {
+        if (!title) return '';
+        return title.toLowerCase()
+            .replace(/[^\w\s]/g, '') // Remove punctuation
+            .replace(/\s+/g, ' ')    // Normalize spaces
+            .trim();
+    };
+
+    // Check if paper is a preprint
+    const isPreprint = (paper) => {
+        const location = paper.primary_location;
+        if (!location || typeof location === 'string') {
+            try {
+                const parsed = typeof location === 'string' ? JSON.parse(location) : location;
+                return parsed?.source?.type === 'repository';
+            } catch {
+                return false;
+            }
+        }
+        return location?.source?.type === 'repository';
+    };
+
+    // Group by normalized title
+    const titleGroups = new Map();
+    for (const paper of papers) {
+        const normalizedTitle = normalizeTitle(paper.title);
+        if (!titleGroups.has(normalizedTitle)) {
+            titleGroups.set(normalizedTitle, []);
+        }
+        titleGroups.get(normalizedTitle).push(paper);
+    }
+
+    // For each group, select the best version
+    const deduplicated = [];
+    for (const group of titleGroups.values()) {
+        if (group.length === 1) {
+            deduplicated.push(group[0]);
+            continue;
+        }
+
+        // Sort by: non-preprint first, then by citation count
+        const best = group.sort((a, b) => {
+            const aIsPreprint = isPreprint(a);
+            const bIsPreprint = isPreprint(b);
+
+            // Prefer non-preprints
+            if (aIsPreprint !== bIsPreprint) {
+                return aIsPreprint ? 1 : -1;
+            }
+
+            // If both same type, prefer higher citations
+            return (b.cited_by_count || 0) - (a.cited_by_count || 0);
+        })[0];
+
+        deduplicated.push(best);
+    }
+
+    return deduplicated;
+}
+
 export const getMassMutualPapers = prerender(async () => {
     const csvDois = massMutualPapersData.map(row => row.doi).filter(doi => doi && doi.trim());
 
@@ -312,13 +379,15 @@ export const getMassMutualPapers = prerender(async () => {
         .from(openalex_papers)
         .where(or(...whereConditions));
 
-    return papers.map(paper => ({
+    const formattedPapers = papers.map(paper => ({
         ...paper,
         is_open_access: Boolean(paper.is_open_access),
         concepts: safeParse(paper.concepts) || [],
         primary_location: safeParse(paper.primary_location) || [],
         topics: safeParse(paper.topics) || []
     }));
+
+    return deduplicatePapers(formattedPapers);
 });
 
 export const getTgirPapers = prerender(async () => {
@@ -343,11 +412,13 @@ export const getTgirPapers = prerender(async () => {
         .from(openalex_papers)
         .where(or(...whereConditions));
 
-    return papers.map(paper => ({
+    const formattedPapers = papers.map(paper => ({
         ...paper,
         is_open_access: Boolean(paper.is_open_access),
         concepts: safeParse(paper.concepts) || [],
         primary_location: safeParse(paper.primary_location) || [],
         topics: safeParse(paper.topics) || []
     }));
+
+    return deduplicatePapers(formattedPapers);
 });

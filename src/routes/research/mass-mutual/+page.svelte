@@ -68,7 +68,10 @@
                 <li>Intellectual curiosity and interest in working in a highly-collaborative complex systems science environment</li>
             </ul>
 
-            <h3>Graduate Fellowship</h3>
+            <div class="section-with-image">
+                <h3>Graduate Fellowship</h3>
+                <img src="/common/assets/drawing/tardi03.png" alt="Tardigrade-running" class="section-image" />
+            </div>
             <p>The MassMutual Center of Excellence in Complex Systems and Data Science <strong>Graduate Fellowship</strong> at University of Vermont offers annual graduate fellowships to students enrolled in the UVM Complex Systems Center's MS and PhD in Complex Systems and Data Science. These fellowships offer a unique experience for students to tackle real world health and wellness problems that matter most for science, industry, and society.</p>
             <p>This graduate fellowship is supported by our groundbreaking data science partnership with MassMutual. The MassMutual Center of Excellence for Complex Systems and Data Science engages in research projects and programs aimed at better understanding human wellness through data analytics, as well as programming to cultivate a strong pipeline of data science talent.</p>
             <p>This fellowship provides an opportunity to work alongside leading academic researchers and industry partners.</p>
@@ -136,16 +139,27 @@
     }
 
     .section-image {
-        width: 200px;
+        width: 160px;
         height: auto;
         object-fit: contain;
         mix-blend-mode: multiply;
         transform: translateX(-5rem);
     }
 
+    .page-header {
+        align-items: flex-end;
+    }
+
+    .page-header-logo {
+        margin-right: 25rem;
+    }
+
+    .page-header-image {
+        width: 8rem;
+    }
+
     .logo-as-h1 {
-        max-width: 80%;
-        max-height: 5rem;
+        max-height: 5.5rem;
         margin-bottom: 1rem;
         object-fit: contain;
     }
@@ -175,7 +189,7 @@
     }
 
     .page-header-text .intro {
-        margin-bottom: 3rem;
+        margin-bottom: 0;
         font-size: 1.1rem;
     }
 
@@ -226,7 +240,13 @@
 
         .page-header-logo {
             align-self: center;
+            margin-right: 0;
         }
+
+        .page-header-image {
+            width: 10rem;
+        }
+        
 
         .section-image {
             transform: none;
@@ -244,7 +264,7 @@
         .page-header-text .intro {
             font-size: 1.4rem;
         }
-
+        
         .content,
         section {
             max-width: 100%;
