@@ -48,16 +48,13 @@
   ];
   const ongoingEvents = [
     {
-      title: 'Complexitea',
-      date: 'Every Thursday',
-      description: 'Join us for weekly research presentations and discussions.',
+      name: 'Complexitea',
+      recurring: true,
+      recurring_frequency: 'Weekly',
+      day: 'Thursday',
+      time: '12-1pm',
+      description: 'A casual lunch at the VCSI offices. All welcome!',
       link: '/events/seminar'
-    },
-    {
-      title: 'VCSI Speaker Series',
-      date: 'Fall 2025',
-      description: 'A semester-long program for students to work on impactful data projects.',
-      link: '/events/dssg'
     }
   ];
 
@@ -82,21 +79,14 @@
 <section class="events-layout">
   <div class="column ongoing-events">
     <h2 style="margin-bottom: 20px">Ongoing Events</h2>
-    {#if state.loading}
-      <img src="/common/assets/thumbnails/platypus.png" alt="Loading..." class="spinner" />
-      <br>
-      <p>Consulting the diary...</p>
-    {:else if state.error}
-      <p>Error loading events: {state.error}</p>
-    {:else}
       <ul>
-        {#each state.items as event}
-          {#if event.date}
+        {#each ongoingEvents as event}
+          
             <li class="news-item" style="position: relative;">
               <h3>{event.name}</h3>
               {#if event.recurring}
                 <div class="recurring-pill">{event.recurring_frequency}</div>
-                <div class="card-date">{event.day}</div>
+                <div class="card-date">{event.day} from {event.time}</div>
               {:else}
                 <div class="card-date">{formatDate(event.date)}</div>
               {/if}
@@ -104,10 +94,9 @@
               
               <p>{event.description}</p>
             </li>
-          {/if}
+          
         {/each}
       </ul>
-    {/if}
   </div>
 
   <div class="column special-events">
