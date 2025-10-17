@@ -3,7 +3,9 @@
     import { Menu as MenuIcon, ChevronDown, ChevronUp, Sun, Moon, ExternalLink } from "@lucide/svelte";
     import { setMode } from "mode-watcher";
     import Menu from "./Nav.Menu.svelte";
-    
+
+    let { transparent = false, absolute = false, whiteLogo = false } = $props();
+
     let isMenuOpen = $state(false);
 	  let menuButtonRef;
 	  let isScrolled = $state(false);
@@ -55,10 +57,10 @@
   
     </script>
 
-<header class="header" class:scrolled={isScrolled}>
+<header class="header" class:scrolled={isScrolled} class:transparent={transparent && !isScrolled} class:absolute={absolute}>
 	<div class="header-left">
 		<a href="{base}/" class="vsci-logo-container">
-			<img src="{base}/vcsi-bumper-sticker-horizontal-arial-transparent.png" alt="Home" class="vcsi-logo" />
+			<img src="{base}/{whiteLogo ? 'bumper-sticker2-white-transparent.png' : 'vcsi-bumper-sticker-horizontal-arial-transparent.png'}" alt="Home" class="vcsi-logo" />
 		</a>
 
 		<nav class="desktop-nav">
@@ -241,9 +243,46 @@
     border-bottom: 2px solid transparent;
     z-index: 100;
     width: 100%;
-    transition: border-bottom-color 200ms ease;
+    transition: all 200ms ease;
     box-sizing: border-box;
     /* transform: translateY(-0.5rem); */
+  }
+
+  .header.transparent {
+    background: transparent;
+    border-bottom-color: transparent;
+  }
+
+  .header.transparent .nav-button,
+  .header.transparent .nav-link {
+    color: white;
+  }
+
+  .header.transparent .nav-button:hover,
+  .header.transparent .nav-link:hover {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .header.transparent .menu-button {
+    color: white;
+  }
+
+  .header.absolute {
+    position: absolute;
+  }
+
+  .header.absolute.scrolled {
+    background: transparent;
+    border-bottom-color: transparent;
+  }
+
+  .header.absolute.scrolled .nav-button,
+  .header.absolute.scrolled .nav-link {
+    color: white;
+  }
+
+  .header.absolute.scrolled .menu-button {
+    color: white;
   }
 
   .header-left {
