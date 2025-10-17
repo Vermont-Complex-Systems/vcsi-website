@@ -8,27 +8,14 @@
 
 	let { children } = $props();
 
-	let transparentNav = $derived($page.url.pathname === '/events/cnww' || $page.url.pathname === '/events/cnww/');
-	let absoluteNav = $derived($page.url.pathname === '/events/cnww' || $page.url.pathname === '/events/cnww/');
 	let whiteLogoNav = $derived($page.url.pathname === '/events/cnww' || $page.url.pathname === '/events/cnww/');
-	let isCnwwPage = $derived($page.url.pathname === '/events/cnww' || $page.url.pathname === '/events/cnww/');
-
-	$effect(() => {
-		if (typeof document !== 'undefined') {
-			if (isCnwwPage) {
-				document.body.classList.add('cnww-page');
-			} else {
-				document.body.classList.remove('cnww-page');
-			}
-		}
-	});
 </script>
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<Nav transparent={transparentNav} absolute={absoluteNav} whiteLogo={whiteLogoNav} />
+<Nav whiteLogo={whiteLogoNav} />
 
 <ModeWatcher defaultMode="light" />
 <main id="content">

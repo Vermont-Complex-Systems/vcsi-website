@@ -2,6 +2,7 @@
     import Meta from "$lib/components/Meta.svelte";
     import MemberCards from "$lib/components/MemberCards.svelte";
     import miscData from '$data/misc.csv';
+	
     const entry = miscData.find(p => p.id === 'cnww');
     const preloadFont = [
         "/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
@@ -10,9 +11,49 @@
         "/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
         "/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
     ];
-
-    
 </script>
+
+<svelte:head>
+    <style>
+        /* CNWW page: transparent header with absolute positioning */
+        .header {
+            position: absolute !important;
+            background: transparent !important;
+            border-bottom-color: transparent !important;
+        }
+
+        .header .nav-button,
+        .header .nav-link,
+        .header .menu-button {
+            color: white !important;
+        }
+
+        .header .vcsi-logo {
+            max-height: 2rem !important;
+            transform: translateY(0.2rem) !important;
+        }
+
+        .header.scrolled {
+            background: transparent !important;
+            border-bottom-color: transparent !important;
+        }
+
+        /* Body and footer styling */
+        body {
+            background-color: #162F4B !important;
+            transition: background-color 0.3s ease;
+        }
+
+        footer.footer {
+            background-color: #162F4B !important;
+            transition: background-color 0.3s ease;
+        }
+
+        footer * {
+            color: white !important;
+        }
+    </style>
+</svelte:head>
 
 <Meta
   title="CNWW"
@@ -65,7 +106,7 @@
         <a href="https://drive.google.com/open?id=1iEB_EwK2rvqHYBRPQsdc4rKODSO1WwyLpirm-edV10E" target="_blank" rel="noopener noreferrer" class="apply-button">Apply now!</a>
     </div>
     <div class="image-column">
-        <img src="/common/assets/events/cnww_snowball.jpg" alt="CNWW Snowball" />
+        <img src="/common/assets/events/cnww_sliding.jpg" alt="CNWW Snowball" />
     </div>
 </div>
 
@@ -126,7 +167,7 @@
         </div>
 
         <div class="testimonial-images">
-            <img src="/common/assets/events/cnww_sliding.jpg" alt="CNWW Activity" />
+            <img src="/common/assets/events/cnww_snowball.jpg" alt="CNWW Activity" />
             <img src="/common/assets/events/cnww_singing.jpg" alt="CNWW Social" />
         </div>
     </div>
@@ -155,18 +196,6 @@
     .page-wrapper {
         background-color: #162F4B;
         min-height: 100vh;
-    }
-
-    :global(body.cnww-page) {
-        background-color: #162F4B;
-    }
-
-    :global(body.cnww-page footer.footer) {
-        background-color: #162F4B !important;
-    }
-
-    :global(body.cnww-page footer *) {
-        color: white !important;
     }
 
     .hero {
