@@ -14,6 +14,7 @@
 </script>
 
 <svelte:head>
+    <link rel="preload" as="image" href="/common/assets/events/skyline.jpg" />
     <style>
         /* CNWW page: transparent header with absolute positioning */
         .header {
@@ -95,9 +96,9 @@
     <div class="text-column">
         <p>Up to 40 international graduate students, postdoctoral fellows and professionals from different disciplines will be accepted.</p>
         <p>Proficiency in English and some background in science or mathematics are required. Participants are expected to attend the entire session. Applicants are welcome from all geographic regions. Underrepresented minorities and women are encouraged to apply.</p>
-        <p><strong>Application Deadline:</strong> May 15th, 2025.</p>
-        <p><strong>Notice of acceptance:</strong> June 1st, 2025</p>
-        <p><strong>Registration Deadline:</strong> July 1st, 2025</p>
+        <p class="room-type"><strong>Application Deadline:</strong> May 15th, 2025.</p>
+        <p class="room-type"><strong>Notice of acceptance:</strong> June 1st, 2025</p>
+        <p class="room-type"><strong>Registration Deadline:</strong> July 1st, 2025</p>
         <h3>Application Requirements</h3>
         <ul>
             <li>Completed application form</li>
@@ -106,13 +107,13 @@
         <a href="https://drive.google.com/open?id=1iEB_EwK2rvqHYBRPQsdc4rKODSO1WwyLpirm-edV10E" target="_blank" rel="noopener noreferrer" class="apply-button">Apply now!</a>
     </div>
     <div class="image-column">
-        <img src="/common/assets/events/cnww_sliding.jpg" alt="CNWW Snowball" />
+        <img src="/common/assets/events/cnww_sliding.jpg" alt="CNWW Snowball" loading="lazy" />
     </div>
 </div>
 
 <div class="content-section">
     <div class="image-column">
-        <img src="/common/assets/events/cnww_monastery.jpg" alt="CNWW Monastery" />
+        <img src="/common/assets/events/cnww_monastery.jpg" alt="CNWW Monastery" loading="lazy" />
     </div>
     <div class="text-column">
         <p>The Winter Workshop will be held at the historic Monastère des Augustines in Quebec City, a serene haven of wellness and heritage, originally founded in 1639.</p>
@@ -129,10 +130,10 @@
             <li>cocktail reception</li>
         </ul>
         <h3>Room Types and Related Registration Fees</h3>
-        <p><strong>Chambre Authentique:</strong> 1451.43 CAD</p>
-        <p><strong>Chambre Authentique Double:</strong> 1080.81 CAD per person</p>
-        <p><strong>Contemporaine Simple:</strong> 1784.70 CAD</p>
-        <p><strong>Contemporaine Double:</strong> 1164.15 CAD per person</p>
+        <p class="room-type"><strong>Chambre Authentique:</strong> 1451.43 CAD</p>
+        <p class="room-type"><strong>Chambre Authentique Double:</strong> 1080.81 CAD per person</p>
+        <p class="room-type"><strong>Contemporaine Simple:</strong> 1784.70 CAD</p>
+        <p class="room-type"><strong>Contemporaine Double:</strong> 1164.15 CAD per person</p>
     </div>
 </div>
 
@@ -167,18 +168,18 @@
         </div>
 
         <div class="testimonial-images">
-            <img src="/common/assets/events/cnww_snowball.jpg" alt="CNWW Activity" />
-            <img src="/common/assets/events/cnww_singing.jpg" alt="CNWW Social" />
+            <img src="/common/assets/events/cnww_snowball.jpg" alt="CNWW Activity" loading="lazy" />
+            <img src="/common/assets/events/cnww_singing.jpg" alt="CNWW Social" loading="lazy" />
         </div>
     </div>
 </section>
 
 <section class="gallery-section">
     <div class="gallery-grid">
-        <img src="/common/assets/events/cnww_cats.jpg" alt="CNWW" />
-        <img src="/common/assets/events/cnww_hot.jpg" alt="CNWW" />
-        <img src="/common/assets/events/cnww_restaurant.jpg" alt="CNWW" />
-        <img src="/common/assets/events/cnww_fireplace.jpg" alt="CNWW" />
+        <img src="/common/assets/events/cnww_cats.jpg" alt="CNWW" loading="lazy" />
+        <img src="/common/assets/events/cnww_hot.jpg" alt="CNWW" loading="lazy" />
+        <img src="/common/assets/events/cnww_restaurant.jpg" alt="CNWW" loading="lazy" />
+        <img src="/common/assets/events/cnww_fireplace.jpg" alt="CNWW" loading="lazy" />
     </div>
 </section>
 
@@ -251,7 +252,7 @@
 
     .intro-section p {
         font-size: 1.3rem;
-        line-height: 1.8;
+        line-height: 1.4;
         font-family: var(--serif);
         color: white;
         text-align: center;
@@ -266,7 +267,7 @@
     }
 
     .image-column {
-        flex: 1;
+        flex: 0.8;
     }
 
     .image-column img {
@@ -277,12 +278,12 @@
     }
 
     .text-column {
-        flex: 1;
+        flex: 1.2;
     }
 
     .text-column p {
-        font-size: 1.1rem;
-        line-height: 1.6;
+        font-size: 1.01rem;
+        line-height: 1.4;
         font-family: var(--serif);
         color: white;
         margin-bottom: 1.5rem;
@@ -298,7 +299,7 @@
 
     .text-column li {
         margin-bottom: 0.5rem;
-        line-height: 1.5;
+        line-height: 1.3;
     }
 
     .text-column h3 {
@@ -312,6 +313,11 @@
     .text-column strong {
         font-weight: 700;
         color: white;
+    }
+
+    .text-column .room-type {
+        margin-left: 2rem;
+        margin-bottom: 0.5rem;
     }
 
     .apply-button {
