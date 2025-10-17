@@ -166,6 +166,9 @@
   flex-direction: column;
   align-items: center;
 }
+.news-banner p {
+  color: rgb(247, 247, 247);
+}
 .banner-event {
   width: 100%;
   height: 300px;
