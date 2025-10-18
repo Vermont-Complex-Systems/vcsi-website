@@ -988,95 +988,13 @@
         text-decoration: underline;
     }
     
-    /* ===================================
-       LEARN MORE CARDS
-       =================================== */
-
-    .learn-more-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 2rem;
-        margin-top: 2rem;
-    }
-
-    .learn-more-card {
-        padding: 2rem;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        display: flex;
-        flex-direction: column;
-        text-decoration: none;
-        color: inherit;
-        position: relative;
-        height: 23rem;
-        background: #fafafa;
-        border: 2px solid #4a4a4a;
-        border-radius: var(--border-radius);
-        overflow: hidden;
-    }
-
-    .learn-more-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-    }
-
-    :global(.dark) .learn-more-card {
-        background: #f5f5f5;
-        border-color: #4a4a4a;
-    }
-
-    .card-image {
-        width: 200px;
-        height: auto;
-        object-fit: contain;
-        mix-blend-mode: multiply;
-        margin-bottom: 1rem;
-    }
-
-    .fox-image {
-        width: 300px;
-        height: auto;
-        transform: scaleX(-1) translateY(20%);
-    }
-
-    .learn-more-card h3 {
-        font-size: 1.3rem;
-        font-weight: 600;
-        font-family: var(--serif);
-        margin-bottom: 0.75rem;
-        margin-top: 0;
-        color: var(--color-fg);
-    }
-
-    .learn-more-card p {
-        line-height: 1.5;
-        margin-bottom: 0;
-        color: var(--color-gray-700);
-    }
-
-    .card-content {
-        position: relative;
-        flex: 1;
-    }
-
+    
     :global(.external-arrow) {
         color: var(--color-primary, #007acc);
         transition: transform 0.2s ease, color 0.2s ease;
         position: absolute;
         bottom: 0;
         right: 0;
-    }
-
-    .learn-more-card:hover :global(.external-arrow) {
-        transform: translate(4px, -4px);
-        color: var(--color-primary-hover, #005fa3);
-    }
-
-    .fox-card h3 {
-        margin-top: 50px;
-    }
-
-    .fox-card p {
-        margin-top: 0;
     }
 
     /* Mobile adjustments */

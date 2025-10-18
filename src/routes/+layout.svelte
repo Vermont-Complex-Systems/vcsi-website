@@ -30,10 +30,6 @@
 		padding: 5rem 0 5rem; /* Account for fixed nav height */
 	}
 
-	#content:has(.hero) {
-		padding: 0;
-	}
-
 	:global(body) {
 		display: flex;
 		flex-direction: column;
@@ -45,8 +41,5 @@
 			padding: 6rem 0 3rem; /* Account for fixed nav height */
 		}
 
-		#content:has(.hero) {
-			padding: 0;
-		}
 	}
 </style>

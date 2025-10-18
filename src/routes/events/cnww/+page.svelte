@@ -346,14 +346,6 @@
         margin: 0 auto;
     }
 
-    .faculty-section h2 {
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: white;
-        margin-bottom: 2rem;
-        text-align: center;
-    }
-
     .faculty-section :global(.members-section h3) {
         color: white !important;
     }
@@ -487,31 +479,32 @@
     @media (max-width: 768px) {
         .hero {
             height: 100vh;
-            margin-top: calc(-1 * var(--nav-height-mobile, 60px));
+            margin-top: calc(-1.4 * var(--nav-height-mobile, 60px));
         }
 
         .intro-section {
             padding: 2rem var(--margin-left-mobile);
         }
 
-        .intro-section p {
+        .intro-section p,
+        .content-section p {
             font-size: 1.1rem;
         }
 
-        .content-section,
-        .content-section.reverse {
+        .content-section {
             flex-direction: column;
             padding: 2rem var(--margin-left-mobile);
             gap: 2rem;
+        }
+
+        .content-section .image-column {
+            order: -1;
         }
 
         .faculty-section {
             padding: 2rem var(--margin-left-mobile);
         }
 
-        .faculty-section h2 {
-            font-size: 2rem;
-        }
 
         .testimonials-section {
             padding: 2rem var(--margin-left-mobile);
