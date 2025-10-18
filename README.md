@@ -1,4 +1,4 @@
-<a href="octopus_icon"><img src="static/octopus_icon.jpg?raw=true)" width="180" align="Right" /></a>
+<a href="octopus_icon"><img src="static/favicon.jpg?raw=true)" width="180" align="Right" /></a>
 
 
 # Vermont Complex Systems Institute Website
