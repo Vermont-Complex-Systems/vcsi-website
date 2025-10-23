@@ -49,9 +49,11 @@
                 <img src="/common/assets/logos/embc25.png" alt="EMBC 2025" />
             </div>
 
-            {#if project?.member}
-                <MemberCards memberIds={project.member} />
-            {/if}
+            
+            <h3>Principal investigators</h3>
+            <MemberCards memberIds={project.PI} />
+            <h3>Affiliates and students</h3>
+            <MemberCards memberIds={project.member} />
         </section>
         
         <section>

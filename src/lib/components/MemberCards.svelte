@@ -14,7 +14,6 @@
 
 {#if members.length > 0}
     <div class="members-section">
-        <h3>Institute members involved</h3>
         <div class="members-grid">
             {#each members as member}
                 <div class="member-card">
@@ -38,13 +37,6 @@
         margin-top: 2rem;
     }
 
-    h3 {
-        font-size: 1.2rem;
-        font-weight: 600;
-        font-family: var(--sans);
-        margin-bottom: 1.5rem;
-        color: var(--color-fg);
-    }
 
     .members-grid {
         display: grid;

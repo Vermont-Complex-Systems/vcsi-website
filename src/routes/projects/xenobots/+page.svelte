@@ -44,6 +44,7 @@
                 <p>Xenobots are living, programmable organisms created from frog cells. This groundbreaking research explores the intersection of biology, robotics, and artificial intelligence.</p>
 
                 {#if project?.member}
+                    <h3>Institute members involved</h3>
                     <MemberCards memberIds={project.member} />
                 {/if}
             </section>

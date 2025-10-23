@@ -1,4 +1,6 @@
 <script>
+    import { base } from '$app/paths';
+
     import Meta from "$lib/components/Meta.svelte";
     import { getMassMutualPapers } from '../../data.remote.js';
     import PapersGrid from '$lib/components/PapersGrid.svelte';
@@ -47,6 +49,7 @@
         <section>
             <h2>About</h2>
             <p>The MassMutual Center of Excellence (CoE) in Complex Systems & Data Science supports a growing collection of talented faculty, postdocs, graduate and undergraduate students on research projects related to data visualization, artificial intelligence, computational finance, algorithmic fairness, physical & mental health, and sleep. Students on the UVM team are enrolled in academic degree programs in Complex Systems & Data Science, Mathematical Sciences, Psychology, and Computer Science.</p>
+            <p>A major research initiative associated with the COE is the <a href="{base}/projects/lemurs">Lived Experience Measured Using Rings</a> (LEMURS) study, which seeks to improve health outcomes using wearable device data</p>
             <p>In 2018, the CoE was established with a <a href="https://www.uvm.edu/uvmnews/news/massmutual-and-uvm-expand-groundbreaking-data-science-partnership">gift</a> from MassMutual to the Vermont Complex Systems Center at the University of Vermont, and the partnership was <a href="https://www.massmutual.com/about-us/news-and-press-releases/press-releases/2023/11/uvm-massmutual-renew-partnership-to-help-people-live">renewed</a> in 2023 to continue to support research to enhance human well-being.</p>
         </section>
 
@@ -99,6 +102,9 @@
 
         <section>
             <h2>Center of Excellence Team</h2>
+            <h3>Leadership</h3>
+            <MemberCards memberIds={entry.PI} />
+            <h3>Affiliates and students</h3>
             <MemberCards memberIds={entry.member} />
         </section>
     </div>

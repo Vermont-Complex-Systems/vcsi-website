@@ -66,7 +66,8 @@
 <div class="hero">
     <div class="hero-content">
         <h1>Complex Networks Winter Workshop</h1>
-        <p class="date">14-20 December, 2025</p>
+        <p class="date">December 14th to the 19th 2025</p>
+        <p class="date-small">(with arrival on the 13th and departure on the 20th)</p>
     </div>
 </div>
 
@@ -138,6 +139,7 @@
 </div>
 
 <section class="faculty-section">
+    <h3>Invited mentors</h3>
     <MemberCards memberIds={entry.member} />
 </section>
 
@@ -201,7 +203,7 @@
 
     .hero {
         height: 100vh;
-        margin-top: calc(-1 * var(--nav-height, 80px));
+        margin-top: calc(-1.2 * var(--nav-height, 80px));
         background-image: url('/common/assets/events/skyline.jpg');
         background-size: cover;
         background-position: center;
@@ -243,6 +245,13 @@
         font-weight: 400;
         color: white;
     }
+   
+    .date-small {
+        font-size: clamp(0.6rem, 1.5vw, 1.4rem);
+        font-family: var(--serif);
+        font-weight: 100;
+        color: white;
+    }
 
     .intro-section {
         padding: 4rem var(--margin-left);
@@ -264,6 +273,14 @@
         gap: 3rem;
         padding: 4rem var(--margin-left);
         align-items: center;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        font-family: var(--sans);
+        margin-bottom: 1.5rem;
+        color: whitesmoke;
     }
 
     .image-column {

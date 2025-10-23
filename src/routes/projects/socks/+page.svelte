@@ -44,6 +44,9 @@
                 <p>The Science of Online Corpora Knowledge and Stories project develops computational methods and tools for analyzing vast text collections, enabling researchers to extract insights from large-scale textual data.</p>
 
                 {#if project?.member}
+                    <h3>Principal Investigators</h3>
+                    <MemberCards memberIds={project.PI} />
+                    <h3>Institute members involved</h3>
                     <MemberCards memberIds={project.member} />
                 {/if}
             </section>

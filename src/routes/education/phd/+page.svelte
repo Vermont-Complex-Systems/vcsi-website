@@ -369,9 +369,8 @@
                     <div class="app-detail">
                         <div class="app-label">Program Director</div>
                         <div class="app-value">Professor
-                            <a href="https://www.uvm.edu/cems/cs/profile/laurent-hebert-dufresne" target="_blank" rel="noopener noreferrer">
-                            Laurent Hébert-Dufresne
-                            <ExternalLink size={14} />
+                            <a href="{base}/who-we-are/peter">
+                            Peter Sheridan Dodds
                         </a></div>
                     </div>
                     <div class="app-detail">
@@ -391,6 +390,7 @@
                     <p><strong>Faculty Advisor:</strong> We recommend prospective students identify a faculty advisor in advance.</p>
                     <p><strong>International Students:</strong> Will need to apply well in advance taking into consideration visa processes.</p>
                     <p><strong>Funding:</strong> Limited funding opportunities are available.</p>
+                    <p><strong>More information:</strong> email at <a href="mailto:csdsgrad@uvm.edu">csdsgrad@uvm.edu</a></p>
                 </div>
             </section>
         </div>

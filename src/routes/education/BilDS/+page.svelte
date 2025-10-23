@@ -45,6 +45,7 @@
             </section>
 
             <section>
+                <h3>Institute members involved</h3>
                 {#if entry?.member}
                     <MemberCards memberIds={entry.member} />
                 {/if}

@@ -44,6 +44,7 @@
                 <p>Barracuda is a research project funded by a National Science Foundation EPSCoR grant, and is a collaboration between two research groups at the University of Maine (UM) and the University of Vermont (UVM).</p>
 
                 {#if project?.member}
+                    <h3>Institute members involved</h3>
                     <MemberCards memberIds={project.member} />
                 {/if}
             </section>

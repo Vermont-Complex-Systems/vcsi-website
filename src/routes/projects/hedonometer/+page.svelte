@@ -44,6 +44,7 @@
                 <p>The Hedonometer measures the happiness of large-scale texts including Twitter, books, news articles, and more.</p>
 
                 {#if project?.member}
+                    <h3>Institute members involved</h3>
                     <MemberCards memberIds={project.member} />
                 {/if}
             </section>

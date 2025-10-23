@@ -55,6 +55,7 @@
                 <p>The TGIR research cores are the Mathematical and Computational Predictive Modeling Core (MCP) and the Human Population Research Core (HPR).</p>
 
                 {#if entry?.member}
+                    <h3>Institute members involved</h3>
                     <MemberCards memberIds={entry.member} />
                 {/if}
             </section>

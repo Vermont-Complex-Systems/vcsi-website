@@ -44,6 +44,7 @@
                 <p>Storywrangler is a platform for tracking and analyzing n-grams across Twitter's massive data stream. Explore trending words and phrases across 100+ languages from 2008 to the present.</p>
 
                 {#if project?.member}
+                    <h3>Institute members involved</h3>
                     <MemberCards memberIds={project.member} />
                 {/if}
             </section>
