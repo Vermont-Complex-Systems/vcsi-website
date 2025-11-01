@@ -445,6 +445,7 @@
     }
 
     p {
+        font-size: 1rem;
         line-height: 1.6;
         font-family: var(--serif);
         color: var(--color-fg);
@@ -1002,6 +1003,14 @@
         .content-wrapper {
             margin-left: var(--margin-left-mobile);
             margin-right: var(--margin-left-mobile);
+        }
+
+        .program-content {
+            max-width: 100%;
+        }
+
+        p {
+            font-size: 1.1rem;
         }
 
         h2 {

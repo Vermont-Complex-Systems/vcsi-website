@@ -993,7 +993,15 @@
             margin-left: var(--margin-left-mobile);
             margin-right: var(--margin-left-mobile);
         }
-        
+
+        .program-content {
+            max-width: 100%;
+        }
+
+        p {
+            font-size: 1.1rem;
+        }
+
         .section-image {
             width: 200px;
             transform: translateX(-5%);

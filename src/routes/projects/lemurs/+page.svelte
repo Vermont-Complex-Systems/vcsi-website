@@ -2,6 +2,15 @@
     import Meta from "$lib/components/Meta.svelte";
     import MemberCards from "$lib/components/MemberCards.svelte";
     import projectsData from '$data/projects.csv';
+    import Spinner from '$lib/components/Spinner.svelte';
+    import PapersGrid from '$lib/components/PapersGrid.svelte';
+    import TopicsChart from '$lib/components/TopicsChart.svelte';
+    import { getLemurPapers } from '../../data.remote.js';
+    let showAll = $state(false);
+    let selectedTopic = $state(null);
+
+        
+    let sortBy = $state('citations');
 
     const project = projectsData.find(p => p.id === 'lemurs');
 
@@ -12,6 +21,10 @@
         "/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
         "/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
     ];
+
+    function handleTopicClick(topic) {
+        selectedTopic = selectedTopic === topic ? null : topic;
+    }
 </script>
 
 <Meta 
@@ -50,7 +63,7 @@
             </div>
 
             
-            <h3>Principal investigators</h3>
+            <h3>Current principal investigators</h3>
             <MemberCards memberIds={project.PI} />
             <h3>Affiliates and students</h3>
             <MemberCards memberIds={project.member} />
@@ -61,25 +74,52 @@
             <p>Using over 10 million heart-rate and activity measurements over a 6-month period, we've begun to identify intriguing patterns in the survey and Oura ring data that advance our understanding of relationships between well-being, health, cardiac activity, and sleep.</p>
             <p>College students are at high-risk for mental-health related challenges—determining which objective markers from a popular consumer wearable are associated with stress and anxiety provides opportunities to identify specifically who is at risk, and intervene at scale in real time.</p>
         </section>
-        
-        <section>
-            <h2>Contact & Resources</h2>
-            <p>Please contact <a href="mailto:lemurs.study@uvm.edu">lemurs.study@uvm.edu</a> if you have questions.</p>
-            
-            <div class="resources">
-                <ul>
-                    <li><a href="https://storylab.w3.uvm.edu/lemurs/lemurs-app-terms-of-use.pdf" target="_blank" rel="noopener noreferrer">LEMURS Study App Terms and Conditions</a></li>
-                    <li><a href="https://storylab.w3.uvm.edu/lemurs/lemurs-app-privacy-policy.pdf" target="_blank" rel="noopener noreferrer">LEMURS Study App Privacy Policy</a></li>
-                </ul>
-            </div>
-        </section>
     </div>
 </div>
 
+{#await getLemurPapers()}
+<div class="papers-wrapper">
+    <Spinner text="Loading papers..." />
+</div>
+{:then papers}
+{#if papers && papers.length > 0}
+<div class="papers-wrapper">
+    <section id="research-metrics">
+        <p>You can explore the <u>{papers.length} publications</u> stemming from the MassMutual Center of Excellence by filtering topics:</p>
+        <TopicsChart {papers} {selectedTopic} onTopicClick={handleTopicClick} />
+        <PapersGrid {papers} bind:sortBy bind:showAll {selectedTopic} />
+    </section>
+</div>
+{/if}
+{:catch error}
+<div class="papers-wrapper">
+    <p>Error loading papers: {error.message || 'Unknown error'}</p>
+</div>
+{/await}
+
+<div class="content-wrapper">
+<section>
+    <h2>Contact & Resources</h2>
+    <p>Please contact <a href="mailto:lemurs.study@uvm.edu">lemurs.study@uvm.edu</a> if you have questions.</p>
+
+    <div class="resources">
+        <ul>
+            <li><a href="https://storylab.w3.uvm.edu/lemurs/lemurs-app-terms-of-use.pdf" target="_blank" rel="noopener noreferrer">LEMURS Study App Terms and Conditions</a></li>
+            <li><a href="https://storylab.w3.uvm.edu/lemurs/lemurs-app-privacy-policy.pdf" target="_blank" rel="noopener noreferrer">LEMURS Study App Privacy Policy</a></li>
+        </ul>
+    </div>
+</section>
+</div>
+
 <style>
-    .content-wrapper {
+    .content-wrapper,
+    .papers-wrapper {
         margin-left: var(--margin-left);
         margin-right: var(--margin-left);
+    }
+
+    .papers-wrapper {
+        margin-top: 2rem;
     }
     
     
@@ -155,6 +195,10 @@
         width: auto;
         object-fit: contain;
         mix-blend-mode: multiply;
+    }
+
+    #research-metrics {
+        max-width: none;
     }
 
     /* Mobile adjustments */

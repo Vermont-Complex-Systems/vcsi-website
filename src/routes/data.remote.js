@@ -283,6 +283,7 @@ export const getCourseByCRN = prerender(
 
 import massMutualPapersData from '$data/publications/mass-mutual.csv';
 import tgirPapersData from '$data/publications/tgir.csv';
+import lemursPaperData from '$data/publications/lemurs.csv';
 
 // Helper to normalize DOI for matching (handles different formats)
 function normalizeDoi(doi) {
@@ -392,6 +393,39 @@ export const getMassMutualPapers = prerender(async () => {
 
 export const getTgirPapers = prerender(async () => {
     const csvDois = tgirPapersData.map(row => row.doi).filter(doi => doi && doi.trim());
+
+    // Build OR conditions that match DOI regardless of prefix format
+    const whereConditions = csvDois.flatMap(doi => {
+        const normalized = normalizeDoi(doi);
+        return [
+            // Match with https://doi.org/ prefix
+            sql`LOWER(${openalex_papers.doi}) = LOWER(${'https://doi.org/' + normalized})`,
+            // Match with http://dx.doi.org/ prefix
+            sql`LOWER(${openalex_papers.doi}) = LOWER(${'http://dx.doi.org/' + normalized})`,
+            // Match without prefix
+            sql`LOWER(${openalex_papers.doi}) = LOWER(${normalized})`,
+            // Match with doi: prefix
+            sql`LOWER(${openalex_papers.doi}) = LOWER(${'doi:' + normalized})`
+        ];
+    });
+
+    const papers = await db.select()
+        .from(openalex_papers)
+        .where(or(...whereConditions));
+
+    const formattedPapers = papers.map(paper => ({
+        ...paper,
+        is_open_access: Boolean(paper.is_open_access),
+        concepts: safeParse(paper.concepts) || [],
+        primary_location: safeParse(paper.primary_location) || [],
+        topics: safeParse(paper.topics) || []
+    }));
+
+    return deduplicatePapers(formattedPapers);
+});
+
+export const getLemurPapers = prerender(async () => {
+    const csvDois = lemursPaperData.map(row => row.doi).filter(doi => doi && doi.trim());
 
     // Build OR conditions that match DOI regardless of prefix format
     const whereConditions = csvDois.flatMap(doi => {

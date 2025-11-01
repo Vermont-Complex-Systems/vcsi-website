@@ -4,8 +4,6 @@
 
   // To change when we can, it is pudding property
   const preloadFont = [
-    "/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
-    "/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2",
     "/assets/fonts/atlas/AtlasGrotesk-Regular-Web.woff2",
     "/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
     "/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
