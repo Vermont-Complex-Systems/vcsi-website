@@ -4,7 +4,7 @@
     import { ArrowRight } from '@lucide/svelte';
 </script>
 
-<div class="content-wrapper">
+<div class="content-container hero-container">
     <div id="hero-section">
         <div class="hero-text">
             <h1>Describe, Explain,  Create, Share.</h1>
@@ -17,7 +17,7 @@
 <hr>
 
 <section class="features-section">
-    <div class="features-wrapper">
+    <div class="content-container">
         <div class="features-header">
             <h2>Nutshellfully</h2>
         </div>
@@ -77,7 +77,7 @@
 </div>
 
 <section class="learning-section">
-    <div class="learning-wrapper">
+    <div class="content-container">
         <div class="learning-header">
             <div class="learning-header-text">
                 <h2>Scales of learning</h2>
@@ -139,12 +139,11 @@
 </section>
 
 <style>
-    .content-wrapper {
+    .hero-container {
         padding: 0;
-        margin-left: var(--margin-left);
         margin-top: -3rem; /* Compensate for layout padding on home page */
     }
-    
+
     .hero-text {
         display: flex;
         flex-direction: column;
@@ -192,11 +191,6 @@
 
     /* Features Section */
 
-    .features-wrapper {
-        margin-left: var(--margin-left);
-        margin-right: var(--margin-left);
-    }
-    
     .features-header {
         text-align: left;
         margin-bottom: 4rem;

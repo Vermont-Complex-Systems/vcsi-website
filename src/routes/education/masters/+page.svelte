@@ -1,4 +1,5 @@
 <script>
+    import { base } from '$app/paths';
     import Meta from "$lib/components/Meta.svelte";
     import { ExternalLink, ArrowRight } from '@lucide/svelte';
 
@@ -230,6 +231,7 @@
                             <li>Statistical Theory (STAT 5610)</li>
                             <li>Bayesian Statistics (STAT 6300)</li>
                             <li>Statistical Learning (STAT/CS 3990)</li>
+                            <li>Energy System Entanglement (CSYS/CEE 6990)</li>
                         </ul>
                         <p class="note"><em>This course list evolves and not all courses will be offered in any given semester. Other courses (including special topics) may be approved by the CSDS Curriculum Committee.</em></p>
                     </div>
@@ -364,10 +366,9 @@
                     </div>
                     <div class="app-detail">
                         <div class="app-label">Program Director</div>
-                        <div class="app-value">Professor 
-                            <a href="https://www.uvm.edu/cems/cs/profile/laurent-hebert-dufresne">
-                            Laurent Hébert-Dufresne
-                            <ExternalLink size={14} />
+                        <div class="app-value">Professor
+                            <a href="{base}/who-we-are/peter">
+                            Peter Sheridan Dodds
                         </a></div>
                     </div>
                     <div class="app-detail">

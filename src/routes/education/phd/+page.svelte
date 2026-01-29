@@ -90,7 +90,7 @@
 />
 
 <div class="program">
-    <div class="content-wrapper">
+    <div class="content-container">
         <div class="page-header">
             <div class="page-header-text">
                 <h1>PhD in Complex Systems and Data Science</h1>
@@ -259,6 +259,7 @@
                             <li>Statistical Theory (STAT 5610)</li>
                             <li>Bayesian Statistics (STAT 6300)</li>
                             <li>Statistical Learning (STAT/CS 3990)</li>
+                            <li>Energy System Entanglement (CSYS/CEE 6990)</li>
                         </ul>
                         <p class="note"><em>This course list evolves and not all courses will be offered in any given semester. Other courses (including special topics) may be approved by the CSDS Curriculum Committee.</em></p>
                     </div>
@@ -398,12 +399,7 @@
 </div>
 
 <style>
-    .content-wrapper {
-        margin-left: var(--margin-left);
-        margin-right: var(--margin-left);
-    }
-
-     .section-header-with-image {
+    .section-header-with-image {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -989,11 +985,6 @@
 
     /* Mobile adjustments */
     @media (max-width: 768px) {
-        .content-wrapper {
-            margin-left: var(--margin-left-mobile);
-            margin-right: var(--margin-left-mobile);
-        }
-
         .program-content {
             max-width: 100%;
         }

@@ -1,27 +1,17 @@
-@import "variables.css";   /* Color/size primitives */
-@import "fonts.css";   /* Color/size primitives */
+@import "variables.css";
+@import "fonts.css";
+@import "reset.css";
 
-/* Reset default margins/padding for full-width elements */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-size: var(--font-size-small);
-}
-
+/* Body overrides */
 body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     background: var(--color-bg);
     color: var(--color-fg);
-    transition: background-color 200ms ease;
+    font-family: var(--serif);
+    font-size: var(--font-size-small); /* Sets the base text size */
+    transition: background-color 200ms ease; /* Smooth animation when switching between light/dim mode */
 }
 
 
@@ -30,13 +20,6 @@ body {
     --sans: "Atlas Grotesk", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     --serif: "Tiempos Text", "Times New Roman", Times, serif;
     --mono: "Atlas Typewriter", "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace;
-
-    /* Semantic type settings */
-    --font-body: var(--serif);
-    --font-form: var(--mono);
-    --font-weight-bold: 900;
-    --font-weight-normal: 400;
-    --font-weight-thin: 100;
 
     /* Semantic type scale */
     --font-size-giant: clamp(3rem, 10vw, 4rem);
@@ -51,58 +34,30 @@ body {
     --border-radius: 3px;
     --width-padded: 80vw;
     --margin-left: 12vw;
-    --width-padded-mobile: 90vw;
     --margin-left-mobile: 5vw;
 
     /* Motion tokens */
     --left-tilt: -2deg;
     --right-tilt: 2deg;
-    --left-tilt-double: -4deg;
-    --right-tilt-double: 4deg;
-    --transition-fast: 100ms;
     --transition-medium: 200ms;
-    --transition-slow: 500ms;
-    --transition-ease: ease-in;
     --1s: 1ms;
 
     /* Z-index scale */
-    --z-bottom: -100;
-    --z-middle: 0;
-    --z-top: 100;
     --z-overlay: 1000;
 
     /* =============================================================================
        SEMANTIC COLOR MAPPINGS (Light Mode)
        ============================================================================= */
-    
+
     --color-bg: var(--color-beige);
     --color-fg: var(--color-gray-800);
     --color-primary: var(--color-black);
-    --color-secondary-gray: var(--color-gray-600);
-    
+
     /* Links */
     --color-link: var(--color-black);
-    --color-link-hover: var(--color-gray-600);
-    
+
     /* Interactive states */
-    --color-focus: var(--color-electric-green);
-    --color-mark: var(--color-yellow);
-    --color-selection: var(--color-gray-300);
     --color-border: var(--color-gray-300);
-    
-    /* Form elements */
-    --color-input-bg: var(--color-gray-50);
-    --color-input-fg: var(--color-gray-900);
-    --color-placeholder: var(--color-gray-500);
-    
-    /* Buttons */
-    --color-button-bg: var(--color-gray-900);
-    --color-button-fg: var(--color-gray-100);
-    --color-button-hover: var(--color-gray-700);
-    
-    /* Story-specific */
-    --color-default-story-bg: var(--color-gray-100);
-    --fade: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 30%, rgba(255, 255, 255, 1) 50%);
 }
 
 /* =============================================================================
@@ -110,38 +65,15 @@ body {
    ============================================================================= */
 
 .dark {
-    /* Main backgrounds - light greys that work with black text */
-    --color-bg: var(--color-gray-100);              /* Very light grey background */
-    --color-fg: var(--color-black);                 /* Black text for maximum readability */
-    --color-primary: var(--color-black);            /* Primary elements stay black */
-    --color-secondary-gray: var(--color-gray-600);  /* Darker grey for secondary text */
-    
+    --color-bg: var(--color-gray-100);
+    --color-fg: var(--color-black);
+    --color-primary: var(--color-black);
+
     /* Links */
     --color-link: var(--color-black);
-    --color-link-hover: var(--color-gray-700);
-    
+
     /* Interactive states */
-    --color-border: var(--color-gray-300);          /* Light grey borders */
-    --color-selection: var(--color-gray-200);       /* Light selection highlight */
-    
-    /* Buttons - dark buttons on light background */
-    --color-button-bg: var(--color-gray-800);
-    --color-button-fg: var(--color-white);
-    --color-button-hover: var(--color-gray-700);
-    
-    /* Form elements */
-    --color-input-bg: var(--color-gray-50);         /* Very light input backgrounds */
-    --color-input-fg: var(--color-black);           /* Black input text */
-    --color-placeholder: var(--color-gray-500);     /* Medium grey placeholders */
-    
-    /* Story-specific */
-    --color-default-story-bg: var(--color-white);   /* White story backgrounds on light grey */
-    
-    /* Light fade gradient */
-    --fade: linear-gradient(180deg, 
-        rgba(239, 239, 239, 0) 0%, 
-        rgba(239, 239, 239, 0.8) 30%, 
-        rgba(239, 239, 239, 1) 50%);
+    --color-border: var(--color-gray-300);
 }
 
 /* Enable animations when user allows motion */
@@ -152,21 +84,34 @@ body {
 }
 
 /* =============================================================================
+   LAYOUT UTILITIES
+   ============================================================================= */
+
+.content-container {
+    margin-left: var(--margin-left);
+    margin-right: var(--margin-left);
+}
+
+@media (max-width: 768px) {
+    .content-container {
+        margin-left: var(--margin-left-mobile);
+        margin-right: var(--margin-left-mobile);
+    }
+}
+
+/* =============================================================================
    BASE TEXT STYLES
    ============================================================================= */
 
 h2 {
     font-size: 1.8rem;
     font-weight: 400;
-    font-family: var(--serif);
     margin-bottom: 1rem;
     margin-top: 2.5rem;
 }
 
 p {
     line-height: 1.6;
-    font-family: var(--serif);
-    color: var(--color-fg);
     margin-bottom: 1rem;
 }
 
@@ -175,7 +120,6 @@ p {
 }
 
 ul {
-    font-family: var(--serif);
     padding-left: 1.5rem;
     margin-bottom: 1.5rem;
     margin-top: 0.5rem;
@@ -224,15 +168,6 @@ li {
     mix-blend-mode: multiply;
 }
 
-/* Tall images need spacing adjustment */
-.page-header-tall {
-    margin-bottom: 1rem;
-}
-
-.page-header-tall + .content {
-    margin-top: -5rem;
-}
-
 /* Mobile adjustments for page headers */
 @media (max-width: 768px) {
     h2 {
@@ -268,16 +203,6 @@ li {
     .page-header-image {
         width: 20rem;
         height: 20rem;
-    }
-
-    /* No spacing adjustment needed on mobile */
-    .page-header-tall {
-        gap: 0;
-        margin-bottom: 2rem;
-    }
-
-    .page-header-tall + .content {
-        margin-top: 0;
     }
 }
 
@@ -357,12 +282,10 @@ li {
 .page-header-text h1 {
     font-size: 3rem;
     font-weight: 400;
-    font-family: var(--serif);
 }
 
 .page-header-text .intro {
     font-size: var(--font-size-medium);
-    font-family: var(--serif);
     color: var(--color-gray-700);
     margin: 0;
     font-style: italic;
@@ -381,7 +304,6 @@ li {
     border-radius: var(--border-radius);
     background: var(--color-bg);
     transition: all 200ms ease;
-    font-family: var(--serif);
 }
 
 .page-header-text a.external-link:hover {
