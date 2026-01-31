@@ -17,7 +17,8 @@
 		"db:populate": "node scripts/populate-db-api.js",
 		"openalex:populate": "node scripts/populate-openalex-db.js",
 		"fetch-dois": "node scripts/fetch-dois.js",
-		"compare-dois": "node scripts/compare-dois.js"
+		"compare-dois": "node scripts/compare-dois.js",
+		"msgraph:fetch": "node scripts/fetch-msgraph.js"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-static": "^3.0.8",
@@ -29,7 +30,9 @@
 		"vite": "^7.0.4"
 	},
 	"dependencies": {
+		"@azure/identity": "^4.13.0",
 		"@lucide/svelte": "^0.544.0",
+		"@microsoft/microsoft-graph-client": "^3.0.7",
 		"@rollup/plugin-dsv": "^3.0.5",
 		"@types/better-sqlite3": "^7.6.12",
 		"@types/node": "^20",
