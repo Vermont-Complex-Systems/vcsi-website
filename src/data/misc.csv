@@ -1,11 +1,5 @@
-id,name,position,social,bio,url,email,pronoun,status,primaryAffiliation,openAlexId,position2
-parisa-suchdev,Parisa Suchdev,PhD,https://pk.linkedin.com/in/parisasuchdev,"PhD student in Computer Science, Project: Sentiment analysis of a decade of Arabic Twitter.",https://pk.linkedin.com/in/parisasuchdev,,,,,,
-calla-beauregard,Calla Beauregard,PhD,https://www.linkedin.com/in/calla-g-4270b7126/,PhD,https://www.linkedin.com/in/calla-g-4270b7126/,,,,,,
-livi-poon,Livi Poon,Undergrad,https://www.linkedin.com/in/livi-poon-9a93a8116/,undergraduate student studying applications of machine learning to neuroscience.,https://www.linkedin.com/in/livi-poon-9a93a8116/,,,,,,
-ashley-fehr,Ashley Fehr,PhD,https://www.linkedin.com/in/amafehr/,PhD,https://www.linkedin.com/in/amafehr/,,,,,,
-johanna-hidalgo,Johanna Hidalgo,PhD,https://www.linkedin.com/in/johanna-hidalgo-0480a5142/,PhD,https://www.uvm.edu/cas/psychology/current-clinical-psychology-phd-students,,,,,,
-jenn-ha,Jenn Ha,PhD,https://www.linkedin.com/in/johanna-hidalgo-0480a5142/,PhD,https://www.uvm.edu/cas/psychology/current-clinical-psychology-phd-students,,,,,,
-luc-cohen-wanis,Luc-Cohen Wanis,PhD,https://www.linkedin.com/in/luc-cohen-wanis-63834ba9/,PhD,https://www.uvm.edu/cems/mathstat/graduate-students,,,,,,
-mohsen-ghasemizade,Mohsen Ghasemizade,PhD,https://www.linkedin.com/in/mohsenghasemizade,PhD,https://www.uvm.edu/~mghasemi/,,,,,,
-josh-minot,Josh Minot,PhD,https://www.linkedin.com/in/joshminot/,PhD in Complex Systems & Data Science. Thesis: Gauge against the machine: improving representations within sociotechnical instruments to enrich context and identify biases.,https://joshminot.github.io/,,,Alumni,,,
-yoshi-bird,Yoshi Bird,PhD,https://www.alumni.uvm.edu/s/1690/alumni/index.aspx?sid=1690&gid=2&pgid=4088&cid=10221&ecid=10221&crid=0&calpgid=61&calcid=5944,PhD student in Complex Systems & Data Science. Associate Director of Partnership Compliance at Code for America.,https://www.alumni.uvm.edu/s/1690/alumni/index.aspx?sid=1690&gid=2&pgid=4088&cid=10221&ecid=10221&crid=0&calpgid=61&calcid=5944,,,Alumni,,,
+id,name,description,url,award_id,PI,member
+bilds,BiLDS,Biological Data Science (BilDS) Program,https://www.uvm.edu/cas/bilds,,,lhd brian-beckage nick-cheney chris elise-lauterbur melissa-pespeni
+mmcoe,Mass Mutual Center of Excellence,Mass Mutual Center of Excellence,https://vermontcomplexsystems.org/mass-mutual,,peter chris matthew-price alexa, joe-near chris-skalka sam-z ben charlie-brooks kathryn-stanton izzy-smith jso calla-beauregard ashley-fehr livi-poon parisa-suchdev johanna-hidalgo jenn-ha luc-cohen-wanis mohsen-ghasemizade
+tgir,Translational Global Infectious Diseases Research Center,Translational Global Infectious Diseases Research Center,https://www.uvm.edu/larnermed/mmg/tgir-research,,,lhd jgy
+cnww,CNWW,CNWW,https://vermontcomplexsystems.org/events/cnww/,,,lhd alice peter jgy antoine-allard juni sam-scarpino dom-gravel sarah-shugars phil-chodrow 
