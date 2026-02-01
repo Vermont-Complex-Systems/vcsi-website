@@ -1,49 +1,19 @@
 import * as v from 'valibot';
-import { error } from '@sveltejs/kit';
 import { prerender } from '$app/server';
 import { db } from "$lib/server/db/index.js"
-import { eq, inArray, or, sql } from 'drizzle-orm';
-import { 
-    courses, 
-    sections, 
-    enrollment, 
-    prerequisites, 
-    cross_listings, 
-    evaluation, 
-    important_dates, 
-    soc_comments,
-    openalex_authors,
-    openalex_papers
-} from '$lib/server/db/schema.js';
+import { eq, or, sql } from 'drizzle-orm';
+import { openalex_authors, openalex_papers } from '$lib/server/db/schema.js';
 
 import membersData from '$data/members.csv'
 import groupsData from '$data/groups.csv'
+import massMutualPapersData from '$data/publications/mass-mutual.csv';
+import tgirPapersData from '$data/publications/tgir.csv';
+import lemursPaperData from '$data/publications/lemurs.csv';
 
-export const getMembers = prerender(async () => {
-    return await membersData
-});
+// --------------------------------- //
+// Helper functions
+// --------------------------------- //
 
-export const getGroups = prerender(async () => {
-    return await groupsData
-});
-
-export const getMember = prerender(
-    v.string(),
-    async (slug) => {
-        return await membersData.filter(d => d.id == slug)
-    },
-    { dynamic: true }
-);
-
-export const getGroup = prerender(
-    v.string(),
-    async (slug) => {
-        return await groupsData.filter(d => d.id == slug)
-    },
-    {dynamic: true}
-);
-
-// Helper function to safely parse JSON
 function safeParse(value) {
     if (!value) return null;
     try {
@@ -53,260 +23,33 @@ function safeParse(value) {
     }
 }
 
-export const getAllAuthors = prerender(async () => {
-    const allAuthors = await db.select()
-        .from(openalex_authors)
-        .orderBy(openalex_authors.cited_by_count);
-
-    return allAuthors;
-});
-
-export const getAllAuthorsWithPapers = prerender(async () => {
-    // Get all authors
-    const allAuthors = await db.select()
-        .from(openalex_authors);
-
-    // Get all papers
-    const allPapers = await db.select()
-        .from(openalex_papers);
-
-    const formattedPapers = allPapers.map(paper => ({
+function formatPaper(paper) {
+    return {
         ...paper,
         is_open_access: Boolean(paper.is_open_access),
         concepts: safeParse(paper.concepts) || [],
         primary_location: safeParse(paper.primary_location) || [],
         topics: safeParse(paper.topics) || []
-    }));
-
-    // Create an aggregated "author" object for the explore page
-    return {
-        name: "VCSI",
-        bio: " is an interdisplinary research institute working on complex systems problems of all kinds.",
-        openAlex: {
-            works_count: allAuthors.reduce((sum, a) => sum + (a.works_count || 0), 0),
-            cited_by_count: allAuthors.reduce((sum, a) => sum + (a.cited_by_count || 0), 0),
-            h_index: Math.max(...allAuthors.map(a => a.h_index || 0))
-        },
-        papers: deduplicatePapers(formattedPapers)
     };
-});
+}
 
-export const getMemberWithOpenAlex = prerender(
-    v.string(),
-    async (slug) => {
-        const member = await membersData.filter(d => d.id == slug)
-        if (member.length === 0) {
-            return null
-        }
-
-        const memberData = member[0];
-
-        // Special case: if slug is 'vcsi', return all authors from database
-        if (slug === 'vcsi') {
-            const allAuthors = await db.select()
-                .from(openalex_authors);
-
-            return {
-                ...memberData,
-                openAlex: null,
-                papers: [],
-                allAuthors: allAuthors
-            };
-        }
-
-        if (!memberData.openAlexId) {
-            return memberData
-        }
-
-        // Get author data from database
-        const authorData = await db.select()
-            .from(openalex_authors)
-            .where(eq(openalex_authors.openalex_id, memberData.openAlexId))
-            .limit(1);
-
-        // Get papers from database
-        const papers = await db.select()
-            .from(openalex_papers)
-            .where(eq(openalex_papers.author_openalex_id, memberData.openAlexId));
-
-        const formattedPapers = papers.map(paper => ({
-            ...paper,
-            is_open_access: Boolean(paper.is_open_access),
-            concepts: safeParse(paper.concepts) || [],
-            primary_location: safeParse(paper.primary_location) || [],
-            topics: safeParse(paper.topics) || []
-        }));
-
-        return {
-            ...memberData,
-            openAlex: authorData.length > 0 ? authorData[0] : null,
-            papers: deduplicatePapers(formattedPapers)
-        }
-    },
-    { dynamic: true }
-);
-
-
-// --------------------------------- //
-//
-// Course-related remote functions
-//
-// --------------------------------- //
-
-export const getCourses = prerender(async () => {
-    const coursesWithSections = await db.select({
-        id: courses.id,
-        course_code: courses.course_code,
-        title: courses.title,
-        credit_hours: courses.credit_hours,
-        instruction_method: courses.instruction_method,
-        catalog_description: courses.catalog_description,
-        last_updated: courses.last_updated,
-        section: sections.section,
-        crn: sections.crn,
-        meeting_time: sections.meeting_time,
-        location: sections.location,
-        instructor_name: sections.instructor_name,
-        instructor_email: sections.instructor_email,
-        status: sections.status
-    })
-    .from(courses)
-    .leftJoin(sections, eq(courses.id, sections.course_id))
-    .orderBy(courses.course_code, sections.section);
-    
-    return coursesWithSections;
-});
-
-export const getCourse = prerender(
-    v.string(),
-    async (courseCode) => {
-        const courseData = await db.select()
-            .from(courses)
-            .where(eq(courses.course_code, courseCode))
-            .limit(1);
-        
-        if (courseData.length === 0) {
-            throw error(404, 'Course not found');
-        }
-        
-        const course = courseData[0];
-        
-        // Get all sections for this course
-        const courseSections = await db.select()
-            .from(sections)
-            .where(eq(sections.course_id, course.id));
-        
-        // Get enrollment data for each section
-        const enrollmentData = await db.select()
-            .from(enrollment)
-            .leftJoin(sections, eq(enrollment.section_id, sections.id))
-            .where(eq(sections.course_id, course.id));
-        
-        // Get prerequisites
-        const prereqs = await db.select()
-            .from(prerequisites)
-            .where(eq(prerequisites.course_id, course.id));
-        
-        // Get cross listings
-        const crossListings = await db.select()
-            .from(cross_listings)
-            .where(eq(cross_listings.course_id, course.id));
-        
-        // Get evaluation components
-        const evaluationData = await db.select()
-            .from(evaluation)
-            .where(eq(evaluation.course_id, course.id));
-        
-        // Get important dates
-        const importantDates = await db.select()
-            .from(important_dates)
-            .where(eq(important_dates.course_id, course.id));
-        
-        // Get SOC comments
-        const socComments = await db.select()
-            .from(soc_comments)
-            .where(eq(soc_comments.course_id, course.id));
-        
-        return {
-            ...course,
-            sections: courseSections,
-            enrollment: enrollmentData,
-            prerequisites: prereqs,
-            cross_listings: crossListings,
-            evaluation: evaluationData,
-            important_dates: importantDates,
-            soc_comments: socComments
-        };
-    },
-    {dynamic: true}
-);
-
-export const getCourseByCRN = prerender(
-    v.string(),
-    async (crn) => {
-        const courseData = await db.select({
-            id: courses.id,
-            course_code: courses.course_code,
-            title: courses.title,
-            credit_hours: courses.credit_hours,
-            instruction_method: courses.instruction_method,
-            catalog_description: courses.catalog_description,
-            section_description: courses.section_description,
-            last_updated: courses.last_updated,
-            section: sections.section,
-            crn: sections.crn,
-            meeting_time: sections.meeting_time,
-            location: sections.location,
-            instructor_name: sections.instructor_name,
-            instructor_email: sections.instructor_email,
-            status: sections.status
-        })
-        .from(courses)
-        .leftJoin(sections, eq(courses.id, sections.course_id))
-        .where(eq(sections.crn, crn))
-        .limit(1);
-
-        if (courseData.length === 0) {
-            throw error(404, 'Course not found');
-        }
-
-        return courseData[0];
-    },
-    {dynamic: true}
-);
-
-// --------------------------------- //
-//
-// Project papers remote functions
-//
-// --------------------------------- //
-
-import massMutualPapersData from '$data/publications/mass-mutual.csv';
-import tgirPapersData from '$data/publications/tgir.csv';
-import lemursPaperData from '$data/publications/lemurs.csv';
-
-// Helper to normalize DOI for matching (handles different formats)
 function normalizeDoi(doi) {
     if (!doi) return '';
-    // Remove common prefixes and normalize
     return doi.toLowerCase()
         .replace(/^https?:\/\/(dx\.)?doi\.org\//i, '')
         .replace(/^doi:/i, '')
         .trim();
 }
 
-// Helper to deduplicate papers by title, preferring non-preprints
 function deduplicatePapers(papers) {
-    // Normalize title for comparison
     const normalizeTitle = (title) => {
         if (!title) return '';
         return title.toLowerCase()
-            .replace(/[^\w\s]/g, '') // Remove punctuation
-            .replace(/\s+/g, ' ')    // Normalize spaces
+            .replace(/[^\w\s]/g, '')
+            .replace(/\s+/g, ' ')
             .trim();
     };
 
-    // Check if paper is a preprint
     const isPreprint = (paper) => {
         const location = paper.primary_location;
         if (!location || typeof location === 'string') {
@@ -320,7 +63,6 @@ function deduplicatePapers(papers) {
         return location?.source?.type === 'repository';
     };
 
-    // Group by normalized title
     const titleGroups = new Map();
     for (const paper of papers) {
         const normalizedTitle = normalizeTitle(paper.title);
@@ -330,48 +72,33 @@ function deduplicatePapers(papers) {
         titleGroups.get(normalizedTitle).push(paper);
     }
 
-    // For each group, select the best version
     const deduplicated = [];
     for (const group of titleGroups.values()) {
         if (group.length === 1) {
             deduplicated.push(group[0]);
             continue;
         }
-
-        // Sort by: non-preprint first, then by citation count
         const best = group.sort((a, b) => {
             const aIsPreprint = isPreprint(a);
             const bIsPreprint = isPreprint(b);
-
-            // Prefer non-preprints
-            if (aIsPreprint !== bIsPreprint) {
-                return aIsPreprint ? 1 : -1;
-            }
-
-            // If both same type, prefer higher citations
+            if (aIsPreprint !== bIsPreprint) return aIsPreprint ? 1 : -1;
             return (b.cited_by_count || 0) - (a.cited_by_count || 0);
         })[0];
-
         deduplicated.push(best);
     }
 
     return deduplicated;
 }
 
-export const getMassMutualPapers = prerender(async () => {
-    const csvDois = massMutualPapersData.map(row => row.doi).filter(doi => doi && doi.trim());
+async function getPapersByDois(csvData) {
+    const csvDois = csvData.map(row => row.doi).filter(doi => doi && doi.trim());
 
-    // Build OR conditions that match DOI regardless of prefix format
     const whereConditions = csvDois.flatMap(doi => {
         const normalized = normalizeDoi(doi);
         return [
-            // Match with https://doi.org/ prefix
             sql`LOWER(${openalex_papers.doi}) = LOWER(${'https://doi.org/' + normalized})`,
-            // Match with http://dx.doi.org/ prefix
             sql`LOWER(${openalex_papers.doi}) = LOWER(${'http://dx.doi.org/' + normalized})`,
-            // Match without prefix
             sql`LOWER(${openalex_papers.doi}) = LOWER(${normalized})`,
-            // Match with doi: prefix
             sql`LOWER(${openalex_papers.doi}) = LOWER(${'doi:' + normalized})`
         ];
     });
@@ -380,79 +107,92 @@ export const getMassMutualPapers = prerender(async () => {
         .from(openalex_papers)
         .where(or(...whereConditions));
 
-    const formattedPapers = papers.map(paper => ({
-        ...paper,
-        is_open_access: Boolean(paper.is_open_access),
-        concepts: safeParse(paper.concepts) || [],
-        primary_location: safeParse(paper.primary_location) || [],
-        topics: safeParse(paper.topics) || []
-    }));
+    return deduplicatePapers(papers.map(formatPaper));
+}
 
-    return deduplicatePapers(formattedPapers);
+// --------------------------------- //
+// Member & Group exports
+// --------------------------------- //
+
+export const getMembers = prerender(async () => membersData);
+
+export const getGroups = prerender(async () => groupsData);
+
+export const getMember = prerender(
+    v.string(),
+    async (slug) => membersData.filter(d => d.id == slug),
+    { dynamic: true }
+);
+
+export const getGroup = prerender(
+    v.string(),
+    async (slug) => groupsData.filter(d => d.id == slug),
+    { dynamic: true }
+);
+
+// --------------------------------- //
+// OpenAlex exports
+// --------------------------------- //
+
+export const getAllAuthors = prerender(async () => {
+    return db.select()
+        .from(openalex_authors)
+        .orderBy(openalex_authors.cited_by_count);
 });
 
-export const getTgirPapers = prerender(async () => {
-    const csvDois = tgirPapersData.map(row => row.doi).filter(doi => doi && doi.trim());
+export const getAllAuthorsWithPapers = prerender(async () => {
+    const allAuthors = await db.select().from(openalex_authors);
+    const allPapers = await db.select().from(openalex_papers);
 
-    // Build OR conditions that match DOI regardless of prefix format
-    const whereConditions = csvDois.flatMap(doi => {
-        const normalized = normalizeDoi(doi);
-        return [
-            // Match with https://doi.org/ prefix
-            sql`LOWER(${openalex_papers.doi}) = LOWER(${'https://doi.org/' + normalized})`,
-            // Match with http://dx.doi.org/ prefix
-            sql`LOWER(${openalex_papers.doi}) = LOWER(${'http://dx.doi.org/' + normalized})`,
-            // Match without prefix
-            sql`LOWER(${openalex_papers.doi}) = LOWER(${normalized})`,
-            // Match with doi: prefix
-            sql`LOWER(${openalex_papers.doi}) = LOWER(${'doi:' + normalized})`
-        ];
-    });
-
-    const papers = await db.select()
-        .from(openalex_papers)
-        .where(or(...whereConditions));
-
-    const formattedPapers = papers.map(paper => ({
-        ...paper,
-        is_open_access: Boolean(paper.is_open_access),
-        concepts: safeParse(paper.concepts) || [],
-        primary_location: safeParse(paper.primary_location) || [],
-        topics: safeParse(paper.topics) || []
-    }));
-
-    return deduplicatePapers(formattedPapers);
+    return {
+        name: "VCSI",
+        bio: " is an interdisplinary research institute working on complex systems problems of all kinds.",
+        openAlex: {
+            works_count: allAuthors.reduce((sum, a) => sum + (a.works_count || 0), 0),
+            cited_by_count: allAuthors.reduce((sum, a) => sum + (a.cited_by_count || 0), 0),
+            h_index: Math.max(...allAuthors.map(a => a.h_index || 0))
+        },
+        papers: deduplicatePapers(allPapers.map(formatPaper))
+    };
 });
 
-export const getLemurPapers = prerender(async () => {
-    const csvDois = lemursPaperData.map(row => row.doi).filter(doi => doi && doi.trim());
+export const getMemberWithOpenAlex = prerender(
+    v.string(),
+    async (slug) => {
+        const member = membersData.filter(d => d.id == slug);
+        if (member.length === 0) return null;
 
-    // Build OR conditions that match DOI regardless of prefix format
-    const whereConditions = csvDois.flatMap(doi => {
-        const normalized = normalizeDoi(doi);
-        return [
-            // Match with https://doi.org/ prefix
-            sql`LOWER(${openalex_papers.doi}) = LOWER(${'https://doi.org/' + normalized})`,
-            // Match with http://dx.doi.org/ prefix
-            sql`LOWER(${openalex_papers.doi}) = LOWER(${'http://dx.doi.org/' + normalized})`,
-            // Match without prefix
-            sql`LOWER(${openalex_papers.doi}) = LOWER(${normalized})`,
-            // Match with doi: prefix
-            sql`LOWER(${openalex_papers.doi}) = LOWER(${'doi:' + normalized})`
-        ];
-    });
+        const memberData = member[0];
 
-    const papers = await db.select()
-        .from(openalex_papers)
-        .where(or(...whereConditions));
+        if (slug === 'vcsi') {
+            const allAuthors = await db.select().from(openalex_authors);
+            return { ...memberData, openAlex: null, papers: [], allAuthors };
+        }
 
-    const formattedPapers = papers.map(paper => ({
-        ...paper,
-        is_open_access: Boolean(paper.is_open_access),
-        concepts: safeParse(paper.concepts) || [],
-        primary_location: safeParse(paper.primary_location) || [],
-        topics: safeParse(paper.topics) || []
-    }));
+        if (!memberData.openAlexId) return memberData;
 
-    return deduplicatePapers(formattedPapers);
-});
+        const authorData = await db.select()
+            .from(openalex_authors)
+            .where(eq(openalex_authors.openalex_id, memberData.openAlexId))
+            .limit(1);
+
+        const papers = await db.select()
+            .from(openalex_papers)
+            .where(eq(openalex_papers.author_openalex_id, memberData.openAlexId));
+
+        return {
+            ...memberData,
+            openAlex: authorData.length > 0 ? authorData[0] : null,
+            papers: deduplicatePapers(papers.map(formatPaper))
+        };
+    },
+    { dynamic: true }
+);
+
+// --------------------------------- //
+// Project papers exports
+// --------------------------------- //
+
+export const getMassMutualPapers = prerender(async () => getPapersByDois(massMutualPapersData));
+export const getTgirPapers = prerender(async () => getPapersByDois(tgirPapersData));
+export const getLemurPapers = prerender(async () => getPapersByDois(lemursPaperData));
