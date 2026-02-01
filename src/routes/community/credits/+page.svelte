@@ -1,13 +1,6 @@
 <script>
     import Meta from "$lib/components/Meta.svelte";
 
-    const preloadFont = [
-        "/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
-        "/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2",
-        "/assets/fonts/atlas/AtlasGrotesk-Regular-Web.woff2",
-        "/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
-        "/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
-    ];
 </script>
 
 <svelte:head>
@@ -32,18 +25,16 @@
 <Meta 
   title="Credits"
   description="Acknowledgments and credits for the VCSI website and community."
-  {preloadFont}
+  
 />
 
 <div class="page-background"></div>
-<div class="content-wrapper">
-    <div class="page-header">
-        <h2>Mascots and random elements are furnished by the wonderful Rob Babboni.</h2>
-        <div class="page-header-logo">
-            <img src="/common/assets/members/rob-babboni.jpg" alt="rob-flying" class="page-header-image" />
-        </div>
-        <p class="intro"><a href=https://www.robertbabboni.com>Robert Babboni</a> is an award-winning print and digital illustrator and motion graphic artist who has been creating works for magazines, newspapers, digital and print publishers since 1993. He received his BFA in Illustration in 1993 and MFA in Computer Art with a concentration in digital publishing in 2015, both from the School of Visual Arts in New York City. Babboni has created illustrations for books and articles in both print and digital media with a client list that includes The Wall Street Journal, Business Week, Fast Co, Forbes, Penguin Group, Rolling Stone, and The Washington Post. His work has been exhibited in New York City at the Society of Illustrators, the Art Directors Club, the Visual Arts Museum, and American Illustration Annual Exhibitions. Whether in print or digital media, Babboni's illustrations never fail to elevate diverse narratives into thought-provoking visual tableaux that resonate emotionally.</p>
+<div class="page-header">
+    <h2>Mascots and random elements are furnished by the wonderful Rob Babboni.</h2>
+    <div class="page-header-logo">
+        <img src="/common/assets/members/rob-babboni.jpg" alt="rob-flying" class="page-header-image" />
     </div>
+    <p class="intro"><a href=https://www.robertbabboni.com>Robert Babboni</a> is an award-winning print and digital illustrator and motion graphic artist who has been creating works for magazines, newspapers, digital and print publishers since 1993. He received his BFA in Illustration in 1993 and MFA in Computer Art with a concentration in digital publishing in 2015, both from the School of Visual Arts in New York City. Babboni has created illustrations for books and articles in both print and digital media with a client list that includes The Wall Street Journal, Business Week, Fast Co, Forbes, Penguin Group, Rolling Stone, and The Washington Post. His work has been exhibited in New York City at the Society of Illustrators, the Art Directors Club, the Visual Arts Museum, and American Illustration Annual Exhibitions. Whether in print or digital media, Babboni's illustrations never fail to elevate diverse narratives into thought-provoking visual tableaux that resonate emotionally.</p>
 </div>
 
 <style>
@@ -79,16 +70,9 @@
         }
     }
 
-    .content-wrapper {
-        margin-left: var(--margin-left);
-        margin-right: var(--margin-left);
-        position: relative;
-        z-index: 1;
-    }
     
     .intro {
         max-width: 80%;
-        font-size: var(--font-size-small) !important;
         color: black !important;
     }
     
@@ -139,11 +123,6 @@
 
     /* Mobile layout: switch from 2-column grid to single column with order h2 → image → text */
     @media (max-width: 768px) {
-        .content-wrapper {
-            margin-left: var(--margin-left-mobile);
-            margin-right: var(--margin-left-mobile);
-        }
-
         .page-header {
             grid-template-columns: 1fr;
             grid-template-rows: auto auto auto;

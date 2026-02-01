@@ -14,7 +14,6 @@
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
 		"db:studio": "drizzle-kit studio",
-		"db:populate": "node scripts/populate-db-api.js",
 		"openalex:populate": "node scripts/populate-openalex-db.js",
 		"fetch-dois": "node scripts/fetch-dois.js",
 		"compare-dois": "node scripts/compare-dois.js",

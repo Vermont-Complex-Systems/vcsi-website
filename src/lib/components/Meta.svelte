@@ -3,12 +3,11 @@
   import { page } from "$app/state"; // Updated for Svelte 5
   import { base } from "$app/paths";
   
-  let { 
-    title, 
-    description, 
+  let {
+    title,
+    description,
     keywords = "",
     image = "/default-og-image.jpg",
-    preloadFont = [],
     author = "Vermont Complex Systems Institute"
   } = $props();
   
@@ -44,9 +43,4 @@
 
   <link rel="canonical" href={url} />
   <meta name="robots" content="index, follow, max-image-preview:large" />
-
-  {#each preloadFont as href}
-    <link rel="preload" {href} as="font" type="font/woff2" crossorigin />
-  {/each}
-  
 </svelte:head>

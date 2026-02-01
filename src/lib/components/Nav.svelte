@@ -4,31 +4,26 @@
     import { setMode } from "mode-watcher";
     import Menu from "./Nav.Menu.svelte";
 
-    let { transparent = false, absolute = false, whiteLogo = false } = $props();
-
     let isMenuOpen = $state(false);
-	  let menuButtonRef;
-	  let isScrolled = $state(false);
-	  let isWhoWeAreOpen = $state(false);
-	  let isResearchOpen = $state(false);
-	  let isEducationOpen = $state(false);
+    let menuButtonRef;
+    let scrollY = $state(0);
+    let isScrolled = $derived(scrollY > 0);
+    let isWhoWeAreOpen = $state(false);
+    let isResearchOpen = $state(false);
+    let isEducationOpen = $state(false);
     let isDark = $state(false);
 
-    function handleScroll() {
-        isScrolled = window.scrollY > 0;
-    }
-    
     function closeMenu(skipFocus = false) {
       isMenuOpen = false;
       if (!skipFocus) menuButtonRef?.focus();
     }
-    
+
     function closeDropdowns() {
       isWhoWeAreOpen = false;
       isResearchOpen = false;
       isEducationOpen = false;
     }
-    
+
     function handleClickOutside(event) {
       if (!event.target.closest('.nav-dropdown')) {
         closeDropdowns();
@@ -41,182 +36,157 @@
     }
 
     $effect(() => {
-        if (typeof window !== 'undefined') {
-          window.addEventListener('scroll', handleScroll);
-          window.addEventListener('click', handleClickOutside);
-          
-          // Set initial theme state
-          isDark = document.documentElement.classList.contains('dark');
-          
-          return () => {
-            window.removeEventListener('scroll', handleScroll);
-            window.removeEventListener('click', handleClickOutside);
-          };
-        }
-      });
-  
-    </script>
+      if (typeof window !== 'undefined') {
+        window.addEventListener('click', handleClickOutside);
+        isDark = document.documentElement.classList.contains('dark');
 
-<header class="header" class:scrolled={isScrolled} class:transparent={transparent && !isScrolled} class:absolute={absolute}>
-	<div class="header-left">
-		<a href="{base}/" class="vsci-logo-container">
-			<img src="{base}/{whiteLogo ? 'bumper-sticker2-white-transparent.png' : 'vcsi-bumper-sticker-horizontal-arial-transparent.png'}" alt="Home" class="vcsi-logo" />
-		</a>
+        return () => {
+          window.removeEventListener('click', handleClickOutside);
+        };
+      }
+    });
+</script>
 
-		<nav class="desktop-nav">
-		<div class="nav-dropdown">
-			<button 
-				onclick={() => {
-					isResearchOpen = false;
-					isEducationOpen = false;
-					isWhoWeAreOpen = !isWhoWeAreOpen;
-				}}
-				class="nav-button"
-			>
-				Community
-				{#if isWhoWeAreOpen}
-					<ChevronUp size={16} />
-				{:else}
-					<ChevronDown size={16} />
-				{/if}
-			</button>
-			
-			{#if isWhoWeAreOpen}
-				<div class="dropdown-menu">
-					<a href="{base}/who-we-are" class="dropdown-item" onclick={() => closeDropdowns()}>Who We Are</a>
-					<a href="{base}/community/students" class="dropdown-item" onclick={() => closeDropdowns()}>Students</a>
-					<a href="{base}/community/paper-shredder" class="dropdown-item" onclick={() => closeDropdowns()}>Paper Shredder</a>
-					<a href="{base}/community/scraps" class="dropdown-item" onclick={() => closeDropdowns()}>SCRaPS</a>
-					<a href="{base}/community/talkboctopus" class="dropdown-item" onclick={() => closeDropdowns()}>Talkboctopus</a>
-					<a href="{base}/community/credits" class="dropdown-item" onclick={() => closeDropdowns()}>Credits</a>
-				</div>
-			{/if}
-		</div>
-		
-		<div class="nav-dropdown">
-			<button 
-				onclick={() => {
-					isWhoWeAreOpen = false;
-					isEducationOpen = false;
-					isResearchOpen = !isResearchOpen;
-				}}
-				class="nav-button"
-			>
-				Research
-				{#if isResearchOpen}
-					<ChevronUp size={16} />
-				{:else}
-					<ChevronDown size={16} />
-				{/if}
-			</button>
-			
-			{#if isResearchOpen}
-				<div class="dropdown-menu two-column">
-          <div class="header-section-research">
-            <a href="{base}/projects" class="dropdown-item" onclick={() => closeDropdowns()}>Projects</a>
-            <a href="{base}/research/group" class="dropdown-item" onclick={() => closeDropdowns()}>Groups</a>
-            <a href="{base}/funding" class="dropdown-item" onclick={() => closeDropdowns()}>Funding</a>
-            <a
-              href="https://verso.w3.uvm.edu/"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="dropdown-item"
-              onclick={() => closeDropdowns()}>
-                VERSO
-                <ExternalLink size={12} />
-            </a>
-            <a href="{base}/research/mass-mutual" class="dropdown-item" onclick={() => closeDropdowns()}>Mass Mutual Center of Excellence</a>
-          </div>
-          <div class="header-section-research">
-            <a href="{base}/explore" class="dropdown-item" onclick={() => closeDropdowns()}>Explore</a>
-            <a href="{base}/research/tgir" class="dropdown-item" onclick={() => closeDropdowns()}>TGIR Research</a>
-            <a
-              href="https://www.nature.com/npjcomplex/"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="dropdown-item"
-              onclick={() => closeDropdowns()}>
-                npj Complexity
-                <ExternalLink size={12} />
-            </a>
-          </div>
-				</div>
-			{/if}
-		</div>
-		
-		<div class="nav-dropdown">
-			<button 
-				onclick={() => {
-					isWhoWeAreOpen = false;
-					isResearchOpen = false;
-					isEducationOpen = !isEducationOpen;
-				}}
-				class="nav-button"
-			>
-				Education
-				{#if isEducationOpen}
-					<ChevronUp size={16} />
-				{:else}
-					<ChevronDown size={16} />
-				{/if}
-			</button>
-			
-			{#if isEducationOpen}
-        <div class="dropdown-menu two-column">
-          <div class="header-section-research">
-            <a href="{base}/education/undergraduate" class="dropdown-item" onclick={() => closeDropdowns()}>Undergraduate</a>
-            <a href="{base}/education/masters" class="dropdown-item" onclick={() => closeDropdowns()}>Masters</a>
-            <a href="{base}/education/certificate" class="dropdown-item" onclick={() => closeDropdowns()}>Certificate</a>
-            <a href="{base}/education/phd" class="dropdown-item" onclick={() => closeDropdowns()}>PhD</a>
-          </div>
-          <div class="header-section-research">
-            <a href="{base}/education/BilDS" class="dropdown-item" onclick={() => closeDropdowns()}>BilDS</a>
-          </div>
+<svelte:window bind:scrollY />
+
+<header class="header" class:scrolled={isScrolled}>
+  <div class="header-inner">
+    <div class="header-left">
+      <a href="{base}/" class="vcsi-logo-container">
+        <img src="{base}/vcsi-bumper-sticker-horizontal-arial-transparent.png" alt="Home" class="vcsi-logo" />
+      </a>
+
+      <nav class="desktop-nav">
+        <div class="nav-dropdown">
+          <button
+            onclick={() => {
+              isResearchOpen = false;
+              isEducationOpen = false;
+              isWhoWeAreOpen = !isWhoWeAreOpen;
+            }}
+            class="nav-button"
+          >
+            Community
+            {#if isWhoWeAreOpen}
+              <ChevronUp size={16} />
+            {:else}
+              <ChevronDown size={16} />
+            {/if}
+          </button>
+
+          {#if isWhoWeAreOpen}
+            <div class="dropdown-menu">
+              <a href="{base}/who-we-are" class="dropdown-item" onclick={() => closeDropdowns()}>Who We Are</a>
+              <a href="{base}/community/students" class="dropdown-item" onclick={() => closeDropdowns()}>Students</a>
+              <a href="{base}/community/paper-shredder" class="dropdown-item" onclick={() => closeDropdowns()}>Paper Shredder</a>
+              <a href="{base}/community/scraps" class="dropdown-item" onclick={() => closeDropdowns()}>SCRaPS</a>
+              <a href="{base}/community/talkboctopus" class="dropdown-item" onclick={() => closeDropdowns()}>Talkboctopus</a>
+              <a href="{base}/community/credits" class="dropdown-item" onclick={() => closeDropdowns()}>Credits</a>
+            </div>
+          {/if}
         </div>
-			{/if}
-			</div>
-		
-    <a 
-      href="{base}/events"
-      class="nav-link"
-    >
-      Events
-    </a>
-    <a 
-      href="https://complex-stories.uvm.edu/"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="nav-link"
-    >
-      Complex Stories
-      <ExternalLink size={14} />
-    </a>
-		</nav>
-	</div>
 
-	<div class="header-right">
-		<button 
-			onclick={toggleTheme}
-			class="theme-toggle"
-			title="Toggle theme"
-		>
-			{#if isDark}
-				<Sun size={20} />
-			{:else}
-				<Moon size={20} />
-			{/if}
-		</button>
+        <div class="nav-dropdown">
+          <button
+            onclick={() => {
+              isWhoWeAreOpen = false;
+              isEducationOpen = false;
+              isResearchOpen = !isResearchOpen;
+            }}
+            class="nav-button"
+          >
+            Research
+            {#if isResearchOpen}
+              <ChevronUp size={16} />
+            {:else}
+              <ChevronDown size={16} />
+            {/if}
+          </button>
 
-		<button 
-			onclick={() => isMenuOpen = !isMenuOpen}
-			bind:this={menuButtonRef}
-			class="menu-button"
-		>
-			<MenuIcon class="icon" size={28} />
-			<span class="sr-only">Open menu</span>
-		</button>
-	</div>
+          {#if isResearchOpen}
+            <div class="dropdown-menu two-column">
+              <div class="header-section-research">
+                <a href="{base}/projects" class="dropdown-item" onclick={() => closeDropdowns()}>Projects</a>
+                <a href="{base}/research/group" class="dropdown-item" onclick={() => closeDropdowns()}>Groups</a>
+                <a href="{base}/funding" class="dropdown-item" onclick={() => closeDropdowns()}>Funding</a>
+                <a href="https://verso.w3.uvm.edu/" target="_blank" rel="noopener noreferrer" class="dropdown-item" onclick={() => closeDropdowns()}>
+                  VERSO <ExternalLink size={12} />
+                </a>
+                <a href="{base}/research/mass-mutual" class="dropdown-item" onclick={() => closeDropdowns()}>Mass Mutual Center of Excellence</a>
+              </div>
+              <div class="header-section-research">
+                <a href="{base}/explore" class="dropdown-item" onclick={() => closeDropdowns()}>Explore</a>
+                <a href="{base}/research/tgir" class="dropdown-item" onclick={() => closeDropdowns()}>TGIR Research</a>
+                <a href="https://www.nature.com/npjcomplex/" target="_blank" rel="noopener noreferrer" class="dropdown-item" onclick={() => closeDropdowns()}>
+                  npj Complexity <ExternalLink size={12} />
+                </a>
+              </div>
+            </div>
+          {/if}
+        </div>
 
+        <div class="nav-dropdown">
+          <button
+            onclick={() => {
+              isWhoWeAreOpen = false;
+              isResearchOpen = false;
+              isEducationOpen = !isEducationOpen;
+            }}
+            class="nav-button"
+          >
+            Education
+            {#if isEducationOpen}
+              <ChevronUp size={16} />
+            {:else}
+              <ChevronDown size={16} />
+            {/if}
+          </button>
+
+          {#if isEducationOpen}
+            <div class="dropdown-menu two-column">
+              <div class="header-section-research">
+                <a href="{base}/education/undergraduate" class="dropdown-item" onclick={() => closeDropdowns()}>Undergraduate</a>
+                <a href="{base}/education/masters" class="dropdown-item" onclick={() => closeDropdowns()}>Masters</a>
+                <a href="{base}/education/certificate" class="dropdown-item" onclick={() => closeDropdowns()}>Certificate</a>
+                <a href="{base}/education/phd" class="dropdown-item" onclick={() => closeDropdowns()}>PhD</a>
+              </div>
+              <div class="header-section-research">
+                <a href="{base}/education/BilDS" class="dropdown-item" onclick={() => closeDropdowns()}>BilDS</a>
+              </div>
+            </div>
+          {/if}
+        </div>
+
+        <a href="{base}/events" class="nav-link">Events</a>
+        <a href="https://complex-stories.uvm.edu/" target="_blank" rel="noopener noreferrer" class="nav-link">
+          Complex Stories <ExternalLink size={14} />
+        </a>
+      </nav>
+    </div>
+
+    <div class="header-right">
+      <button
+        onclick={toggleTheme}
+        class="theme-toggle"
+        title="Toggle theme"
+      >
+        {#if isDark}
+          <Sun size={20} />
+        {:else}
+          <Moon size={20} />
+        {/if}
+      </button>
+
+      <button
+        onclick={() => isMenuOpen = !isMenuOpen}
+        bind:this={menuButtonRef}
+        class="menu-button"
+      >
+        <MenuIcon class="icon" size={28} />
+        <span class="sr-only">Open menu</span>
+      </button>
+    </div>
+  </div>
 </header>
 
 <Menu visible={isMenuOpen} close={closeMenu} />
@@ -225,64 +195,33 @@
   .header-section-research {
     flex: 1;
   }
-  .header-section-research:nth-child(1) { grid-column: 1;} 
-  .header-section-research:nth-child(2) { grid-column: 2;} 
+  .header-section-research:nth-child(1) { grid-column: 1; }
+  .header-section-research:nth-child(2) { grid-column: 2; }
 
   .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 3rem;
-    margin: 0;
-    padding: 1rem var(--margin-left) 0.5rem var(--margin-left);
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
+    width: 100%;
     background: var(--color-bg);
     border-bottom: 2px solid transparent;
     z-index: 100;
+    transition: border-color var(--transition-medium) ease;
+  }
+
+  .header.scrolled {
+    border-bottom-color: var(--color-gray-400);
+  }
+
+  .header-inner {
     width: 100%;
-    transition: all 200ms ease;
-    box-sizing: border-box;
-    /* transform: translateY(-0.5rem); */
-  }
-
-  .header.transparent {
-    background: transparent;
-    border-bottom-color: transparent;
-  }
-
-  .header.transparent .nav-button,
-  .header.transparent .nav-link {
-    color: white;
-  }
-
-  .header.transparent .nav-button:hover,
-  .header.transparent .nav-link:hover {
-    color: rgba(255, 255, 255, 0.8);
-  }
-
-  .header.transparent .menu-button {
-    color: white;
-  }
-
-  .header.absolute {
-    position: absolute;
-  }
-
-  .header.absolute.scrolled {
-    background: transparent;
-    border-bottom-color: transparent;
-  }
-
-  .header.absolute.scrolled .nav-button,
-  .header.absolute.scrolled .nav-link {
-    color: white;
-  }
-
-  .header.absolute.scrolled .menu-button {
-    color: white;
+    max-width: var(--page-max-width);
+    margin-inline: auto;
+    padding-inline: var(--page-padding);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--nav-height);
   }
 
   .header-left {
@@ -294,18 +233,22 @@
   .header-right {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem;
+  }
+
+  .vcsi-logo-container {
+    text-decoration: none;
+    transition: transform var(--transition-medium);
+  }
+
+  .vcsi-logo-container:hover {
+    transform: translateY(-0.125rem);
   }
 
   .vcsi-logo {
     border-radius: var(--border-radius);
     max-height: 2.6rem;
     object-fit: contain;
-  }
-  
-  /* Show border when scrolled */
-  .header.scrolled {
-    border-bottom-color: var(--color-gray-400);
   }
 
   /* Desktop navigation */
@@ -323,7 +266,7 @@
     border: none;
     color: var(--color-fg);
     font-family: var(--serif);
-    font-size: 1rem;
+    font-size: 1.2rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -346,6 +289,7 @@
     position: absolute;
     top: 100%;
     left: 0;
+    font-size: 1.1rem;
     background: whitesmoke;
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius);
@@ -396,7 +340,7 @@
     border: none;
     color: var(--color-fg);
     font-family: var(--serif);
-    font-size: 1rem;
+    font-size: 1.2rem;
     text-decoration: none;
     padding: 0.5rem 1rem;
     transition: color 200ms ease;
@@ -434,11 +378,6 @@
     color: var(--color-fg);
   }
 
-  /* Hide menu button on desktop */
-  .menu-button {
-    display: none;
-  }
-  
   /* Dark mode background */
   :global(.dark) .header {
     background: var(--color-bg);
@@ -458,49 +397,53 @@
 	
   
 
+  .menu-button {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: transparent;
+    color: var(--color-fg);
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all var(--transition-medium);
+  }
+
+  .menu-button:hover {
+    transform: rotate(var(--right-tilt)) scale(1.05);
+    background: rgba(0, 0, 0, 0.05);
+  }
+
   /* Mobile layout */
+  @media (max-width: 960px) {
+    .menu-button {
+      display: flex;
+    }
+  }
+
   @media (max-width: 768px) {
-    /* Only logo and hamburger menu, each in their corner */
-    .header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      justify-content: space-between;
-      margin: 0;
-      padding: 1rem;
-      z-index: 100;
+    .header-inner {
+      padding-inline: var(--page-padding);
     }
 
     .header-left {
       gap: 0;
     }
-    
-    .menu-button {
-      display: flex;
-    }
 
     .theme-toggle {
       display: none;
     }
-    
+
     .desktop-nav {
       display: none;
     }
-  }
 
-  .vsci-logo-container {
-    background: transparent;
-    color: var(--color-fg);
-    text-decoration: none;
-    cursor: pointer;
-  }
-
-  .menu-button {
-    background: transparent;
-    color: var(--color-fg);
-    border: none;
-    cursor: pointer;
+    .menu-button {
+      width: 3.5rem;
+      height: 3.5rem;
+    }
   }
 
 
