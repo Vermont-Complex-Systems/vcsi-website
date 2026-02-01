@@ -4,13 +4,6 @@
     import miscData from '$data/misc.csv';
 	
     const entry = miscData.find(p => p.id === 'cnww');
-    const preloadFont = [
-        "/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
-        "/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2",
-        "/assets/fonts/atlas/AtlasGrotesk-Regular-Web.woff2",
-        "/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
-        "/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
-    ];
 </script>
 
 <svelte:head>
@@ -59,7 +52,7 @@
 <Meta
   title="CNWW"
   description="Complex Networks Winter Workshop 2025"
-  {preloadFont}
+  
 />
 
 <div class="page-wrapper">

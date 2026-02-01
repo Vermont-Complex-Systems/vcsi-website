@@ -4,13 +4,6 @@
     import Spinner from "$lib/components/Spinner.svelte";
     import { getAllAuthorsWithPapers } from '../data.remote.js';
     import { isMobile } from '$lib/state.svelte'
-    const preloadFont = [
-        "/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
-        "/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2",
-        "/assets/fonts/atlas/AtlasGrotesk-Regular-Web.woff2",
-        "/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
-        "/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
-    ];
 
     const TOPIC_THRESHOLD = isMobile() ?  15 : 5;
 
@@ -56,7 +49,7 @@
 <Meta
     title="Explore Research"
     description="Explore all research from our OpenAlex database"
-    {preloadFont}
+    
 />
 
 {#await getAllAuthorsWithPapers()}

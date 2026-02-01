@@ -3,18 +3,13 @@
   import Home from "$lib/components/Home.svelte";
 
   // To change when we can, it is pudding property
-  const preloadFont = [
-    "/assets/fonts/atlas/AtlasGrotesk-Regular-Web.woff2",
-    "/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
-    "/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
-  ];
 
 </script>
 
 <Meta 
   title="VCSI website"
   description="Scientific data essays that uncover the challenges of computational science."
-  {preloadFont}
+  
 />
 
 <Home />

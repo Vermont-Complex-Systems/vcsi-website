@@ -6,13 +6,6 @@
   import Group from "$lib/components/Group.svelte";
   import Spinner from "$lib/components/Spinner.svelte";
   
-  const preloadFont = [
-    "/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
-    "/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2",
-    "/assets/fonts/atlas/AtlasGrotesk-Regular-Web.woff2",
-    "/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
-    "/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
-  ];
 
 </script>
 
@@ -22,7 +15,7 @@
     <Meta 
       title={group[0].name}
       description="Group bio and published stories"
-      {preloadFont}
+      
     />
 
     <Group {group}/>
