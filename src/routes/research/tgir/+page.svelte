@@ -12,14 +12,6 @@
 
     const entry = miscData.find(p => p.id === 'tgir');
 
-    const preloadFont = [
-        "/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
-        "/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2",
-        "/assets/fonts/atlas/AtlasGrotesk-Regular-Web.woff2",
-        "/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
-        "/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
-    ];
-
     let sortBy = $state('citations');
     let showAll = $state(false);
     let selectedTopic = $state(null);
@@ -32,10 +24,9 @@
 <Meta
   title="TGIR"
   description="TGIR project description."
-  {preloadFont}
 />
 
-    <div class="content-wrapper">
+    <div class="content">
         <div class="page-header">
             <div class="page-header-text">
                 <h1>Translational Global Infectious Diseases Research Center (TGIR)</h1>
@@ -96,83 +87,3 @@
     </div>
     {/await}
 
-<style>
-    .content-wrapper {
-        margin-left: var(--margin-left);
-        margin-right: var(--margin-left);
-    }
-
-    h1 {
-        margin-bottom: 1rem;
-        line-height: 1.2;
-    }
-
-    h2 {
-        font-size: 1.8rem;
-        font-weight: 400;
-        font-family: var(--serif);
-        margin-bottom: 1rem;
-        margin-top: 2.5rem;
-    }
-
-    .content {
-        max-width: 800px;
-    }
-
-    section {
-        margin-bottom: 2rem;
-    }
-
-    p {
-        font-size: 1rem;
-        line-height: 1.6;
-        font-family: var(--serif);
-        color: var(--color-fg);
-    }
-
-    .papers-wrapper {
-        margin-left: var(--margin-left);
-        margin-right: var(--margin-left);
-        margin-top: 2rem;
-    }
-
-    #research-metrics {
-        padding: 1.5rem 0;
-        background: var(--background-light);
-        border-radius: 8px;
-    }
-
-    #research-metrics h2 {
-        font-size: 1.8rem;
-        font-weight: 400;
-        font-family: var(--serif);
-        margin-bottom: 1rem;
-        margin-top: 0;
-    }
-
-    #research-metrics p {
-        margin-bottom: 1.5rem;
-    }
-
-    /* Mobile adjustments */
-    @media (max-width: 768px) {
-        .content-wrapper {
-            margin-left: var(--margin-left-mobile);
-            margin-right: var(--margin-left-mobile);
-        }
-
-
-        h2 {
-            font-size: 1.5rem;
-        }
-
-        .intro {
-            max-width: 100%;
-        }
-
-        .papers-wrapper {
-            margin-left: var(--margin-left-mobile);
-            margin-right: var(--margin-left-mobile);
-        }
-    }
-</style>

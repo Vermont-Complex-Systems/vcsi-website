@@ -1,308 +1,192 @@
 <script>
-  import { onMount } from 'svelte';
+    import Meta from "$lib/components/Meta.svelte";
 
-  // Define reactive state
-  const state = $state({
-    items: [],
-    loading: true,
-    error: null
-  });
+    const formatDate = (dateString) => {
+        if (!dateString) return 'Invalid date';
+        const date = new Date(dateString);
+        if (isNaN(date)) return 'Invalid date';
+        return new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(date);
+    };
 
-  // PASTE YOUR WEB APP URL HERE
-  const SPREADSHEET_API_URL = 'https://script.google.com/macros/s/AKfycbw2E8MsrBcguVM_SM2tqaSFn1tX31lpRJlO1XMp7rzqd1Ag7e_FI0RMzzNM3n0ZR7yy/exec';
+    const bigEvents = [
+        {
+            title: 'IC²S² is coming to Burlington!',
+            date: 'July 28-31, 2026',
+            description: 'University of Vermont is hosting the International Conference on Computational Social Science (IC2S2) in 2026.',
+            image: '/common/assets/events/green-mountains.png'
+        }
+    ];
 
-  const formatDate = (dateString) => {
-    if (!dateString) return 'Invalid date'; // Handle empty or undefined dates
-    const date = new Date(dateString);
-    if (isNaN(date)) return 'Invalid date'; // Handle invalid date strings
+    const ongoingEvents = [
+        {
+            name: 'Complexitea',
+            recurring: true,
+            recurring_frequency: 'Weekly',
+            day: 'Thursday',
+            time: '12-1pm',
+            description: 'A casual lunch at the VCSI offices. All welcome!',
+            link: '/events/seminar'
+        }
+    ];
 
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Intl.DateTimeFormat('en-US', options).format(date);
-  };
-
-  onMount(async () => {
-    try {
-      const response = await fetch(SPREADSHEET_API_URL);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      console.log('Fetched events:', data);
-      state.items = data;
-    } catch (e) {
-      state.error = e.message;
-    } finally {
-      state.loading = false;
-    }
-  });
-  // Svelte 5 MCP route for /news
-  // You can fetch news data from an API or use static data for now
-  // Replace the example events with your real data or a fetch call
-  const bigEvents = [
-    {
-      title: 'IC²S² is coming to Burlington!',
-      date: 'July 28-31, 2026',
-      description: 'University of Vermont is hosting the International Conference on Computational Social Science (IC2S2) in 2026.',
-      image: '/common/assets/events/green-mountains.png'
-    }
-  ];
-  const ongoingEvents = [
-    {
-      name: 'Complexitea',
-      recurring: true,
-      recurring_frequency: 'Weekly',
-      day: 'Thursday',
-      time: '12-1pm',
-      description: 'A casual lunch at the VCSI offices. All welcome!',
-      link: '/events/seminar'
-    }
-  ];
-
-  const specialEvents = [
-    {
-      'event': 'VCSI Fall Speaker Series',
-      'date': '2025-10-20',
-      'name': 'Matt Devost - UVM trustee',
-      'location': 'Innovation E100'
-    },
-    {
-      'event': 'VCSI Fall Speaker Series',
-      'date': '2025-10-20',
-      'name': 'Brennan Dell',
-      'location': 'Innovation E100'
-    },
-    {
-      'event': 'VCSI Fall Speaker Series',
-      'date': '2025-11-03',
-      'name': 'Hunter Priniski',
-      'location': 'Innovation E100'
-    },
-    {
-      'event': 'VCSI Fall Speaker Series',
-      'date': '2025-11-10',
-      'name': 'Joe Near',
-      'location': 'Innovation E100'
-    },
-    {
-      'event': 'VCSI Fall Speaker Series',
-      'date': '2025-11-17',
-      'name': 'Phil Chodrow',
-      'location': 'Innovation E100'
-    },
-    {
-      'event': 'VCSI Fall Speaker Series',
-      'date': '2025-12-01',
-      'name': 'Ellen Kozelka',
-      'location': 'Innovation E100'
-    },
-    {
-      'event': 'VCSI Fall Speaker Series',
-      'date': '2025-12-08',
-      'name': 'Ben Cooley',
-      'location': 'Innovation E100'
-    }
-  ];
-
-
+    const specialEvents = [
+        { event: 'VCSI Fall Speaker Series', date: '2025-10-20', name: 'Matt Devost - UVM trustee', location: 'Innovation E100' },
+        { event: 'VCSI Fall Speaker Series', date: '2025-10-20', name: 'Brennan Dell', location: 'Innovation E100' },
+        { event: 'VCSI Fall Speaker Series', date: '2025-11-03', name: 'Hunter Priniski', location: 'Innovation E100' },
+        { event: 'VCSI Fall Speaker Series', date: '2025-11-10', name: 'Joe Near', location: 'Innovation E100' },
+        { event: 'VCSI Fall Speaker Series', date: '2025-11-17', name: 'Phil Chodrow', location: 'Innovation E100' },
+        { event: 'VCSI Fall Speaker Series', date: '2025-12-01', name: 'Ellen Kozelka', location: 'Innovation E100' },
+        { event: 'VCSI Fall Speaker Series', date: '2025-12-08', name: 'Ben Cooley', location: 'Innovation E100' }
+    ];
 </script>
 
-<section class="news-banner">
-  {#each bigEvents as event}
-    <div class="banner-event" style="background-image: url('{event.image}');">
-      <div class="banner-overlay">
-        <h1>{event.title}</h1>
-        <p class="date">{event.date}</p>
-        <p>{event.description}</p>
-        {#if event.link}
-          <a href={event.link} class="banner-link">Learn more</a>
-        {/if}
-      </div>
-    </div>
-  {/each}
+<Meta
+    title="Events"
+    description="Upcoming events, seminars, and conferences at the Vermont Complex Systems Institute."
+/>
+
+<section class="banner">
+    {#each bigEvents as event}
+        <div class="banner-event" style="background-image: url('{event.image}');">
+            <div class="banner-overlay">
+                <h1>{event.title}</h1>
+                <p class="banner-date">{event.date}</p>
+                <p>{event.description}</p>
+                {#if event.link}
+                    <a href={event.link} class="banner-link">Learn more</a>
+                {/if}
+            </div>
+        </div>
+    {/each}
 </section>
 
-<section class="events-layout">
-  <div class="column ongoing-events">
-    <h2 style="margin-bottom: 20px">Ongoing Events</h2>
-      <ul>
-        {#each ongoingEvents as event}
-          
-            <li class="news-item" style="position: relative;">
-              <h3>{event.name}</h3>
-              {#if event.recurring}
-                <div class="recurring-pill">{event.recurring_frequency}</div>
-                <div class="card-date">{event.day} from {event.time}</div>
-              {:else}
-                <div class="card-date">{formatDate(event.date)}</div>
-              {/if}
-              
-              
-              <p>{event.description}</p>
-            </li>
-          
-        {/each}
-      </ul>
-  </div>
+<div class="grid-2 events-grid">
+        <section>
+            <h2>Ongoing Events</h2>
+            <ul class="event-list">
+                {#each ongoingEvents as event}
+                    <li class="card event-card">
+                        <h3>{event.name}</h3>
+                        {#if event.recurring}
+                            <span class="badge badge-dark">{event.recurring_frequency}</span>
+                            <p class="event-date">{event.day} from {event.time}</p>
+                        {:else}
+                            <p class="event-date">{formatDate(event.date)}</p>
+                        {/if}
+                        <p>{event.description}</p>
+                    </li>
+                {/each}
+            </ul>
+        </section>
 
-  <div class="column special-events">
-    <h2 style="margin-bottom: 20px">Special Events</h2>
-      
-        <ul>
-        {#each specialEvents as event}
-          
-            <li class="news-item" style="position: relative;">
-              <h3>{event.event}</h3>
-              <h4 style="font-weight: 300">{event.name}</h4>
-                <div class="card-date">{formatDate(event.date)} in {event.location}</div>
-            </li>
-          
-        {/each}
-      </ul>
-      
-    
-  </div>
-</section>
+        <section>
+            <h2>Special Events</h2>
+            <ul class="event-list">
+                {#each specialEvents as event}
+                    <li class="card event-card">
+                        <h3>{event.event}</h3>
+                        <h4>{event.name}</h4>
+                        <p class="event-date">{formatDate(event.date)} in {event.location}</p>
+                    </li>
+                {/each}
+            </ul>
+        </section>
+</div>
 
 <style>
-.events-layout {
-  display: flex;
-  gap: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-}
-.column {
-  flex: 1;
-}
-.ongoing-events {
-  
-  padding: 1rem;
-}
-.special-events {
-  
-  padding: 1rem;
-  
-}
-.news-banner {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.news-banner p {
-  color: rgb(247, 247, 247);
-}
-.banner-event {
-  width: 100%;
-  height: 300px;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-  margin-bottom: 2rem;
-}
-.banner-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.4); /* Semi-transparent black overlay */
-  color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 1rem;
-}
-.banner-overlay h1 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-.banner-overlay .date {
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-}
-.banner-overlay p {
-  font-size: 1rem;
-  margin-bottom: 1rem;
-}
-.banner-link {
-  color: white;
-  text-decoration: underline;
-  font-weight: bold;
-}
-.news-list {
-  max-width: 900px;
-  margin: 0 auto 3rem auto;
-  padding: 0 1rem;
-}
-.news-list h2 {
-  margin-bottom: 1rem;
-}
-.news-item {
-  background: #fff;
-  border-radius: 0.5rem;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.04);
-  margin-bottom: 1.5rem;
-  padding: 1.5rem;
-  list-style-type: none; /* Remove bullet points */
-}
-.news-link {
-  color: #0056b3;
-  text-decoration: underline;
-}
+    /* Banner - full width */
+    .banner {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+    }
 
-ul {
-  padding-left: 0; /* Remove default padding */
-}
-.date {
-  color: #e1e1e1;
-  font-size: 0.95em;
-  margin-bottom: 0.5em;
-  display: block;
-}
+    .banner-event {
+        width: 100%;
+        height: 300px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+    }
 
-.card-date {
-  color: #3b3b3b;
-  font-size: 0.9em;
-  margin-bottom: 0.5em;
-  display: block;
-}
+    .banner-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 1rem;
+    }
 
-.spinner {
-  width: 50px;
-  height: 50px;
-  margin-left: 50px;
-  margin-top: 50px;
-  animation: spin 1s linear infinite;
-}
+    .banner-overlay h1 {
+        font-size: 2rem;
+        margin: 0 0 0.5rem;
+        color: white;
+    }
 
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+    .banner-overlay p {
+        color: #f7f7f7;
+        margin-bottom: 1rem;
+    }
 
-.recurring-pill {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: #164734;
-  color: white;
-  padding: 0.3rem 0.6rem;
-  border-radius: 1rem;
-  font-size: 0.8rem;
-  font-weight: bold;
-  text-transform: uppercase;
-}
+    .banner-date {
+        font-size: 1.2rem;
+    }
 
-@media (max-width: 768px) {
-  .events-layout {
-    flex-direction: column;
-  }
-}
+    .banner-link {
+        color: white;
+        text-decoration: underline;
+        font-weight: 600;
+    }
+
+    /* Events grid spacing */
+    .events-grid {
+        margin-top: 2rem;
+    }
+
+    .event-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .event-card {
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+
+    .event-card h3 {
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+    }
+
+    .event-card h4 {
+        font-weight: 400;
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+        color: var(--color-gray-700);
+    }
+
+    .event-card p {
+        margin-bottom: 0.5rem;
+    }
+
+    .event-card p:last-child {
+        margin-bottom: 0;
+    }
+
+    .event-date {
+        font-size: 0.9rem;
+        color: var(--color-gray-700);
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+        .banner-overlay h1 {
+            font-size: 1.5rem;
+        }
+    }
 </style>

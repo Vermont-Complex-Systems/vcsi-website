@@ -1,22 +1,16 @@
 <script>
   import { base } from '$app/paths';
-  import HeroText from "$lib/components/HeroText.svelte";
   import membersData from '$data/members.csv';
-  
+
   let { group } = $props();
 
   const { name, url, PI, bio } = group[0];
 
-  console.log(bio)
-  
   const getLinkHTML = () => {
     const u = url ? `out their <a href="${url}">website</a>` : undefined;
 
     if (u)
-      return `
-			check ${u}. 
-		`;
-    else if (u) return `Check ${u}.`;
+      return `check ${u}.`;
 
     return undefined;
   };
@@ -34,27 +28,12 @@
   const piLinks = getPILinks();
 </script>
 
-<section id="intro">
-  <HeroText>
+<div class="page-header no-logo">
+  <div class="page-header-text">
     <h1>{name}</h1>
-
-    <p>
+    <p class="intro">
       The <span class="sr-only">{name} </span>{@html bio} The group is led by {@html piLinks}.
       {#if link}You can {@html link}{/if}
     </p>
-  </HeroText>
-</section>
-
-<style>
-  #intro {
-    margin-left: var(--margin-left);
-    margin-right: var(--margin-left);
-  }
-  
-  @media (max-width: 768px) {
-    #intro {
-      margin-left: var(--margin-left-mobile);
-      margin-right: var(--margin-left-mobile);
-    }
-  }
-</style>
+  </div>
+</div>

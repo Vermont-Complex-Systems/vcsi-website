@@ -2,187 +2,200 @@
 @import "fonts.css";
 @import "reset.css";
 
-/* Body overrides */
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background: var(--color-bg);
-    color: var(--color-fg);
-    font-family: var(--serif);
-    font-size: var(--font-size-small); /* Sets the base text size */
-    transition: background-color 200ms ease; /* Smooth animation when switching between light/dim mode */
-}
-
+/* =============================================================================
+   ROOT TOKENS
+   ============================================================================= */
 
 :root {
-    /* Typography families */
-    --sans: "Atlas Grotesk", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    --serif: "Tiempos Text", "Times New Roman", Times, serif;
+  /* Typography families */
+  --sans: "Atlas Grotesk", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --serif: "Baskerville", "Times New Roman", Times, serif;
     --mono: "Atlas Typewriter", "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace;
 
-    /* Semantic type scale */
-    --font-size-giant: clamp(3rem, 10vw, 4rem);
-    --font-size-xlarge: clamp(1.8rem, 5vw, 3rem);
-    --font-size-large: clamp(1.5rem, 2.5vw, 2.5rem);
-    --font-size-medium: clamp(1rem, 1.75vw, 1.5rem);
-    --font-size-small: clamp(14px, 1.18vw, 1.2rem);
-    --font-size-smallish: clamp(14px, 1vw, 0.8rem);
-    --font-size-xsmall: clamp(12px, 1vw, 0.8rem);
+  /* Type scale */
+  --font-size-giant: clamp(3rem, 10vw, 4rem);
+  --font-size-xlarge: clamp(1.8rem, 5vw, 3rem);
+  --font-size-large: clamp(1.5rem, 2.5vw, 2.5rem);
+  --font-size-medium: clamp(1rem, 1.75vw, 1.5rem);
+  --font-size-small: clamp(14px, 1.35vw, 1.3rem);
+  --font-size-smallish: clamp(14px, 1.18vw, 1.2rem);
+  --font-size-xsmall: clamp(14px, 1vw, 0.9rem);
 
-    /* Layout tokens */
-    --border-radius: 3px;
-    --width-padded: 80vw;
-    --margin-left: 12vw;
-    --margin-left-mobile: 5vw;
+  /* Layout */
+  --page-max-width: 1200px;
+  --page-padding: clamp(1rem, 4vw, 3rem);
+  --page-padding-top: 1rem;
+  --page-padding-bottom: 5rem;
+  --nav-height: 4.5rem;
+  --border-radius: 3px;
 
-    /* Motion tokens */
-    --left-tilt: -2deg;
-    --right-tilt: 2deg;
-    --transition-medium: 200ms;
-    --1s: 1ms;
+  /* Motion */
+  --left-tilt: -2deg;
+  --right-tilt: 2deg;
+  --transition-medium: 200ms;
+  --1s: 1ms;
 
-    /* Z-index scale */
-    --z-overlay: 1000;
+  /* Z-index */
+  --z-overlay: 1000;
 
-    /* =============================================================================
-       SEMANTIC COLOR MAPPINGS (Light Mode)
-       ============================================================================= */
+  /* Colors (light mode) */
+  --color-bg: var(--color-beige);
+  --color-fg: var(--color-gray-800);
+  --color-primary: var(--color-black);
+  --color-link: var(--color-black);
+  --color-border: var(--color-gray-300);
 
-    --color-bg: var(--color-beige);
-    --color-fg: var(--color-gray-800);
-    --color-primary: var(--color-black);
+  --margin-left: 12vw;
+  --margin-left-mobile: 5vw;
+}
 
-    /* Links */
-    --color-link: var(--color-black);
-
-    /* Interactive states */
-    --color-border: var(--color-gray-300);
+/* Enable motion when allowed */
+@media (prefers-reduced-motion: no-preference) {
+  :root {
+    --1s: 1s;
+  }
 }
 
 /* =============================================================================
-   DIM MODE OVERRIDES - Light grey with black text (eye-friendly alternative)
+   BASE DOCUMENT
    ============================================================================= */
 
-.dark {
-    --color-bg: var(--color-gray-100);
-    --color-fg: var(--color-black);
-    --color-primary: var(--color-black);
-
-    /* Links */
-    --color-link: var(--color-black);
-
-    /* Interactive states */
-    --color-border: var(--color-gray-300);
-}
-
-/* Enable animations when user allows motion */
-@media screen and (prefers-reduced-motion: no-preference) {
-    :root {
-        --1s: 1s;
-    }
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--sans);
+  font-size: var(--font-size-small);
+  transition: background-color 200ms ease;
 }
 
 /* =============================================================================
-   LAYOUT UTILITIES
+   MAIN CONTENT
    ============================================================================= */
 
-.content-container {
-    margin-left: var(--margin-left);
-    margin-right: var(--margin-left);
+main {
+  flex: 1;
+}
+
+/* =============================================================================
+   LAYOUT CLASSES
+   ============================================================================= */
+
+/* Centered page layout (for about, etc.) */
+.page {
+  width: 100%;
+  max-width: var(--page-max-width);
+  margin-inline: auto;
+  padding-inline: var(--page-padding);
+  /* Nav clearance + content padding */
+  padding-top: calc(var(--nav-height) + var(--page-padding-top));
+  padding-bottom: var(--page-padding-bottom);
 }
 
 @media (max-width: 768px) {
-    .content-container {
-        margin-left: var(--margin-left-mobile);
-        margin-right: var(--margin-left-mobile);
-    }
+  .page {
+    --page-padding-top: 1rem;
+    --page-padding-bottom: 3rem;
+  }
 }
 
-/* =============================================================================
-   BASE TEXT STYLES
-   ============================================================================= */
-
-h2 {
-    font-size: 1.8rem;
-    font-weight: 400;
-    margin-bottom: 1rem;
-    margin-top: 2.5rem;
+/* Full-width sections that break out of .page container */
+.full-width {
+  width: 100vw;
+  max-width: none;
+  margin-left: calc(50% - 50vw);
+  padding-inline: var(--page-padding);
 }
 
-p {
-    line-height: 1.6;
-    margin-bottom: 1rem;
-}
-
-.intro {
-    margin-bottom: 3rem;
-}
-
-ul {
-    padding-left: 1.5rem;
-    margin-bottom: 1.5rem;
-    margin-top: 0.5rem;
-}
-
-li {
-    margin-bottom: 0.5rem;
-    line-height: 1.6;
-}
-
-/* =============================================================================
-   REUSABLE PAGE HEADER LAYOUT
-   ============================================================================= */
-
+/* Page header with text left, logo right */
 .page-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 3rem;
-    margin-top: 4rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 3rem;
+  margin-top: 4rem;
 }
 
 .page-header-text {
-    display: flex;
-    text-align: left;
-    flex-direction: column;
-    max-width: 50%;
-    gap: 0.5rem;
+  display: flex;
+  text-align: left;
+  flex-direction: column;
+  max-width: 50%;
+  gap: 0.5rem;
+}
+
+.page-header-text h1 {
+  font-size: var(--font-size-xlarge);
+  font-weight: 400;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.page-header-text p {
+  font-size: var(--font-size-medium);
+  font-style: italic;
+  line-height: 1.6;
 }
 
 /* Full width when no logo present */
 .page-header.no-logo .page-header-text {
-    max-width: 80%;
+  max-width: 80%;
+}
+
+/* Text-rich content container */
+.content {
+  max-width: 80%;
+}
+
+.content section {
+  margin-bottom: 2rem;
 }
 
 .page-header-logo {
-    flex-shrink: 0;
-    display: flex;
-    align-items: flex-start;
-    padding-top: 1rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  padding-top: 1rem;
 }
 
 .page-header-image {
-    width: 20rem;
-    height: auto;
-    object-fit: contain;
-    mix-blend-mode: multiply;
+  width: 20rem;
+  height: auto;
+  object-fit: contain;
+  mix-blend-mode: multiply;
 }
 
-/* Mobile adjustments for page headers */
+.page-header-text .intro {
+    font-size: var(--font-size-medium);
+    color: var(--color-gray-700);
+    margin: 0;
+    font-style: italic;
+}
+
+.page-header-text a.external-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--color-gray-300);
+    border-radius: var(--border-radius);
+    background: var(--color-bg);
+    transition: all 200ms ease;
+}
+
+.page-header-text a.external-link:hover {
+    border-color: var(--color-fg);
+    background: var(--color-gray-50);
+}
+
+
 @media (max-width: 768px) {
-    h2 {
-        font-size: 1.5rem;
-    }
-
-    p {
-        font-size: 1.2rem;
-    }
-
-    li {
-        font-size: 1.1rem;
-    }
-
-    .page-header {
+  .page-header {
         flex-direction: column;
         gap: 1rem;
         align-items: flex-start;
@@ -204,6 +217,75 @@ li {
         width: 20rem;
         height: 20rem;
     }
+    
+    .page-header-text h1 {
+        font-size: 2rem;
+    }
+    
+
+     .page-header-text .intro {
+        font-size: 1.3rem;
+    }
+}
+
+/* =============================================================================
+   BASE TEXT STYLES
+   ============================================================================= */
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--serif);
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 1.8rem;
+  margin: 2.5rem 0 1rem;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin: 2.5rem 0 1rem;
+}
+
+h3 {
+  font-size: 1.4rem;
+  margin: 2rem 0 0.75rem;
+}
+
+h4 {
+  font-size: 1.2rem;
+  margin: 1.5rem 0 0.5rem;
+}
+
+p {
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+
+/* =============================================================================
+   MOBILE ADJUSTMENTS
+   ============================================================================= */
+
+@media (max-width: 768px) {
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  p {
+    font-size: 1.2rem;
+  }
+
+  li {
+    font-size: 1.1rem;
+  }
+
+  .content {
+    max-width: 100%;
+  }
 }
 
 /* =============================================================================
@@ -222,6 +304,7 @@ li {
     max-width: 70%;
 }
 
+
 .section-image {
     flex-shrink: 0;
     display: flex;
@@ -236,6 +319,7 @@ li {
     object-fit: contain;
     mix-blend-mode: multiply;
 }
+
 
 /* Section with image on the left side */
 .section-with-image-left {
@@ -272,52 +356,201 @@ li {
         margin: 1rem 0;
         align-self: center;
     }
-
 }
 
 /* =============================================================================
-   PAGE HEADER TEXT STYLES
+   CARD COMPONENTS
    ============================================================================= */
 
-.page-header-text h1 {
-    font-size: 3rem;
-    font-weight: 400;
-}
-
-.page-header-text .intro {
-    font-size: var(--font-size-medium);
-    color: var(--color-gray-700);
-    margin: 0;
-    font-style: italic;
-}
-
-.page-header-text a.external-link {
-    color: var(--color-primary);
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1rem;
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--color-gray-300);
+/* Base card */
+.card {
+    background: #fafafa;
+    border: 2px solid #4a4a4a;
     border-radius: var(--border-radius);
-    background: var(--color-bg);
-    transition: all 200ms ease;
+    padding: 1.5rem;
 }
 
-.page-header-text a.external-link:hover {
-    border-color: var(--color-fg);
-    background: var(--color-gray-50);
+:global(.dark) .card {
+    background: #f5f5f5;
 }
 
-/* Mobile adjustments for page header text */
+/* Card with hover effect */
+.card-hover {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Card padding variants */
+.card-lg {
+    padding: 2rem;
+}
+
+/* =============================================================================
+   GRID LAYOUTS
+   ============================================================================= */
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
 @media (max-width: 768px) {
-    .page-header-text h1 {
-        font-size: 2rem;
+    .grid-2,
+    .grid-3 {
+        grid-template-columns: 1fr;
+        gap: 1rem;
     }
-    
-    .page-header-text .intro {
-        font-size: 1.3rem;
+}
+
+/* =============================================================================
+   STEP NUMBER BADGE
+   ============================================================================= */
+
+.step-number {
+    background: var(--color-fg);
+    color: var(--color-bg);
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-family: var(--mono);
+    font-weight: 600;
+}
+
+/* =============================================================================
+   NOTE & BADGE UTILITIES
+   ============================================================================= */
+
+.note {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--color-gray-700);
+    margin-top: 1rem;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--border-radius);
+    font-size: 0.75rem;
+    font-family: var(--mono);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.badge-dark {
+    background: #4a4a4a;
+    color: white;
+}
+
+.badge-light {
+    background: var(--color-gray-300);
+    color: var(--color-gray-700);
+}
+
+/* =============================================================================
+   DETAILS/ACCORDION
+   ============================================================================= */
+
+details.accordion {
+    background: #fafafa;
+    border: 2px solid #4a4a4a;
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    cursor: pointer;
+}
+
+:global(.dark) details.accordion {
+    background: #f5f5f5;
+}
+
+details.accordion summary {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+}
+
+details.accordion summary::-webkit-details-marker {
+    display: none;
+}
+
+details.accordion summary::before {
+    content: '▶';
+    display: inline-block;
+    margin-right: 0.5rem;
+    transition: transform 0.2s ease;
+}
+
+details.accordion[open] summary::before {
+    transform: rotate(90deg);
+}
+
+details.accordion .accordion-content {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-gray-300);
+}
+
+/* =============================================================================
+   CALLOUT BOXES
+   ============================================================================= */
+
+.callout {
+    background: #fff9e6;
+    border: 2px solid #4a4a4a;
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-top: 2rem;
+}
+
+.callout h4 {
+    font-family: var(--sans);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: var(--color-fg);
+}
+
+.callout p {
+    margin-bottom: 0.75rem;
+}
+
+.callout p:last-child {
+    margin-bottom: 0;
+}
+
+/* =============================================================================
+   SECTION HEADER WITH IMAGE
+   ============================================================================= */
+
+.section-header-with-image {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+@media (max-width: 768px) {
+    .section-header-with-image {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }

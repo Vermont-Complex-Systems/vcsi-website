@@ -2,13 +2,6 @@
     import Meta from "$lib/components/Meta.svelte";
     import talkboctopusData from '$data/talkboctopus-playlist.csv';
 
-    const preloadFont = [
-        "/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
-        "/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2",
-        "/assets/fonts/atlas/AtlasGrotesk-Regular-Web.woff2",
-        "/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2",
-        "/assets/fonts/atlas/AtlasTypewriter-Medium-Web.woff2"
-    ];
 
     // Process CSV data into video objects
     const videos = talkboctopusData
@@ -52,54 +45,44 @@
 <Meta 
   title="Talkboctopus"
   description="Video talks and presentations from the Vermont Complex Systems community."
-  {preloadFont}
+  
 />
 
-<div class="talkboctopus">
-    <div class="content-wrapper">
-        <div class="page-header no-logo">
-            <div class="page-header-text">
-                <h1>Talkboctopus</h1>
-                <p class="intro">Watch talks and presentations from our community of researchers.</p>
-            </div>
-        </div>
-        
-        <div class="videos-grid">
-            {#each videos as video}
-                <div class="video-card">
-                    <a href="{video.url}" target="_blank" rel="noopener noreferrer" class="video-link">
-                        <div class="video-thumbnail">
-                            <img 
-                                src="{video.thumbnail}" 
-                                alt="{video.title}"
-                            />
-                            <div class="play-overlay">
-                                <svg width="48" height="48" viewBox="0 0 24 24" fill="white">
-                                    <path d="M8 5v14l11-7z"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="video-info">
-                            <h3 class="video-title">{video.title}</h3>
-                        </div>
-                    </a>
-                    <div class="tooltip-trigger" title="Hover to see abstract">ⓘ</div>
-                    <div class="tooltip">
-                        {video.description}
-                    </div>
-                </div>
-            {/each}
-        </div>
+<div class="page-header no-logo">
+    <div class="page-header-text">
+        <h1>Talkboctopus</h1>
+        <p class="intro">Watch talks and presentations from our community of researchers.</p>
     </div>
 </div>
 
+<div class="videos-grid">
+    {#each videos as video}
+        <div class="video-card">
+            <a href="{video.url}" target="_blank" rel="noopener noreferrer" class="video-link">
+                <div class="video-thumbnail">
+                    <img
+                        src="{video.thumbnail}"
+                        alt="{video.title}"
+                    />
+                    <div class="play-overlay">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="white">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">{video.title}</h3>
+                </div>
+            </a>
+            <div class="tooltip-trigger" title="Hover to see abstract">ⓘ</div>
+            <div class="tooltip">
+                {video.description}
+            </div>
+        </div>
+    {/each}
+</div>
+
 <style>
-    .content-wrapper {
-        margin-left: var(--margin-left);
-        margin-right: var(--margin-left);
-    }
-    
-    
     .intro {
         margin-bottom: 3rem;
     }
@@ -188,11 +171,6 @@
     
     /* Mobile adjustments */
     @media (max-width: 768px) {
-        .content-wrapper {
-            margin-left: var(--margin-left-mobile);
-            margin-right: var(--margin-left-mobile);
-        }
-        
         .videos-grid {
             grid-template-columns: 1fr;
             gap: 1.5rem;
