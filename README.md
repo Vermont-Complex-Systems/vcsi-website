@@ -38,16 +38,6 @@ Built with modern web technologies, this site automatically integrates research 
 
 To modify information about people, projects, or publications, visit the `VCSI-web` sharepoint site.
 
-### Easy Contribution (No Technical Setup Required)
-
-For simple content updates (CSV files):
-
-1. Navigate to the file on GitHub (e.g., [`src/data/members.csv`](src/data/members.csv))
-2. Click the ✏️ **Edit** icon
-3. Make your changes
-4. Scroll down and click **Propose changes**
-5. Create a pull request with your changes
-
 
 ## 📄 License
 
