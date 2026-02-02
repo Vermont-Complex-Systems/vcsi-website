@@ -95,19 +95,13 @@ main {
 }
 
 @media (max-width: 768px) {
-  .page {
-    --page-padding-top: 1rem;
-    --page-padding-bottom: 3rem;
+    .page {
+        padding-top: var(--page-padding-top);
+        --page-padding-top: 2rem;
+        --page-padding-bottom: 3rem;
   }
 }
 
-/* Full-width sections that break out of .page container */
-.full-width {
-  width: 100vw;
-  max-width: none;
-  margin-left: calc(50% - 50vw);
-  padding-inline: var(--page-padding);
-}
 
 /* Page header with text left, logo right */
 .page-header {

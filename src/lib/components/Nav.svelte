@@ -443,6 +443,7 @@
     .menu-button {
       width: 3.5rem;
       height: 3.5rem;
+      margin-right: -0.5rem; /* Offset to align icon with content edge */
     }
   }
 

@@ -77,7 +77,7 @@
 			<a class="cc-footer-copy" href="https://www.uvm.edu/compliance/website-privacy-policy/terms-use" target="_blank" rel="noreferrer">
 				<span class="privacy-text">Privacy/Terms of Use <ExternalLink class="icon" size={14} /></span>
 			</a>
-			<div class="cc-footer-copy">© 2025, Vermont Complex Systems Institute at UVM</div>
+			<div class="cc-footer-copy">© 2026, Vermont Complex Systems Institute at UVM</div>
 		</div>
 	</div>
 </footer>
@@ -248,7 +248,7 @@
 		}
 
 		.cc-footer-copy {
-			font-size: 0.95rem;
+			font-size: 0.85rem;
 		}
 
 		.cc-footer-copy:last-child {

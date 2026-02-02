@@ -177,17 +177,13 @@
 
     /* ---------------- Section Dividers ---------------- */
     .section-divider {
-        max-width: var(--page-max-width);
-        margin: 4rem auto;
+        margin: 4rem 0;
         border: none;
         border-bottom: 1px solid var(--color-gray-300);
     }
 
     .separator-wrapper {
         position: relative;
-        max-width: var(--page-max-width);
-        margin: 0 auto;
-        padding: 0 var(--page-padding);
     }
 
     .separator-wrapper hr {
@@ -199,7 +195,7 @@
 
     .tentacle-image {
         position: absolute;
-        right: var(--page-padding);
+        right: 0;
         width: 200px;
         height: auto;
         object-fit: contain;
@@ -382,7 +378,7 @@
     @media (max-width: 768px) {
         .hero {
             min-height: auto;
-            padding: 3rem var(--page-padding);
+            padding-top: 4rem;
 
         }
 
