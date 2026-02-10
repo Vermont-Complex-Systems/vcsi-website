@@ -17,7 +17,8 @@
 		"openalex:populate": "node scripts/populate-openalex-db.js",
 		"fetch-dois": "node scripts/fetch-dois.js",
 		"compare-dois": "node scripts/compare-dois.js",
-		"msgraph:fetch": "node scripts/fetch-msgraph.js"
+		"msgraph:fetch": "node scripts/fetch-msgraph.js",
+		"msgraph:assets": "node scripts/fetch-assets.js"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-static": "^3.0.8",
@@ -45,6 +46,7 @@
 		"mode-watcher": "^1.1.0",
 		"p5": "^2.0.5",
 		"path-js": "^1.0.1",
+		"sharp": "^0.34.5",
 		"valibot": "^1.1.0"
 	}
 }

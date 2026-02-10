@@ -1,10 +1,15 @@
 <script>
   import { base } from '$app/paths';
   import membersData from '$data/members.csv';
+  import studentsData from '$data/students.csv';
+  import PeopleGrid from './PeopleGrid.svelte';
 
   let { group } = $props();
 
-  const { name, url, PI, bio } = group[0];
+  const { id, name, url, PI, bio } = group[0];
+
+  // Get students belonging to this group
+  const groupStudents = studentsData.filter(s => s.primaryAffiliation === id && s.status !== 'Alumni');
 
   const getLinkHTML = () => {
     const u = url ? `out their <a href="${url}">website</a>` : undefined;
@@ -37,3 +42,32 @@
     </p>
   </div>
 </div>
+
+{#if groupStudents.length > 0}
+  <div class="content">
+    <section>
+      <h2>Students</h2>
+      <PeopleGrid
+        people={groupStudents}
+        assetFolder="students"
+        href={(s) => s.url}
+        external
+      >
+        {#snippet card(student)}
+          <h4>{student.name}</h4>
+          <p>{student.position}</p>
+        {/snippet}
+      </PeopleGrid>
+    </section>
+  </div>
+{/if}
+
+<style>
+  h2 {
+    margin-bottom: 1rem;
+  }
+
+  section {
+    margin-top: 2rem;
+  }
+</style>

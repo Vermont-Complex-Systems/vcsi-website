@@ -14,6 +14,9 @@ const DATA_DIR = join(__dirname, '..', 'src', 'data');
 
 const EXCEL_EXTENSIONS = ['.xlsx', '.xlsm', '.xls'];
 
+// Sheets to exclude from export (use sanitized names, lowercase with hyphens)
+const EXCLUDED_SHEETS = ['geo-story-1', 'electives'];
+
 function createClient() {
   const credential = new ClientSecretCredential(
     settings.tenantId || process.env.tenantId,
@@ -89,6 +92,13 @@ async function main() {
       .get();
 
     for (const sheet of worksheets.value) {
+      const sheetName = sanitizeFilename(sheet.name);
+
+      if (EXCLUDED_SHEETS.includes(sheetName)) {
+        console.log(`  Sheet: ${sheet.name} (skipped - in exclusion list)`);
+        continue;
+      }
+
       console.log(`  Sheet: ${sheet.name}`);
 
       try {
@@ -111,7 +121,6 @@ async function main() {
 
         // Generate filename and determine output directory
         const baseName = sanitizeFilename(excelFile.name);
-        const sheetName = sanitizeFilename(sheet.name);
         const filename = `${sheetName}.csv`;
 
         // Route "publications" Excel to publications subdirectory

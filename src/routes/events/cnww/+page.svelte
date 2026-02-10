@@ -23,8 +23,8 @@
         }
 
         .header .vcsi-logo {
-            max-height: 2rem !important;
             transform: translateY(0.2rem) !important;
+            content: url('/bumper-sticker-white-transparent.png') !important;
         }
 
         .header.scrolled {
@@ -192,6 +192,8 @@
     .page-wrapper {
         background-color: #162F4B;
         min-height: 100vh;
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
     }
 
     .hero {

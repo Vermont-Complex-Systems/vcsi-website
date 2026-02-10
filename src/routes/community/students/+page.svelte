@@ -1,7 +1,12 @@
 <script>
     import Meta from "$lib/components/Meta.svelte";
+    import PeopleGrid from "$lib/components/PeopleGrid.svelte";
     import studentsData from '$data/students.csv';
+    import groupsData from '$data/groups.csv';
 
+    // Create lookup map: group id -> group name
+    const groupNames = Object.fromEntries(groupsData.map(g => [g.id, g.name]));
+    const getGroupName = (id) => groupNames[id] || '';
 
     const currentStudents = studentsData.filter(s => s.status !== 'Alumni');
     const alumni = studentsData.filter(s => s.status === 'Alumni');
@@ -10,7 +15,6 @@
 <Meta
   title="Students"
   description="Current students and alumni of the Vermont Complex Systems Institute."
-  
 />
 
 <div class="page-header no-logo">
@@ -23,61 +27,34 @@
 <div class="content">
     <section>
         <h2>Current Students</h2>
-        <div class="students-grid">
-            {#each currentStudents as student}
-                <div class="student-card">
-                    {#if student.url}
-                        <a href={student.url} target="_blank" rel="noopener noreferrer">
-                            <div class="student-photo">
-                                <img src="/common/assets/students/{student.id}.jpg" alt="{student.name}" />
-                            </div>
-                            <div class="student-info">
-                                <h4>{student.name}</h4>
-                                <p>{student.position}</p>
-                            </div>
-                        </a>
-                    {:else}
-                        <div class="student-photo">
-                            <img src="/common/assets/students/{student.id}.jpg" alt="{student.name}" />
-                        </div>
-                        <div class="student-info">
-                            <h4>{student.name}</h4>
-                            <p>{student.position}</p>
-                        </div>
-                    {/if}
-                </div>
-            {/each}
-        </div>
+        <PeopleGrid
+            people={currentStudents}
+            assetFolder="students"
+            href={(s) => s.url}
+            external
+        >
+            {#snippet card(student)}
+                <h4>{student.name}</h4>
+                <p>{student.position}</p>
+                <p>{getGroupName(student.primaryAffiliation)}</p>
+            {/snippet}
+        </PeopleGrid>
     </section>
 
     {#if alumni.length > 0}
         <section>
             <h2>Alumni</h2>
-            <div class="students-grid">
-                {#each alumni as student}
-                    <div class="student-card">
-                        {#if student.url}
-                            <a href={student.url} target="_blank" rel="noopener noreferrer">
-                                <div class="student-photo">
-                                    <img src="/common/assets/students/{student.id}.jpg" alt="{student.name}" />
-                                </div>
-                                <div class="student-info">
-                                    <h4>{student.name}</h4>
-                                    <p>{student.position}</p>
-                                </div>
-                            </a>
-                        {:else}
-                            <div class="student-photo">
-                                <img src="/common/assets/students/{student.id}.jpg" alt="{student.name}" />
-                            </div>
-                            <div class="student-info">
-                                <h4>{student.name}</h4>
-                                <p>{student.position}</p>
-                            </div>
-                        {/if}
-                    </div>
-                {/each}
-            </div>
+            <PeopleGrid
+                people={alumni}
+                assetFolder="students"
+                href={(s) => s.url}
+                external
+            >
+                {#snippet card(student)}
+                    <h4>{student.name}</h4>
+                    <p>{student.position}</p>
+                {/snippet}
+            </PeopleGrid>
         </section>
     {/if}
 </div>
@@ -95,62 +72,7 @@
         margin-bottom: 3rem;
     }
 
-    .students-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 2rem;
-    }
-
-    .student-card {
-        transition: transform 0.2s ease;
-    }
-
-    .student-card:hover {
-        transform: translateY(-4px);
-    }
-
-    .student-card a {
-        text-decoration: none;
-        color: inherit;
-        display: block;
-    }
-
-    .student-photo {
-        width: 100%;
-        aspect-ratio: 1;
-        overflow: hidden;
-        border-radius: 8px;
-        margin-bottom: 1rem;
-    }
-
-    .student-photo img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .student-info h4 {
-        font-size: 1.1rem;
-        font-weight: 600;
-        font-family: var(--sans);
-        margin-bottom: 0.25rem;
-        color: var(--color-fg);
-    }
-
-    .student-info p {
-        font-size: 0.9rem;
-        font-family: var(--sans);
-        color: var(--color-fg-muted);
-        margin: 0;
-    }
-
-    /* Mobile adjustments */
     @media (max-width: 768px) {
-        .students-grid {
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 1.5rem;
-        }
-
         h2 {
             font-size: 1.5rem;
         }
