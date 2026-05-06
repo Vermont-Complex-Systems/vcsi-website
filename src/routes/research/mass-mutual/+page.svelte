@@ -13,7 +13,6 @@
 
     
     let sortBy = $state('citations');
-    let showAll = $state(false);
     let selectedTopic = $state(null);
     
     function handleTopicClick(topic) {
@@ -114,7 +113,7 @@
         
         <p>You can explore the <u>{papers.length} publications</u> stemming from the MassMutual Center of Excellence by filtering topics:</p>
                 <TopicsChart {papers} {selectedTopic} onTopicClick={handleTopicClick} />
-                <PapersGrid {papers} bind:sortBy bind:showAll {selectedTopic} />
+                <PapersGrid {papers} bind:sortBy {selectedTopic} />
             </section>
         </div>
     {/if}

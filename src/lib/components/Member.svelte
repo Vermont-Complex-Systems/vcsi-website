@@ -8,7 +8,6 @@
   const { name, url, social, pronoun, openAlex, papers } = author;
 
   let sortBy = $state('citations');
-  let showAll = $state(false);
   let selectedTopic = $state(null);
 
   const bio = author.bio || "is a contributor to The VCSI.";
@@ -55,7 +54,7 @@
 {#if author.papers && author.papers.length > 0}
   <section id="research-metrics">
       <TopicsChart {papers} {selectedTopic} onTopicClick={handleTopicClick} />
-      <PapersGrid {papers} bind:sortBy bind:showAll {selectedTopic} />
+      <PapersGrid {papers} bind:sortBy {selectedTopic} />
       <CitationMetrics {papers} {openAlex} />
     </section>
 {/if}

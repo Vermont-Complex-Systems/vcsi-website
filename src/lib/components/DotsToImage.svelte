@@ -369,6 +369,7 @@
     }
 
     function animate(timestamp) {
+      if (!canvas) return;
       rotationAngle += 0.0005;
       gl.uniform1f(rotationUniformLocation, rotationAngle);
       gl.uniform1f(timeUniformLocation, timestamp);

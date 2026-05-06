@@ -1,2 +1,37 @@
-name,recurring,recurring_frequency,day,time,description,link
-Complexitea,true,Weekly,Thursday,12-1pm,A casual lunch as the VCSI offices. All welcome!,events/seminar
+name,day,date,time,link,teams,location,event_type,recurring_frequency,description
+Complexitea,Thursday,,12:00pm - 13:00pm,,,Innovation Hall 404,ongoing,weekly,"A drop-in gathering with food for the Vermont Complex Systems Institute community in our shared community space on the fourth floor of Innovation Hall. Students, faculty, staff and friends welcome."
+SOCKS All-Hands Meeting abstract submission deadline,,46076,,,,,deadline,,"I’m excited to share with you (again) an opportunity for undergraduates and graduate students to present their research to SOCKS faculty and staff. At the SOCKS All-Hands Meeting on Monday, March 30, 2026, we will be holding a poster session from 11:30 am - 12:30 pm. Students will have an hour to share a research poster with SOCKS staff, answer questions, and then stick around for a catered lunch. Here are some more details:
+
+- Poster Size: 48 x 36 inches landscape orientation 
+- Printing costs will be covered
+- Must be SOCKS-related research topics 
+- ~8 slots for student posters 
+
+This is a great opportunity for students to practice presenting and for SOCKS community members to interact with new research findings. But wait! That’s not all. Poster presenters will receive a SOCKS-themed gift, will be invited to join the whole SOCKS team for the All Hands Meeting lunch, and prizes will be awarded for the best posters."
+SOCKS All-Hands Meeting,Monday,46104,11:30 am - 12:30 pm,,,UVM Davis Center’s Silver Maple Ballroom,special,,"I’m excited to share with you (again) an opportunity for undergraduates and graduate students to present their research to SOCKS faculty and staff. At the SOCKS All-Hands Meeting on Monday, March 30, 2026, we will be holding a poster session from 11:30 am - 12:30 pm. Students will have an hour to share a research poster with SOCKS staff, answer questions, and then stick around for a catered lunch. Here are some more details:
+
+Poster Size: 48 x 36 inches landscape orientation 
+Printing costs will be covered
+Must be SOCKS-related research topics 
+~8 slots for student posters 
+Location: UVM Davis Center’s Silver Maple Ballroom 
+
+
+This is a great opportunity for students to practice presenting and for SOCKS community members to interact with new research findings. But wait! That’s not all. Poster presenters will receive a SOCKS-themed gift, will be invited to join the whole SOCKS team for the All Hands Meeting lunch, and prizes will be awarded for the best posters."
+Research Computing Virtual Café Office Hours & Events,Thursday,46072,9:00 AM - 10:30 AM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,variable,"The ETS Research Computing Team is hosting Research Computing Virtual Café hours as a resource for assistance and general discussion about the various research computing services offered by ETS.
+
+These sessions are designed to be drop-in, with no advanced registration required. They aim to provide faculty, staff, and student researchers with an opportunity to meet directly with the research computing team and to ask questions related to the VACC, VACC clusters, scientific software, NetFiles storage, or research virtual machines. Everyone is welcome; this is intended to be a place for informal discussion and problem-solving.
+
+See below the schedule for the link to the Teams meeting. All Virtual Café sessions meet via Microsoft Teams only at their scheduled times"
+Research Computing Virtual Café Office Hours & Events,Monday,46076,2:00 PM - 3:30 PM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
+Research Computing Virtual Café Office Hours & Events,Thursday,46086,9:00 AM - 10:30 AM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
+Research Computing Virtual Café Office Hours & Events,Monday,46090,2:00 PM - 3:30 PM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
+Research Computing Virtual Café Office Hours & Events,Thursday,46100,9:00 AM - 10:30 AM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
+Research Computing Virtual Café Office Hours & Events,Monday,46104,2:00 PM - 3:30 PM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
+Research Computing Virtual Café Office Hours & Events,Thursday,46114,9:00 AM - 10:30 AM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
+Research Computing Virtual Café Office Hours & Events,Monday,46118,2:00 PM - 3:30 PM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
+Research Computing Virtual Café Office Hours & Events,Thursday,46128,9:00 AM - 10:30 AM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
+Research Computing Virtual Café Office Hours & Events,Monday,46132,2:00 PM - 3:30 PM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
+Research Computing Virtual Café Office Hours & Events,Thursday,46142,9:00 AM - 10:30 AM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
+Research Computing Virtual Café Office Hours & Events,Monday,46146,2:00 PM - 3:30 PM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
+VCSI Affiliate Speaker Series: Sam Chevalier,Tuesday,46077,10:00 AM - 11:00 AM,,https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZDcxYjRkZjctNjE5NC00ZWFlLWFjMzQtMTE5YzkyNzBhMDI0%40thread.v2/0?context=%7b%22Tid%22%3a%221c177758-4d6b-43dc-aaeb-3b9c42562967%22%2c%22Oid%22%3a%226d721d16-510a-4a3c-83df-103c92d3a3bb%22%7d,Innovation E100 Conference Room,special,,

@@ -2,11 +2,16 @@
   import { base } from '$app/paths';
   import membersData from '$data/members.csv';
   import studentsData from '$data/students.csv';
+  import PapersGrid from "$lib/components/PapersGrid.svelte";
   import PeopleGrid from './PeopleGrid.svelte';
+  import TopicsChart from './TopicsChart.svelte';
 
   let { group } = $props();
 
-  const { id, name, url, PI, bio } = group[0];
+  const { id, name, url, PI, bio, papers } = group;
+  
+  let sortBy = $state('citations');
+  let selectedTopic = $state(null);
 
   // Get students belonging to this group
   const groupStudents = studentsData.filter(s => s.primaryAffiliation === id && s.status !== 'Alumni');
@@ -21,7 +26,7 @@
   };
 
   const getPILinks = () => {
-    const piIds = PI.split(' ');
+    const piIds = (PI || '').split(' ').filter(Boolean);
     return piIds.map(id => {
       const member = membersData.find(m => m.id === id);
       const displayName = member ? member.name : id;
@@ -31,6 +36,10 @@
 
   const link = getLinkHTML();
   const piLinks = getPILinks();
+
+  function handleTopicClick(topic) {
+    selectedTopic = selectedTopic === topic ? null : topic;
+  }
 </script>
 
 <div class="page-header no-logo">
@@ -46,7 +55,7 @@
 {#if groupStudents.length > 0}
   <div class="content">
     <section>
-      <h2>Students</h2>
+      <h2>Our Team</h2>
       <PeopleGrid
         people={groupStudents}
         assetFolder="students"
@@ -61,6 +70,16 @@
     </section>
   </div>
 {/if}
+
+{#if papers && papers.length > 0}
+<section class="research">
+  <h2>Publications by topics</h2>
+  <p>click to filter</p>
+    <TopicsChart {papers} {selectedTopic} onTopicClick={handleTopicClick} />
+    <PapersGrid {papers} bind:sortBy {selectedTopic} />
+  </section>
+{/if}
+
 
 <style>
   h2 {

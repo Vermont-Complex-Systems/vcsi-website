@@ -1,12 +1,16 @@
 <script>
   import { flip } from 'svelte/animate';
 
-  let { papers = [], sortBy = $bindable('citations'), showAll = $bindable(false), selectedTopic = null } = $props();
+  let { papers = [], sortBy = $bindable('citations'), selectedTopic = null } = $props();
+
+  const INITIAL_COUNT = 16;
+  const INCREMENT = 25;
+  let visibleCount = $state(INITIAL_COUNT);
 
   $effect(() => {
-    // Reset showAll when filter changes
+    // Reset visible count when filter changes
     if (selectedTopic) {
-      showAll = false;
+      visibleCount = INITIAL_COUNT;
     }
   });
 
@@ -37,17 +41,21 @@
     if (paper.is_open_access && paper.primary_location?.pdf_url) {
       return paper.primary_location.pdf_url;
     }
-    
+
     if (paper.primary_location?.landing_page_url) {
       return paper.primary_location.landing_page_url;
     }
-    
+
     if (paper.doi) {
       return `https://doi.org/${paper.doi}`;
     }
-    
+
     return null;
   }
+
+  let sortedPapers = $derived(getSortedPapers());
+  let totalPapers = $derived(sortedPapers.length);
+  let remaining = $derived(totalPapers - visibleCount);
 </script>
 
 <div class="papers-header">
@@ -76,7 +84,7 @@
 </div>
 
 <div class="papers-grid">
-{#each getSortedPapers().slice(0, showAll ? undefined : 16) as paper (paper.openalex_id)}
+{#each sortedPapers.slice(0, visibleCount) as paper (paper.openalex_id)}
   {@const paperUrl = getPaperUrl(paper)}
   
   <div animate:flip={{ duration: 400 }}>
@@ -151,13 +159,13 @@
 {/each}
 </div>
 
-{#if getSortedPapers().length > 16}
+{#if remaining > 0}
   <div class="show-more-container">
     <button
       class="show-more-btn"
-      onclick={() => showAll = !showAll}
+      onclick={() => visibleCount += INCREMENT}
     >
-      {showAll ? `Show Less` : `Show All ${getSortedPapers().length} Papers`}
+      Show {Math.min(remaining, INCREMENT)} More ({remaining} remaining)
     </button>
   </div>
 {/if}

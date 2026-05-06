@@ -24,16 +24,16 @@
   let mobileYStrength = $derived(isMobile() ? 0.02 : (counts.length > 30 ? 0.05 : 0.01));
   let yOffset = $derived(isMobile() ? 70 : 10);
 
-  const baseHeight = $derived(isMobile() ? 100 : 200);
-  const heightPerTopic = $derived(isMobile() ? 10 : 10);
-  const maxHeight = $derived(isMobile() ? (counts.length > 200 ? 700 : 500) : 300);
-  const dynamicHeight = $derived(Math.min(baseHeight + (counts.length * heightPerTopic), maxHeight));
-  
-  const dynamicMargin = $derived(counts.length > 100 ? '3rem' : '0.5rem');
+  // Single, clear height calculation
+  const height = $derived(
+    isMobile()
+      ? Math.min(120 + counts.length * 6, 500)  // vertical: scales with topics
+      : Math.min(300 + counts.length * 3, 450)  // horizontal: scales with topics
+  );
 
 </script>
 
-<div class="chart-container" style="height: {dynamicHeight}px; margin-bottom: {dynamicMargin};">
+<div class="chart-container" style="--height: {height}px">
   <LayerCake
     data={counts}
     x={'topic'}
@@ -68,13 +68,6 @@
 <style>
   .chart-container {
     width: 100%;
-    height: 300px;
-  }
-
-  @media (max-width: 768px) {
-    .chart-container {
-      width: 100%;
-      height: 500px;
-    }
+    height: var(--height);
   }
 </style>

@@ -1,24 +1,21 @@
 <script>
   import { page } from '$app/state';
-  import { getGroup } from '../../../data.remote.js'
-  
+  import { getGroupWithPapers } from '../../../data.remote.js'
+
   import Meta from "$lib/components/Meta.svelte";
   import Group from "$lib/components/Group.svelte";
   import Spinner from "$lib/components/Spinner.svelte";
-  
-
 </script>
 
-{#await getGroup(page.params.name)}
+{#await getGroupWithPapers(page.params.name)}
   <Spinner text="Loading group data..." />
-{:then group} 
-    <Meta 
-      title={group[0].name}
+{:then groupData}
+    <Meta
+      title={groupData.name}
       description="Group bio and published stories"
-      
     />
 
-    <Group {group}/>
+    <Group group={groupData} />
 {:catch error}
   <p>Error loading groups: {error.message}</p>
 {/await}

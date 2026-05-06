@@ -1,18 +1,22 @@
 #!/usr/bin/env node
 
+import 'dotenv/config';
 import { readFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { csvParse } from 'd3-dsv';
 import { db } from '../src/lib/server/db/index.js';
-import { eq } from 'drizzle-orm';
+import { eq, and } from 'drizzle-orm';
 import {
   openalex_authors,
-  openalex_papers
+  openalex_papers,
+  paper_authors
 } from '../src/lib/server/db/schema.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const projectRoot = join(__dirname, '..');
+
+const OPENALEX_API_KEY = process.env.OPENALEXAPI;
 
 
 // Rate limiter: ensures we don't exceed 10 requests per second
@@ -34,11 +38,11 @@ async function rateLimitedFetch(url, options = {}) {
 
 // Fetch author data from OpenAlex API
 async function fetchAuthorData(openAlexId) {
+  const url = `https://api.openalex.org/authors/${openAlexId}?api_key=${OPENALEX_API_KEY}`;
   console.log(`🌐 Fetching author: ${openAlexId}`);
-  console.log(`   Full URL: https://api.openalex.org/authors/${openAlexId}`);
 
   try {
-    const response = await rateLimitedFetch(`https://api.openalex.org/authors/${openAlexId}`, {
+    const response = await rateLimitedFetch(url, {
       headers: {
         'User-Agent': 'VCSI-Website/1.0 (https://vcsi.uvm.edu; mailto:jstonge1@uvm.edu)'
       }
@@ -62,12 +66,17 @@ async function fetchAuthorData(openAlexId) {
 }
 
 // Fetch papers for an author with full pagination
-async function fetchAuthorPapers(openAlexId) {
-  console.log(`📄 Fetching papers for: ${openAlexId}`);
+// If sinceDate is provided, only fetch papers updated in OpenAlex after that date (requires API key)
+async function fetchAuthorPapers(openAlexId, sinceDate = null) {
+  const dateInfo = sinceDate ? ` (updated since ${sinceDate})` : ' (all papers)';
+  console.log(`📄 Fetching papers for: ${openAlexId}${dateInfo}`);
 
   try {
-    // Build base URL
-    let baseUrl = `https://api.openalex.org/works?filter=author.id:${openAlexId}&mailto=jstonge1@uvm.edu`;
+    let baseUrl = `https://api.openalex.org/works?filter=author.id:${openAlexId}`;
+    if (sinceDate) {
+      baseUrl += `,from_updated_date:${sinceDate}`;
+    }
+    baseUrl += `&api_key=${OPENALEX_API_KEY}`;
 
     // Fetch all papers for this author (with full pagination)
     let allPapers = [];
@@ -148,11 +157,10 @@ function extractAuthorData(apiData) {
   };
 }
 
-// Extract paper data
-function extractPaperData(paperApiData, authorOpenAlexId) {
+// Extract paper data (no author - that's in junction table now)
+function extractPaperData(paperApiData) {
   return {
     openalex_id: paperApiData.id.replace('https://openalex.org/', ''),
-    author_openalex_id: authorOpenAlexId,
     doi: paperApiData.doi,
     title: paperApiData.title || 'Untitled',
     publication_year: paperApiData.publication_year,
@@ -174,7 +182,7 @@ function extractPaperData(paperApiData, authorOpenAlexId) {
 }
 
 async function populateOpenAlexDatabase() {
-  console.log('🗃️  Starting simple OpenAlex population...');
+  console.log('🗃️  Starting OpenAlex population/update...');
 
   // Read members CSV file
   const csvPath = join(projectRoot, 'src/data/members.csv');
@@ -196,51 +204,77 @@ async function populateOpenAlexDatabase() {
         .from(openalex_authors)
         .where(eq(openalex_authors.openalex_id, openAlexId))
         .limit(1);
-      
-      if (existingAuthor.length > 0) {
-        console.log(`⏭️  Author already exists: ${member.name}`);
-        continue;
-      }
-      
-      // Fetch author data
+
+      // Fetch author data (always fetch to get updated metrics)
       const authorApiData = await fetchAuthorData(openAlexId);
       if (!authorApiData) {
         console.log(`⏭️  Skipping ${member.name} - no API data`);
         continue;
       }
-      
-      // Insert author
+
       const authorData = extractAuthorData(authorApiData);
-      await db.insert(openalex_authors).values(authorData);
-      console.log(`✅ Inserted author: ${authorData.display_name}`);
-      
-      // Fetch and insert papers
-      const papersApiData = await fetchAuthorPapers(openAlexId);
+      let sinceDate = null;
+
+      if (existingAuthor.length > 0) {
+        // Update existing author with fresh metrics
+        sinceDate = existingAuthor[0].last_updated?.split('T')[0]; // Get date part only
+        await db.update(openalex_authors)
+          .set(authorData)
+          .where(eq(openalex_authors.openalex_id, openAlexId));
+        console.log(`🔄 Updated author: ${authorData.display_name}`);
+      } else {
+        // Insert new author
+        await db.insert(openalex_authors).values(authorData);
+        console.log(`✅ Inserted author: ${authorData.display_name}`);
+      }
+
+      // Fetch papers (only those updated since last sync if author existed)
+      const papersApiData = await fetchAuthorPapers(openAlexId, sinceDate);
       if (papersApiData.length > 0) {
         console.log(`📄 Processing ${papersApiData.length} papers...`);
-        
-        let insertedCount = 0;
+
+        let newPapers = 0;
+        let newLinks = 0;
         for (const paperApiData of papersApiData) {
           try {
             const paperOpenAlexId = paperApiData.id.replace('https://openalex.org/', '');
-            
+
             // Check if paper already exists
             const existingPaper = await db.select()
               .from(openalex_papers)
               .where(eq(openalex_papers.openalex_id, paperOpenAlexId))
               .limit(1);
-            
+
             if (existingPaper.length === 0) {
-              const paperData = extractPaperData(paperApiData, openAlexId);
+              // Insert new paper
+              const paperData = extractPaperData(paperApiData);
               await db.insert(openalex_papers).values(paperData);
-              insertedCount++;
+              newPapers++;
+            }
+
+            // Check if paper-author link already exists
+            const existingLink = await db.select()
+              .from(paper_authors)
+              .where(and(
+                eq(paper_authors.paper_openalex_id, paperOpenAlexId),
+                eq(paper_authors.author_openalex_id, openAlexId)
+              ))
+              .limit(1);
+
+            if (existingLink.length === 0) {
+              // Insert paper-author relationship
+              await db.insert(paper_authors).values({
+                paper_openalex_id: paperOpenAlexId,
+                author_openalex_id: openAlexId
+              });
+              newLinks++;
             }
           } catch (paperError) {
             console.error(`❌ Error processing paper "${paperApiData.title}": ${paperError.message}`);
           }
         }
-        
-        console.log(`✅ Inserted ${insertedCount} new papers (${papersApiData.length - insertedCount} duplicates skipped)`);
+
+        console.log(`✅ Inserted ${newPapers} new papers, ${newLinks} new author links`);
       }
       
       // Rate limiting
@@ -251,12 +285,13 @@ async function populateOpenAlexDatabase() {
     }
   }
 
-  console.log('\n🎉 Simple OpenAlex population complete!');
+  console.log('\n🎉 OpenAlex population/update complete!');
 
   // Show summary
   const authorCount = await db.select().from(openalex_authors);
   const paperCount = await db.select().from(openalex_papers);
-  console.log(`📊 Summary: ${authorCount.length} authors, ${paperCount.length} papers`);
+  const linkCount = await db.select().from(paper_authors);
+  console.log(`📊 Summary: ${authorCount.length} authors, ${paperCount.length} papers, ${linkCount.length} author-paper links`);
 }
 
 // Run the script

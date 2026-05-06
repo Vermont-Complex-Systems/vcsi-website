@@ -6,10 +6,7 @@
     import PapersGrid from '$lib/components/PapersGrid.svelte';
     import TopicsChart from '$lib/components/TopicsChart.svelte';
     import { getLemurPapers } from '../../data.remote.js';
-    let showAll = $state(false);
     let selectedTopic = $state(null);
-
-        
     let sortBy = $state('citations');
 
     const project = projectsData.find(p => p.id === 'lemurs');
@@ -77,7 +74,7 @@
         <section id="research-metrics">
             <p>You can explore the <u>{papers.length} publications</u> stemming from the MassMutual Center of Excellence by filtering topics:</p>
             <TopicsChart {papers} {selectedTopic} onTopicClick={handleTopicClick} />
-            <PapersGrid {papers} bind:sortBy bind:showAll {selectedTopic} />
+            <PapersGrid {papers} bind:sortBy {selectedTopic} />
         </section>
     </div>
     {/if}

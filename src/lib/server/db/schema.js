@@ -25,7 +25,6 @@ export const openalex_authors = sqliteTable('openalex_authors', {
 
 export const openalex_papers = sqliteTable('openalex_papers', {
   openalex_id: text('openalex_id').primaryKey(), // W2964039088
-  author_openalex_id: text('author_openalex_id').notNull(), // A5026024797
   doi: text('doi'),
   title: text('title').notNull(),
   publication_year: integer('publication_year'),
@@ -43,4 +42,10 @@ export const openalex_papers = sqliteTable('openalex_papers', {
   referenced_works_count: integer('referenced_works_count'),
   created_date: text('created_date'),
   updated_date: text('updated_date')
+});
+
+// Junction table for many-to-many relationship between papers and authors
+export const paper_authors = sqliteTable('paper_authors', {
+  paper_openalex_id: text('paper_openalex_id').notNull(),
+  author_openalex_id: text('author_openalex_id').notNull()
 });

@@ -13,7 +13,6 @@
     const entry = miscData.find(p => p.id === 'tgir');
 
     let sortBy = $state('citations');
-    let showAll = $state(false);
     let selectedTopic = $state(null);
 
     function handleTopicClick(topic) {
@@ -69,7 +68,7 @@
         <h2>TGIR Publications</h2>
         <p>Explore the <u>{papers.length} publications</u> from the TGIR involving institute members by filtering topics:</p>
         <TopicsChart {papers} {selectedTopic} onTopicClick={handleTopicClick} />
-        <PapersGrid {papers} bind:sortBy bind:showAll {selectedTopic} />
+        <PapersGrid {papers} bind:sortBy {selectedTopic} />
         <CitationMetrics {papers} />
     </section>
 </div>
