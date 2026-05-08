@@ -1,16 +1,19 @@
 <script>
   import Meta from "$lib/components/Meta.svelte";
   import TarotCard from '$lib/components/TarotCard.svelte';
-  import heroImg from '$lib/assets/ai-use/cave_lost_bits.jpg';
-  import aboutImg from '$lib/assets/ai-use/how_do_llms_work.jpg';
-  import fractalImg from '$lib/assets/ai-use/fractal.jpg';
-  import isThisAiImg from '$lib/assets/ai-use/is_this_ai.jpg';
-  import smallnessImg from '$lib/assets/ai-use/smallness_of_worlds.jpg';
+  import ValiHero from '$lib/components/ValiHero.svelte';
+  import heroImg from '$lib/assets/ai-use/cave_lost_bits.jpg?enhanced';
+  import aboutImg from '$lib/assets/ai-use/how_do_llms_work.jpg?enhanced';
+  import fractalImg from '$lib/assets/ai-use/fractal.jpg?enhanced';
+  import isThisAiImg from '$lib/assets/ai-use/is_this_ai.jpg?enhanced';
+  import smallnessImg from '$lib/assets/ai-use/smallness_of_worlds.jpg?enhanced';
+  import garden from '$lib/assets/ai-use/garden.png';
   import Timeline from '$lib/components/Timeline.svelte';
   import acknowledgements from './acknowledgements.csv';
-  import vcsiLogo from '$lib/assets/ai-use/Roboctopus_2024.png';
+  import vcsiLogo from '$lib/assets/ai-use/Roboctopus_2024.png?enhanced';
   import epscorLogo from '$lib/assets/ai-use/vt_epscor_logo2.svg';
-  import versoLogo from '$lib/assets/ai-use/verso.png';
+  import versoLogo from '$lib/assets/ai-use/verso.png?enhanced';
+  
 </script>
 
 <svelte:head>
@@ -44,31 +47,23 @@
 <div class="vali">
 
 <!-- HERO -->
-<div class="hero">
-  <div class="wrap">
-    <p class="eyebrow">Vermont AI Literacy Initiative &middot; UVM</p>
-    <div class="hero-grid">
-      <div class="hero-text">
-        <h1 class="hero-title"><em>Every Output<br class="hero-br">Comes From Somewhere</em></h1>
-        <p class="hero-tagline">Vermont AI Literacy Initiative (VALI)</p>
-        <p class="hero-desc">Hands-on, visually engaging curriculum that teaches how AI works from the inside out — building helpful intuition and healthy skepticism for all skill levels, without significant math or computational pre-requisites. Designed for and in collaboration with diverse K–12+ populations. Piloting in Vermont, beginning in 2026.</p>
-        <div class="tags">
-          <span class="tag g">K–12</span>
-          <span class="tag g">Equitable</span>
-          <span class="tag">Virtual + Hands-On</span>
-          <span class="tag">Open source (in development)</span>
-        </div>
-        <div class="actions">
-          <a href="#interest" class="btn">Express interest</a>
-          <a href="#modules" class="btn-ghost">See curriculum (in development) &rarr;</a>
-        </div>
-      </div>
-      <div class="hero-art">
-        <enhanced:img src={heroImg} alt="Every Answer Came From Somewhere — hero illustration" class="hero-img" />
-      </div>
-    </div>
-  </div>
-</div>
+<ValiHero
+  eyebrow="Vermont AI Literacy Initiative · UVM"
+  title="<em>Every Output<br>Comes From Somewhere</em>"
+  tagline="Vermont AI Literacy Initiative (VALI)"
+  description="Hands-on, visually engaging curriculum that teaches how AI works from the inside out — building helpful intuition and healthy skepticism for all skill levels, without significant math or computational pre-requisites. Designed for and in collaboration with diverse K–12+ populations. Piloting in Vermont, beginning in 2026."
+  tags={[
+    { label: 'K–12', highlight: true },
+    { label: 'Equitable', highlight: true },
+    { label: 'Virtual + Hands-On' },
+    { label: 'Open source (in development)' },
+  ]}
+  actions={[
+    { label: 'Express interest', href: '#interest' },
+    { label: 'See curriculum (in development) &rarr;', href: '#modules', ghost: true },
+  ]}
+  image={heroImg}
+/>
 
 <!-- ABOUT -->
 <section class="about" id="about">
@@ -157,7 +152,7 @@
         <h3 class="mod-title">AI Tarot Cards</h3>
         <p class="mod-desc">A set of 10–22 cards that abstract key AI concepts at a high level — crafted to support the hands-on lessons and activities, spark discussion, and give educators a flexible toolkit for critical thinking about AI. These cards aim to translate relatively siloed AI expertise into widely accessible and intellectually productive abstractions. Designed to complement existing approaches like Stanford d.school's Machineless Machine Learning toolkit that place more emphasis on the concrete mechanisms of AI.</p>
         <div class="tarot-preview">
-          <TarotCard />
+          <TarotCard image={garden} borderColor="black" />
         </div>
       </div>
       <div class="mod">
@@ -282,10 +277,11 @@
     <p class="eyebrow">Initiative timeline</p>
     <h2>Where we are and where we're headed</h2>
     <Timeline events={[
-      { date: 'February 2026', title: 'Initiative launched', description: 'Proposal for the Vermont AI Literacy Initiative and VALI curriculum awarded a UVM AI Innovation grant.', status: 'done' },
-      { date: 'Spring 2026', title: 'Curriculum development begins', description: 'Development of prototype interactive scrollytelling modules, hands-on activities, and educator materials — in collaboration with additional researchers and outreach partners.', status: 'done' },
-      { date: 'Summer 2026', title: 'Educator and student research studies', description: 'Working with teachers and students to understand current AI intuition, identify gaps, and refine the curriculum before classroom pilots. Finalizing prototypes for piloting.', status: 'upcoming' },
       { date: 'Fall 2026', title: 'Vermont classroom pilots', description: 'First VALI modules piloted in Vermont K–12 classrooms. Collecting teacher and student feedback to inform the open-source release.', status: 'upcoming' },
+      { date: 'Summer 2026', title: 'Educator and student research studies', description: 'Working with teachers and students to understand current AI intuition, identify gaps, and refine the curriculum before classroom pilots. Finalizing prototypes for piloting.', status: 'upcoming' },
+      { date: 'May 2026', title: 'Project secures additional funding', description: '"Advancing the VCSI AI Literacy Initiative: Translational Fellowship" selected as an awardee for a VCSI Complexity Award.', status: 'done' },
+      { date: 'Spring 2026', title: 'Curriculum development begins', description: 'Development of prototype interactive scrollytelling modules, hands-on activities, and educator materials — in collaboration with additional researchers and outreach partners.', status: 'done' },
+      { date: 'February 2026', title: 'Initiative launches', description: 'Proposal for the Vermont AI Literacy Initiative and VALI curriculum awarded a UVM AI Innovation grant.', status: 'done' },
     ]} />
     <p class="timeline-note">More milestones, events, partnerships, and grant updates will be added here as the initiative grows.</p>
   </div>
@@ -431,47 +427,6 @@
     padding-bottom: 1px; transition: opacity 0.2s;
   }
   .btn-ghost:hover { opacity: 0.65; }
-
-  /* ============================================================
-     HERO
-     ============================================================ */
-  .hero {
-    padding-top: calc(var(--nav-height) + 6rem); padding-bottom: 6rem;
-    border-bottom: 1px solid var(--border);
-  }
-  .hero-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 3rem; align-items: center; margin-top: 1rem;
-  }
-  .hero-text {
-    display: flex; flex-direction: column; justify-content: center;
-  }
-  .hero-title {
-    font-family: var(--serif); font-size: clamp(2.2rem, 4vw, 3.2rem);
-    line-height: 1.08; margin-bottom: 1.3rem;
-  }
-  .hero-title em { font-style: italic; color: var(--green); }
-  .hero-tagline {
-    font-family: var(--serif); font-size: clamp(1rem, 1.8vw, 1.25rem);
-    color: var(--ink-2); margin-bottom: 1rem; font-style: italic;
-  }
-  .hero-desc {
-    font-size: 0.97rem; color: var(--ink-2); max-width: 43ch;
-    line-height: 1.85; margin-bottom: 1.8rem;
-  }
-  .tags { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 2rem; }
-  .tag {
-    font-size: 0.68rem; font-weight: 500; letter-spacing: 0.04em;
-    padding: 0.22rem 0.65rem; border: 1px solid var(--border);
-    border-radius: 100px; color: var(--ink-2);
-  }
-  .tag.g { background: var(--green-pale); color: var(--green); border-color: transparent; }
-  .actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
-  .hero-art { overflow: hidden; border-radius: 3px; }
-  .hero-img {
-    width: 100%; height: auto; object-fit: cover; border-radius: 3px;
-  }
-  .hero-br { display: inline; }
 
   /* ============================================================
      ABOUT
@@ -716,14 +671,22 @@
      RESPONSIVE
      ============================================================ */
   @media (max-width: 840px) {
-    .hero-grid, .about-grid, .mod-grid, .form-grid, .obj-grid, .res-grid, .team-2col {
+    .vali { font-size: 17px; }
+    .lead { font-size: 1.05rem; }
+    .about-grid, .mod-grid, .form-grid, .obj-grid, .res-grid, .team-2col {
       grid-template-columns: 1fr;
     }
     .team-2col { gap: 2.5rem; }
-    .hero-art { display: none; }
     section { padding-block: 3rem; }
-    .hero-br { display: none; }
     .obj + .obj { border-left: none; border-top: 1px solid var(--border); }
+    .obj-d, .mod-desc, .res-desc { font-size: 0.9rem; }
+    .obj-t, .res-title { font-size: 1rem; }
+    .stats { gap: 1.5rem; margin-top: 1.2rem; }
+    .stat-n { font-size: 1.6rem; }
+    .mod-title { font-size: 1.05rem; }
+    .mod-desc { font-size: 0.9rem; }
+    .mod-label { font-size: 0.65rem; }
+    .activity-list li { font-size: 0.9rem; }
   }
   @media (min-width: 841px) and (max-width: 1024px) {
     .obj-grid, .res-grid { grid-template-columns: repeat(2, 1fr); }

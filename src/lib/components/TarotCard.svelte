@@ -1,6 +1,5 @@
 <script>
-	import svelteLogo from '$lib/assets/ai-use/svelte-logo.svg';
-
+	let { image = undefined, borderColor = 'rgba(255,255,255,0.15)' } = $props();
 	let flipped = $state(false);
 </script>
 
@@ -11,12 +10,16 @@
 		style:--bg-1="#e8f2ec"
 		style:--bg-2="#1a4f3a"
 		style:--bg-3="#c8a84b"
-		style:--logo="url('{svelteLogo}')"
+		style:--border-color={borderColor}
 		onclick={() => flipped = !flipped}
 	>
 		<div class="front">
-			<span class="symbol">?</span>
-			<p class="card-label">AI Tarot</p>
+			{#if image}
+				<img src={image} alt="Tarot card" class="card-image" />
+			{:else}
+				<span class="symbol">?</span>
+				<p class="card-label">AI Tarot</p>
+			{/if}
 		</div>
 		<div class="back">
 			<div class="pattern"></div>
@@ -37,10 +40,10 @@
 
 	.card {
 		position: relative;
-		aspect-ratio: 2.5 / 3.5;
+		aspect-ratio: 7 / 12;
 		font-size: min(1vh, 0.25rem);
 		height: 80em;
-		background: var(--bg-1);
+		background: var(--border-color);
 		border-radius: 2em;
 		transform: rotateY(180deg);
 		transition: transform 0.4s;
@@ -48,7 +51,7 @@
 		padding: 0;
 		user-select: none;
 		cursor: pointer;
-		border: none;
+		border: 1px solid var(--border-color);
 	}
 
 	.front, .back {
@@ -63,21 +66,24 @@
 		top: 0;
 		backface-visibility: hidden;
 		border-radius: 2em;
-		border: 1px solid rgba(255,255,255,0.15);
+		border: 1px solid var(--border-color);
 		box-sizing: border-box;
 		padding: 2em;
 	}
 
 	.front {
-		background:
-			var(--logo) no-repeat 5em 5em,
-			var(--logo) no-repeat calc(100% - 5em) calc(100% - 5em);
-		background-size: 8em 8em, 8em 8em;
-		background-color: var(--bg-1);
+		background-color: var(--border-color);
 	}
 
 	.back {
 		transform: rotateY(180deg);
+	}
+
+	.card-image {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 1em;
 	}
 
 	.symbol {

@@ -81,6 +81,7 @@
               <a href="{base}/community/paper-shredder" class="dropdown-item" onclick={() => closeDropdowns()}>Paper Shredder</a>
               <a href="{base}/community/scraps" class="dropdown-item" onclick={() => closeDropdowns()}>SCRaPS</a>
               <a href="{base}/community/talkboctopus" class="dropdown-item" onclick={() => closeDropdowns()}>Talkboctopus</a>
+              <a href="{base}/manifesto" class="dropdown-item" onclick={() => closeDropdowns()}>Manifesto</a>
               <a href="{base}/community/credits" class="dropdown-item" onclick={() => closeDropdowns()}>Credits</a>
             </div>
           {/if}

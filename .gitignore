@@ -28,6 +28,6 @@ static/assets/people/students/*
 
 # SQLite
 *.db
-!src/lib/server/db/courses.db
+!src/lib/server/db/openalex.db
 drizzle/
 src/data/playlist.json

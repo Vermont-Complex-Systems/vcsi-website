@@ -41,6 +41,7 @@
 				<li><a href="{base}/community/paper-shredder">Paper Shredder</a></li>
 				<li><a href="{base}/community/scraps">SCRaPS</a></li>
 				<li><a href="{base}/community/talkboctopus">Talkboctopus</a></li>
+				<li><a href="{base}/manifesto">Manifesto</a></li>
 				<li><a href="{base}/community/credits">Credits</a></li>
 			</ul>
 		</div>
