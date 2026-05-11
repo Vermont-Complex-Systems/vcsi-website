@@ -281,3 +281,49 @@ export const getMemberWithOpenAlex = prerender(
 export const getMassMutualPapers = prerender(async () => getPapersByDois(massMutualPapersData));
 export const getTgirPapers = prerender(async () => getPapersByDois(tgirPapersData));
 export const getLemurPapers = prerender(async () => getPapersByDois(lemursPaperData));
+
+// --------------------------------- //
+// Recent papers (for homepage)
+// --------------------------------- //
+
+export const getRecentPapers = prerender(async () => {
+    const activeMembers = membersData.filter(m => m.openAlexId && m.status === 'active');
+    const activeIds = activeMembers.map(m => m.openAlexId.trim());
+    const papers = await getPapersByAuthorIds(activeIds);
+
+    // Build paper → VCSI authors mapping via junction table + active members
+    const allLinks = await db.select().from(paper_authors);
+    const openAlexToMember = new Map(
+        activeMembers
+            .map(m => [m.openAlexId.trim(), { name: m.name, slug: m.id, position: m.position }])
+    );
+
+    const paperAuthorsMap = new Map();
+    for (const link of allLinks) {
+        const member = openAlexToMember.get(link.author_openalex_id);
+        if (!member) continue;
+        if (!paperAuthorsMap.has(link.paper_openalex_id)) {
+            paperAuthorsMap.set(link.paper_openalex_id, []);
+        }
+        const authors = paperAuthorsMap.get(link.paper_openalex_id);
+        if (!authors.some(a => a.slug === member.slug)) {
+            authors.push(member);
+        }
+    }
+
+    // Filter to papers from the last 30 days and attach authors
+    const now = new Date();
+    const cutoff = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+
+    const recent = papers
+        .filter(p => p.publication_date && new Date(p.publication_date) >= cutoff)
+        .map(p => ({ ...p, authors: paperAuthorsMap.get(p.openalex_id) || [] }))
+        .sort((a, b) => new Date(b.publication_date) - new Date(a.publication_date));
+
+    // Pick a random highlighted paper (determined at build time)
+    const highlighted = recent.length > 0
+        ? recent[Math.floor(Math.random() * recent.length)]
+        : null;
+
+    return { papers: recent, highlighted };
+});

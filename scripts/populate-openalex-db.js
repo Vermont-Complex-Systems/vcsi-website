@@ -18,6 +18,10 @@ const projectRoot = join(__dirname, '..');
 
 const OPENALEX_API_KEY = process.env.OPENALEXAPI;
 
+if (!OPENALEX_API_KEY) {
+  console.error('❌ OPENALEXAPI environment variable is not set. Get a key at https://openalex.org/settings/api');
+  process.exit(1);
+}
 
 // Rate limiter: ensures we don't exceed 10 requests per second
 const RATE_LIMIT_DELAY = 150; // 150ms = ~6.6 requests/second (safe margin under 10/sec)
@@ -36,28 +40,41 @@ async function rateLimitedFetch(url, options = {}) {
   return fetch(url, options);
 }
 
+// Fetch with retry and exponential backoff
+async function fetchWithRetry(url, maxRetries = 5) {
+  const headers = {
+    'User-Agent': 'VCSI-Website/1.0 (https://vcsi.uvm.edu; mailto:jstonge1@uvm.edu)'
+  };
+
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    const response = await rateLimitedFetch(url, { headers });
+
+    if (response.ok) {
+      return response;
+    }
+
+    // 403 = rate limit exceeded, 429 = daily limit exceeded, 5xx = server error
+    if (response.status === 403 || response.status === 429 || response.status >= 500) {
+      const waitTime = Math.pow(2, attempt) * 1000;
+      console.warn(`⚠️  ${response.status} on attempt ${attempt + 1}/${maxRetries}. Waiting ${waitTime / 1000}s...`);
+      await new Promise(resolve => setTimeout(resolve, waitTime));
+      continue;
+    }
+
+    // Client errors (400, 404) - don't retry
+    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+  }
+
+  throw new Error(`Failed after ${maxRetries} retries`);
+}
+
 // Fetch author data from OpenAlex API
 async function fetchAuthorData(openAlexId) {
   const url = `https://api.openalex.org/authors/${openAlexId}?api_key=${OPENALEX_API_KEY}`;
   console.log(`🌐 Fetching author: ${openAlexId}`);
 
   try {
-    const response = await rateLimitedFetch(url, {
-      headers: {
-        'User-Agent': 'VCSI-Website/1.0 (https://vcsi.uvm.edu; mailto:jstonge1@uvm.edu)'
-      }
-    });
-
-    if (response.status === 429) {
-      console.warn('⚠️  Rate limited! Waiting 2 seconds...');
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      return fetchAuthorData(openAlexId); // Retry
-    }
-
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-    }
-
+    const response = await fetchWithRetry(url);
     return await response.json();
   } catch (error) {
     console.error(`❌ Failed to fetch ${openAlexId}: ${error.message}`);
@@ -66,17 +83,11 @@ async function fetchAuthorData(openAlexId) {
 }
 
 // Fetch papers for an author with full pagination
-// If sinceDate is provided, only fetch papers updated in OpenAlex after that date (requires API key)
-async function fetchAuthorPapers(openAlexId, sinceDate = null) {
-  const dateInfo = sinceDate ? ` (updated since ${sinceDate})` : ' (all papers)';
-  console.log(`📄 Fetching papers for: ${openAlexId}${dateInfo}`);
+async function fetchAuthorPapers(openAlexId) {
+  console.log(`📄 Fetching papers for: ${openAlexId}`);
 
   try {
-    let baseUrl = `https://api.openalex.org/works?filter=author.id:${openAlexId}`;
-    if (sinceDate) {
-      baseUrl += `,from_updated_date:${sinceDate}`;
-    }
-    baseUrl += `&api_key=${OPENALEX_API_KEY}`;
+    const baseUrl = `https://api.openalex.org/works?filter=authorships.author.id:${openAlexId}&api_key=${OPENALEX_API_KEY}`;
 
     // Fetch all papers for this author (with full pagination)
     let allPapers = [];
@@ -85,22 +96,7 @@ async function fetchAuthorPapers(openAlexId, sinceDate = null) {
     do {
       const url = `${baseUrl}&per_page=100&page=${page}`;
 
-      const response = await rateLimitedFetch(url, {
-        headers: {
-          'User-Agent': 'VCSI-Website/1.0 (https://vcsi.uvm.edu; mailto:jstonge1@uvm.edu)'
-        }
-      });
-
-      if (response.status === 429) {
-        console.warn('⚠️  Rate limited! Waiting 2 seconds...');
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        continue; // Retry this page
-      }
-
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
-
+      const response = await fetchWithRetry(url);
       const data = await response.json();
 
       // Check if we got results
@@ -213,11 +209,9 @@ async function populateOpenAlexDatabase() {
       }
 
       const authorData = extractAuthorData(authorApiData);
-      let sinceDate = null;
 
       if (existingAuthor.length > 0) {
         // Update existing author with fresh metrics
-        sinceDate = existingAuthor[0].last_updated?.split('T')[0]; // Get date part only
         await db.update(openalex_authors)
           .set(authorData)
           .where(eq(openalex_authors.openalex_id, openAlexId));
@@ -228,8 +222,8 @@ async function populateOpenAlexDatabase() {
         console.log(`✅ Inserted author: ${authorData.display_name}`);
       }
 
-      // Fetch papers (only those updated since last sync if author existed)
-      const papersApiData = await fetchAuthorPapers(openAlexId, sinceDate);
+      // Fetch all papers (dedup handled by insert logic below)
+      const papersApiData = await fetchAuthorPapers(openAlexId);
       if (papersApiData.length > 0) {
         console.log(`📄 Processing ${papersApiData.length} papers...`);
 

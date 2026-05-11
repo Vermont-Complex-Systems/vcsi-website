@@ -20,7 +20,7 @@
   );
   
   let mobileForceStrength = $derived(isMobile() ? 0.02 : 0.0005);
-  let mobileXStrength = $derived(isMobile() ? 0.1 : 0.0001);
+  let mobileXStrength = $derived(isMobile() ? 0.05 : 0.0001);
   let mobileYStrength = $derived(isMobile() ? 0.02 : (counts.length > 30 ? 0.05 : 0.01));
   let yOffset = $derived(isMobile() ? 70 : 10);
 

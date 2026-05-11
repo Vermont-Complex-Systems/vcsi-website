@@ -1,6 +1,7 @@
 <script>
     import { base } from '$app/paths';
     import DotsToImage from './DotsToImage.svelte';
+    import RecentResearch from './RecentResearch.svelte';
     import { ArrowRight } from '@lucide/svelte';
 </script>
 
@@ -66,6 +67,8 @@
         </div>
     </div>
 </section>
+
+<RecentResearch />
 
 <div class="separator-wrapper">
     <img
@@ -177,7 +180,11 @@
 
     /* ---------------- Section Dividers ---------------- */
     .section-divider {
-        margin: 4rem 0;
+        margin: 4rem calc(-1 * var(--page-padding, 2rem));
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
         border: none;
         border-bottom: 1px solid var(--color-gray-300);
     }
@@ -187,8 +194,12 @@
     }
 
     .separator-wrapper hr {
-        margin-top: 8rem;
+        margin-top: 0;
         margin-bottom: 4rem;
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
         border: none;
         border-bottom: 1px solid var(--color-gray-300);
     }
@@ -312,45 +323,54 @@
     }
 
     .learning-card {
-        padding: 2rem;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        display: flex;
-        flex-direction: column;
+        border: 0.5px solid var(--color-gray-300);
+        padding: 6px;
         text-decoration: none;
         color: inherit;
-        position: relative;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        transition: box-shadow 0.2s, border 0.2s;
         overflow: hidden;
+        position: relative;
+    }
+
+    .learning-card:hover {
+        box-shadow: 4px 4px 0px var(--color-gray-400);
+        border-color: var(--color-gray-600);
     }
 
     .learning-card img {
-        width: 180px;
+        width: 80%;
         height: auto;
         object-fit: contain;
         mix-blend-mode: multiply;
+        display: block;
+        margin: 0 auto;
     }
 
     .learning-card.certificate img {
-        margin-right: 3rem;
+        margin: 0 auto;
     }
 
     .learning-card.masters,
     .learning-card.phd {
-        align-items: center;
-        text-align: left;
+        align-items: stretch;
+        text-align: center;
     }
 
     .learning-card p {
         font-size: 1rem;
+        font-family: var(--serif);
+        color: var(--color-gray-600);
+        line-height: 1.5;
     }
 
     .card-content {
+        text-align: center;
+        padding: 0 0.5rem 1rem;
         position: relative;
         flex: 1;
-    }
-
-    .learning-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     }
 
     /* Learn more arrow styling */
@@ -379,7 +399,6 @@
         .hero {
             min-height: auto;
             padding-top: 4rem;
-
         }
 
         .hero-inner {
@@ -421,11 +440,11 @@
         }
 
         .learning-card {
-            padding: 1.5rem;
+            padding: 6px;
         }
 
         .learning-card.certificate img {
-            margin-left: 4rem;
+            margin: 0 auto;
         }
 
         .tentacle-image {

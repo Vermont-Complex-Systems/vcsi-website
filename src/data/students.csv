@@ -1,12 +1,12 @@
 id,name,position,pronoun,status,primaryAffiliation,openAlexId,position2,email,bio,social,url,lastUpdated
-calla-beauregard,Calla Beauregard,PhD,,,,,,,PhD,https://www.linkedin.com/in/calla-g-4270b7126/,https://www.linkedin.com/in/calla-g-4270b7126/,46073
-livi-poon,Livi Poon,Undergrad,,,,,,,undergraduate student studying applications of machine learning to neuroscience.,https://www.linkedin.com/in/livi-poon-9a93a8116/,https://www.linkedin.com/in/livi-poon-9a93a8116/,46073
-ashley-fehr,Ashley Fehr,PhD,,,,,,,PhD,https://www.linkedin.com/in/amafehr/,https://www.linkedin.com/in/amafehr/,46073
-johanna-hidalgo,Johanna Hidalgo,PhD,,,,,,,PhD,https://www.linkedin.com/in/johanna-hidalgo-0480a5142/,https://www.uvm.edu/cas/psychology/current-clinical-psychology-phd-students,46073
-jenn-ha,Jenn Ha,PhD,,,,,,,PhD,https://www.linkedin.com/in/johanna-hidalgo-0480a5142/,https://www.uvm.edu/cas/psychology/current-clinical-psychology-phd-students,46073
-luc-cohen-wanis,Luc-Cohen Wanis,PhD,,,,,,,PhD,https://www.linkedin.com/in/luc-cohen-wanis-63834ba9/,https://www.uvm.edu/cems/mathstat/graduate-students,46073
-josh-minot,Josh Minot,PhD,,Alumni,,,,,PhD in Complex Systems & Data Science. Thesis: Gauge against the machine: improving representations within sociotechnical instruments to enrich context and identify biases.,https://www.linkedin.com/in/joshminot/,https://joshminot.github.io/,46073
-yoshi-bird,Yoshi Bird,PhD,,Alumni,,,,,PhD student in Complex Systems & Data Science. Associate Director of Partnership Compliance at Code for America.,https://www.alumni.uvm.edu/s/1690/alumni/index.aspx?sid=1690&gid=2&pgid=4088&cid=10221&ecid=10221&crid=0&calpgid=61&calcid=5944,https://www.alumni.uvm.edu/s/1690/alumni/index.aspx?sid=1690&gid=2&pgid=4088&cid=10221&ecid=10221&crid=0&calpgid=61&calcid=5944,46073
+calla-beauregard,Calla Beauregard,PhD,,,,,,,PhD,https://www.linkedin.com/in/calla-g-4270b7126/,https://www.linkedin.com/in/calla-g-4270b7126/,46153
+livi-poon,Livi Poon,Undergrad,,,,,,,undergraduate student studying applications of machine learning to neuroscience.,https://www.linkedin.com/in/livi-poon-9a93a8116/,https://www.linkedin.com/in/livi-poon-9a93a8116/,46153
+ashley-fehr,Ashley Fehr,PhD,,,,,,,PhD,https://www.linkedin.com/in/amafehr/,https://www.linkedin.com/in/amafehr/,46153
+johanna-hidalgo,Johanna Hidalgo,PhD,,,,,,,PhD,https://www.linkedin.com/in/johanna-hidalgo-0480a5142/,https://www.uvm.edu/cas/psychology/current-clinical-psychology-phd-students,46153
+jenn-ha,Jenn Ha,PhD,,,,,,,PhD,https://www.linkedin.com/in/johanna-hidalgo-0480a5142/,https://www.uvm.edu/cas/psychology/current-clinical-psychology-phd-students,46153
+luc-cohen-wanis,Luc-Cohen Wanis,PhD,,,,,,,PhD,https://www.linkedin.com/in/luc-cohen-wanis-63834ba9/,https://www.uvm.edu/cems/mathstat/graduate-students,46153
+josh-minot,Josh Minot,PhD,,Alumni,,,,,PhD in Complex Systems & Data Science. Thesis: Gauge against the machine: improving representations within sociotechnical instruments to enrich context and identify biases.,https://www.linkedin.com/in/joshminot/,https://joshminot.github.io/,46153
+yoshi-bird,Yoshi Bird,PhD,,Alumni,,,,,PhD student in Complex Systems & Data Science. Associate Director of Partnership Compliance at Code for America.,https://www.alumni.uvm.edu/s/1690/alumni/index.aspx?sid=1690&gid=2&pgid=4088&cid=10221&ecid=10221&crid=0&calpgid=61&calcid=5944,https://www.alumni.uvm.edu/s/1690/alumni/index.aspx?sid=1690&gid=2&pgid=4088&cid=10221&ecid=10221&crid=0&calpgid=61&calcid=5944,46153
 avi-chawla,Aviral Chawla,PhD student,he,active,comp-ethics-lab,,,,,,,46073
 parisa-suchdev,Parisa Suchdev,PhD student,she,active,comp-ethics-lab,,,psuchdev@uvm.edu,,,,46073
 protiva-sen,Protiva Sen,PhD student,she,active,comp-ethics-lab,,,,,,,46073
@@ -14,7 +14,7 @@ iris-damiao,Íris Damião,PhD student,she,activate,comp-ethics-lab,,,,,,,46073
 julia-zimmerman,Julia Zimmerman,Postdoctoral Fellow,she,active,comp-ethics-lab,,,,,,,46073
 carter-ward,Carter Ward,Alumni and honorary forever member,he,alumni,comp-ethics-lab,,,,,,,46073
 joao-franco,João Franco,PhD student,he,active,comp-ethics-lab,,Web coordinator,joao.franco@uvm.edu,researches complex (social) systems.,https://www.linkedin.com/in/joao-s-franco/,http://okfranco.github.io/,46073
-helen-flannery,Helen Flannery,PhD student,she,active,comp-ethics-lab,,,,,,,46073
+helen-flannery,Helen Flannery,PhD student,she,active,comp-ethics-lab,,,,,https://www.linkedin.com/in/helen-flannery-7513b017a/,,46084
 prithaj-nath,Prithaj Nath,MS student,he,active,comp-ethics-lab,,,,,,,46073
 michael-robinette,Michael Robinette,MS student,he,active,comp-ethics-lab,,,,,,,46073
 mohsen-ghasemizade,Mohsen Ghasemizade,PhD,he,active,comp-ethics-lab,,,mghasemi@uvm.edu,PhD,https://www.linkedin.com/in/mohsenghasemizade,https://www.uvm.edu/~mghasemi/,46073
