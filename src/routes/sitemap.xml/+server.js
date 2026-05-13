@@ -1,3 +1,5 @@
+export const prerender = true;
+
 import { readFileSync } from 'fs';
 
 const SITE_URL = 'https://vermontcomplexsystems.org';

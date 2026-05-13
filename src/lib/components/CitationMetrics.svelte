@@ -1,5 +1,5 @@
 <script>
-    let { papers, openAlex } = $props();
+    let { papers, openAlex, semanticScholar } = $props();
 
     const totalCitations = papers.reduce((sum, p) => sum + (p.cited_by_count || 0), 0);
     const maxCitations = Math.max(...papers.map(p => p.cited_by_count || 0));
@@ -30,9 +30,14 @@
 <div class="additional-metrics">
     <div class="metrics-grid">
         <div class="metric tooltip-container">
-            <span class="metric-value">{openAlex.h_index || 0}</span>
+            <span class="metric-value">{openAlex.h_index || 0}{#if semanticScholar} <span class="s2-value"> ({semanticScholar.hIndex || 0})</span>{/if}</span>
             <span class="metric-label">H-Index</span>
             <span class="tooltip">The number h where the researcher has published h papers that have each been cited at least h times</span>
+        </div>
+        <div class="metric tooltip-container">
+            <span class="metric-value">{openAlex.cited_by_count || 0}{#if semanticScholar} <span class="s2-value"> ({semanticScholar.citationCount || 0})</span>{/if}</span>
+            <span class="metric-label">Total Citations</span>
+            <span class="tooltip">Total citation count as reported by each source{#if semanticScholar}. Semantic Scholar count in parentheses{/if}</span>
         </div>
         <div class="metric tooltip-container">
             <span class="metric-value">{openAlex.i10_index || 0}</span>
@@ -43,7 +48,46 @@
 </div>
 {/if}
 
+{#if openAlex && semanticScholar}
+<details class="citation-explainer">
+    <summary>Why do citation counts differ across sources?</summary>
+    <div class="explainer-content">
+        <p>We use <strong>OpenAlex</strong> as our primary source for paper-level data because it is fully open and provides a free API. OpenAlex builds its citation counts by matching references found in source records (Crossref, PubMed, etc.) and open access PDFs to existing works. If a reference can't be matched, it isn't counted — so OpenAlex tends to undercount relative to other sources. <a href="https://help.openalex.org/hc/en-us/articles/31459794276759-Where-does-your-citation-information-come-from" target="_blank" rel="noopener">Learn more</a>.</p>
+        <p><strong>Semantic Scholar</strong> (in parentheses) supplements this with its own citation graph of over two billion citations, using enhanced PDF extraction and publisher partnerships. It focuses on published articles and preprints, with limited book coverage and no patents. <a href="https://www.semanticscholar.org/faq/estimated-citations" target="_blank" rel="noopener">Learn more</a>.</p>
+        <p><strong>Google Scholar</strong> typically reports the highest counts because it aggressively crawls the web for any document that looks like a citation, including theses, slides, and preprints. It has no public API, so we link to profiles where available.</p>
+    </div>
+</details>
+{/if}
+
 <style>
+    .citation-explainer {
+        margin-top: 1.5rem;
+        font-size: 0.9rem;
+        color: var(--color-gray-700);
+    }
+
+    .citation-explainer summary {
+        cursor: pointer;
+        font-weight: 600;
+        user-select: none;
+    }
+
+    .citation-explainer summary:hover {
+        color: var(--color-fg);
+    }
+
+    .explainer-content {
+        margin-top: 0.75rem;
+        line-height: 1.6;
+    }
+
+    .explainer-content p {
+        margin-bottom: 0.5rem;
+    }
+
+    .explainer-content p:last-child {
+        margin-bottom: 0;
+    }
     .metrics-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -131,6 +175,12 @@
 
     .tooltip-container:hover .tooltip {
         visibility: visible;
+    }
+
+    .s2-value {
+        color: var(--color-gray-400);
+        font-size: 1.1rem;
+        font-weight: normal;
     }
 
     .additional-metrics .metric-value {

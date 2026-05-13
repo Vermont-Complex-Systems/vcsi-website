@@ -12,6 +12,22 @@ import tgirPapersData from '$data/publications/tgir.csv';
 import lemursPaperData from '$data/publications/lemurs.csv';
 
 // --------------------------------- //
+// Semantic Scholar helper
+// --------------------------------- //
+
+async function fetchSemanticScholar(semanticScholarId) {
+    try {
+        const res = await fetch(
+            `https://api.semanticscholar.org/graph/v1/author/${semanticScholarId}?fields=name,hIndex,citationCount,paperCount,url`
+        );
+        if (!res.ok) return null;
+        return await res.json();
+    } catch {
+        return null;
+    }
+}
+
+// --------------------------------- //
 // Helper functions
 // --------------------------------- //
 
@@ -250,25 +266,30 @@ export const getMemberWithOpenAlex = prerender(
         if (member.length === 0) return null;
 
         const memberData = member[0];
+        const memberGroups = groupsData.filter(g => g.PI && g.PI.split(' ').includes(slug));
 
         if (slug === 'vcsi') {
             const allAuthors = await db.select().from(openalex_authors);
-            return { ...memberData, openAlex: null, papers: [], allAuthors };
+            return { ...memberData, openAlex: null, papers: [], allAuthors, groups: [] };
         }
 
-        if (!memberData.openAlexId) return memberData;
+        if (!memberData.openAlexId) return { ...memberData, groups: memberGroups };
 
-        const authorData = await db.select()
-            .from(openalex_authors)
-            .where(eq(openalex_authors.openalex_id, memberData.openAlexId))
-            .limit(1);
+        const [authorData, papers, semanticScholar] = await Promise.all([
+            db.select()
+                .from(openalex_authors)
+                .where(eq(openalex_authors.openalex_id, memberData.openAlexId))
+                .limit(1),
+            getPapersByAuthorIds([memberData.openAlexId]),
+            memberData.semanticScholarId ? fetchSemanticScholar(memberData.semanticScholarId) : null
+        ]);
 
-        const papers = await getPapersByAuthorIds([memberData.openAlexId]);
-        
         return {
             ...memberData,
             openAlex: authorData.length > 0 ? authorData[0] : null,
-            papers
+            semanticScholar,
+            papers,
+            groups: memberGroups
         };
     },
     { dynamic: true }
