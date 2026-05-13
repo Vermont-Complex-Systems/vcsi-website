@@ -12,22 +12,6 @@ import tgirPapersData from '$data/publications/tgir.csv';
 import lemursPaperData from '$data/publications/lemurs.csv';
 
 // --------------------------------- //
-// Semantic Scholar helper
-// --------------------------------- //
-
-async function fetchSemanticScholar(semanticScholarId) {
-    try {
-        const res = await fetch(
-            `https://api.semanticscholar.org/graph/v1/author/${semanticScholarId}?fields=name,hIndex,citationCount,paperCount,url`
-        );
-        if (!res.ok) return null;
-        return await res.json();
-    } catch {
-        return null;
-    }
-}
-
-// --------------------------------- //
 // Helper functions
 // --------------------------------- //
 
@@ -275,19 +259,17 @@ export const getMemberWithOpenAlex = prerender(
 
         if (!memberData.openAlexId) return { ...memberData, groups: memberGroups };
 
-        const [authorData, papers, semanticScholar] = await Promise.all([
+        const [authorData, papers] = await Promise.all([
             db.select()
                 .from(openalex_authors)
                 .where(eq(openalex_authors.openalex_id, memberData.openAlexId))
                 .limit(1),
-            getPapersByAuthorIds([memberData.openAlexId]),
-            memberData.semanticScholarId ? fetchSemanticScholar(memberData.semanticScholarId) : null
+            getPapersByAuthorIds([memberData.openAlexId])
         ]);
 
         return {
             ...memberData,
             openAlex: authorData.length > 0 ? authorData[0] : null,
-            semanticScholar,
             papers,
             groups: memberGroups
         };

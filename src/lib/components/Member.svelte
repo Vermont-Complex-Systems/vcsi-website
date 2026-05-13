@@ -6,10 +6,18 @@
 
   let { author } = $props();
 
-  const { name, url, social, pronoun, openAlex, semanticScholar, papers } = author;
+  const { name, url, social, pronoun, openAlex, papers } = author;
 
   let sortBy = $state('citations');
   let selectedTopic = $state(null);
+  let semanticScholar = $state(null);
+
+  if (author.semanticScholarId) {
+    fetch(`https://api.semanticscholar.org/graph/v1/author/${author.semanticScholarId}?fields=name,hIndex,citationCount,paperCount,url`)
+      .then(r => r.ok ? r.json() : null)
+      .then(data => { semanticScholar = data; })
+      .catch(() => {});
+  }
 
   const bio = author.bio || "is a contributor to The VCSI.";
 

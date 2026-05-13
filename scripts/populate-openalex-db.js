@@ -16,6 +16,7 @@ import {
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const projectRoot = join(__dirname, '..');
 
+const FULL_REFRESH = process.argv.includes('--full');
 const OPENALEX_API_KEY = process.env.OPENALEXAPI;
 
 if (!OPENALEX_API_KEY) {
@@ -178,7 +179,7 @@ function extractPaperData(paperApiData) {
 }
 
 async function populateOpenAlexDatabase() {
-  console.log('🗃️  Starting OpenAlex population/update...');
+  console.log(`🗃️  Starting OpenAlex population/update${FULL_REFRESH ? ' (full refresh)' : ' (incremental)'}...`);
 
   // Read members CSV file
   const csvPath = join(projectRoot, 'src/data/members.csv');
@@ -189,11 +190,12 @@ async function populateOpenAlexDatabase() {
   const membersWithOpenAlex = memberRows.filter(member => member.openAlexId && member.openAlexId.trim());
   console.log(`📚 Found ${membersWithOpenAlex.length} members with OpenAlex IDs`);
 
+  let skipped = 0;
+
   for (const member of membersWithOpenAlex) {
     const openAlexId = member.openAlexId.trim();
     console.log(`\n👤 Processing: ${member.name} (${openAlexId})`);
-    console.log(`   Status: ${member.status}, ID from CSV: "${member.openAlexId}"`);
-    
+
     try {
       // Check if author already exists
       const existingAuthor = await db.select()
@@ -209,6 +211,17 @@ async function populateOpenAlexDatabase() {
       }
 
       const authorData = extractAuthorData(authorApiData);
+
+      // Skip paper fetch if author hasn't been updated since our last fetch
+      if (!FULL_REFRESH && existingAuthor.length > 0) {
+        const dbUpdated = existingAuthor[0].updated_date;
+        const apiUpdated = authorData.updated_date;
+        if (dbUpdated && apiUpdated && dbUpdated === apiUpdated) {
+          console.log(`⏩ Skipping ${member.name} - no changes since last fetch`);
+          skipped++;
+          continue;
+        }
+      }
 
       if (existingAuthor.length > 0) {
         // Update existing author with fresh metrics
@@ -280,6 +293,7 @@ async function populateOpenAlexDatabase() {
   }
 
   console.log('\n🎉 OpenAlex population/update complete!');
+  if (skipped > 0) console.log(`⏩ Skipped ${skipped} unchanged authors`);
 
   // Show summary
   const authorCount = await db.select().from(openalex_authors);
