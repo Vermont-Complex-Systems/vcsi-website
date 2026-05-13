@@ -22,22 +22,36 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Fetch MS Graph data
+        env:
+          clientId: ${{ secrets.MSGRAPH_CLIENT_ID }}
+          tenantId: ${{ secrets.MSGRAPH_TENANT_ID }}
+          clientSecret: ${{ secrets.MSGRAPH_CLIENT_SECRET }}
+        run: npm run msgraph:fetch
+
       - name: Refresh OpenAlex data
         env:
           OPENALEXAPI: ${{ secrets.OPENALEXAPI }}
         run: npm run openalex:populate
 
-      - name: Commit updated database
+      - name: Commit updated data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add openalex.db
-          git diff --cached --quiet || git commit -m "chore: refresh OpenAlex data"
+          git add openalex.db src/data/
+          git diff --cached --quiet || git commit -m "chore: refresh data (MS Graph + OpenAlex)"
           git push
 
       - name: Build
         run: npm run build
 
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SILK_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H vcsi.cmplxsys.w3.uvm.edu >> ~/.ssh/known_hosts 2>/dev/null
+
       - name: Deploy to silk server
         run: |
-          rsync -avz --delete build/ cmplxsys@vcsi.cmplxsys.w3.uvm.edu:~/vermontcomplexsystems.org-root
+          rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key" build/ cmplxsys@vcsi.cmplxsys.w3.uvm.edu:~/vermontcomplexsystems.org-root

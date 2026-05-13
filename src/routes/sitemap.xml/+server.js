@@ -23,7 +23,7 @@ const staticRoutes = [
 	'/funding',
 	'/manifesto',
 	'/projects',
-	'/projects/ai-use',
+	'/projects/vali',
 	'/projects/barracuda',
 	'/projects/hedonometer',
 	'/projects/lemurs',
