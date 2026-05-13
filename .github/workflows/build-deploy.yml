@@ -29,6 +29,9 @@ jobs:
           clientSecret: ${{ secrets.MSGRAPH_CLIENT_SECRET }}
         run: npm run msgraph:fetch
 
+      - name: Initialize database schema
+        run: npm run db:push
+
       - name: Refresh OpenAlex data
         env:
           OPENALEXAPI: ${{ secrets.OPENALEXAPI }}
