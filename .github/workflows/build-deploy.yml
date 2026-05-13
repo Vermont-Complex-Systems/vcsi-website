@@ -30,6 +30,8 @@ jobs:
         run: npm run msgraph:fetch
 
       - name: Initialize database schema
+        env:
+          DATABASE_URL: ./openalex.db
         run: npm run db:push
 
       - name: Refresh OpenAlex data
