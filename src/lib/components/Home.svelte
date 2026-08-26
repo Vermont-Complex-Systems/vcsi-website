@@ -110,7 +110,7 @@
                     src="{base}/common/assets/drawing/platypus.png"
                     alt="Platypus Drawing"
                 />
-                <p style="margin-top: 15px;">For curious platypuses. Learn more about our broadest educational program at the graduate level—now available online!</p>
+                <p style="margin-top: 15px;">For curious platypuses. Learn more about our broadest educational program at the graduate level!</p>
                 <ArrowRight class="learn-more-arrow" size="24" />
             </div>
         </a>

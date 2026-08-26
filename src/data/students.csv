@@ -1,21 +1,46 @@
-id,name,position,pronoun,status,primaryAffiliation,openAlexId,position2,email,bio,social,url,lastUpdated
-calla-beauregard,Calla Beauregard,PhD,,,,,,,PhD,https://www.linkedin.com/in/calla-g-4270b7126/,https://www.linkedin.com/in/calla-g-4270b7126/,46215
-livi-poon,Livi Poon,Undergrad,,,,,,,undergraduate student studying applications of machine learning to neuroscience.,https://www.linkedin.com/in/livi-poon-9a93a8116/,https://www.linkedin.com/in/livi-poon-9a93a8116/,46215
-ashley-fehr,Ashley Fehr,PhD,,,,,,,PhD,https://www.linkedin.com/in/amafehr/,https://www.linkedin.com/in/amafehr/,46215
-johanna-hidalgo,Johanna Hidalgo,PhD,,,,,,,PhD,https://www.linkedin.com/in/johanna-hidalgo-0480a5142/,https://www.uvm.edu/cas/psychology/current-clinical-psychology-phd-students,46215
-jenn-ha,Jenn Ha,PhD,,,,,,,PhD,https://www.linkedin.com/in/johanna-hidalgo-0480a5142/,https://www.uvm.edu/cas/psychology/current-clinical-psychology-phd-students,46215
-luc-cohen-wanis,Luc-Cohen Wanis,PhD,,,,,,,PhD,https://www.linkedin.com/in/luc-cohen-wanis-63834ba9/,https://www.uvm.edu/cems/mathstat/graduate-students,46215
-josh-minot,Josh Minot,PhD,,Alumni,,,,,PhD in Complex Systems & Data Science. Thesis: Gauge against the machine: improving representations within sociotechnical instruments to enrich context and identify biases.,https://www.linkedin.com/in/joshminot/,https://joshminot.github.io/,46215
-yoshi-bird,Yoshi Bird,PhD,,Alumni,,,,,PhD student in Complex Systems & Data Science. Associate Director of Partnership Compliance at Code for America.,https://www.alumni.uvm.edu/s/1690/alumni/index.aspx?sid=1690&gid=2&pgid=4088&cid=10221&ecid=10221&crid=0&calpgid=61&calcid=5944,https://www.alumni.uvm.edu/s/1690/alumni/index.aspx?sid=1690&gid=2&pgid=4088&cid=10221&ecid=10221&crid=0&calpgid=61&calcid=5944,46215
-avi-chawla,Aviral Chawla,PhD student,he,active,comp-ethics-lab,,,,,,,46073
-parisa-suchdev,Parisa Suchdev,PhD student,she,active,comp-ethics-lab,,,psuchdev@uvm.edu,,,,46073
-protiva-sen,Protiva Sen,PhD student,she,active,comp-ethics-lab,,,,,,,46073
-iris-damiao,Íris Damião,PhD student,she,activate,comp-ethics-lab,,,,,,,46073
-julia-zimmerman,Julia Zimmerman,Postdoctoral Fellow,she,active,comp-ethics-lab,,,,,,,46073
-carter-ward,Carter Ward,Alumni and honorary forever member,he,alumni,comp-ethics-lab,,,,,,,46073
-joao-franco,João Franco,PhD student,he,active,comp-ethics-lab,,Web coordinator,joao.franco@uvm.edu,researches complex (social) systems.,https://www.linkedin.com/in/joao-s-franco/,http://okfranco.github.io/,46073
-helen-flannery,Helen Flannery,PhD student,she,active,comp-ethics-lab,,,,,https://www.linkedin.com/in/helen-flannery-7513b017a/,,46084
-prithaj-nath,Prithaj Nath,MS student,he,active,comp-ethics-lab,,,,,,,46073
-michael-robinette,Michael Robinette,MS student,he,active,comp-ethics-lab,,,,,,,46073
-mohsen-ghasemizade,Mohsen Ghasemizade,PhD,he,active,comp-ethics-lab,,,mghasemi@uvm.edu,PhD,https://www.linkedin.com/in/mohsenghasemizade,https://www.uvm.edu/~mghasemi/,46073
-bryn-loftness,Bryn Loftness,PhD and NSF GRFP,she/her,active,neurobotics-lab,A5002477071,M-Sense Research Group (Wake Forest School of Medicine),bryn.loftness@uvm.edu,"Bryn Loftness is a PhD candidate in Complex Systems and Data Science at UVM building multimodal digital phenotyping tools for pediatric mental health, and the founder of Biobe, a translational spinout focused on family-facing measurement. She also helped launched VALI (https://vermontcomplexsystems.org/projects/vali/) at VSCI.",https://www.linkedin.com/in/bryn-loftness/,https://www.brynloftness.com/,46156
+﻿id,name,position,pronoun,status,primaryAffiliation,openAlexId,position2,email,bio,social,url,lastUpdated
+johanna-hidalgo,Johanna Hidalgo,PhD,,,,,,,PhD,https://www.linkedin.com/in/johanna-hidalgo-0480a5142/,https://www.uvm.edu/cas/psychology/current-clinical-psychology-phd-students,2026-07-25
+jenn-ha,Jenn Ha,PhD,,,,,,,PhD,https://www.linkedin.com/in/johanna-hidalgo-0480a5142/,https://www.uvm.edu/cas/psychology/current-clinical-psychology-phd-students,2026-07-25
+bryn-loftness,Bryn Loftness,PhD and NSF GRFP,she/her,active,neurobotics-lab,A5002477071,M-Sense Research Group (Wake Forest School of Medicine),bryn.loftness@uvm.edu,"Bryn Loftness is a PhD candidate in Complex Systems and Data Science at UVM building multimodal digital phenotyping tools for pediatric mental health, and the founder of Biobe, a translational spinout focused on family-facing measurement. She also helped launched VALI (https://vermontcomplexsystems.org/projects/vali/) at VSCI.",https://www.linkedin.com/in/bryn-loftness/,https://www.brynloftness.com/,5/14/2026
+luc-cohen-wanis,Luc-Cohen Wanis,PhD,,,science-and-humanity-lab,,,,PhD,https://www.linkedin.com/in/luc-cohen-wanis-63834ba9/,https://www.uvm.edu/cems/mathstat/graduate-students,2026-07-25
+ashley-fehr,Ashley Fehr,PhD,,,comp-story-lab,,,,PhD,https://www.linkedin.com/in/amafehr/,https://www.linkedin.com/in/amafehr/,
+calla-beauregard,Calla Beauregard,PhD,,,comp-story-lab,,,,PhD,https://www.linkedin.com/in/calla-g-4270b7126/,https://www.linkedin.com/in/calla-g-4270b7126/,
+josh-minot,Josh Minot,PhD,,Alumni,comp-story-lab,,,,PhD in Complex Systems & Data Science. Thesis: Gauge against the machine: improving representations within sociotechnical instruments to enrich context and identify biases.,https://www.linkedin.com/in/joshminot/,https://joshminot.github.io/,
+yoshi-bird,Yoshi Bird,PhD,,Alumni,comp-story-lab,,,,PhD student in Complex Systems & Data Science. Associate Director of Partnership Compliance at Code for America.,https://www.alumni.uvm.edu/s/1690/alumni/index.aspx?sid=1690&gid=2&pgid=4088&cid=10221&ecid=10221&crid=0&calpgid=61&calcid=5944,https://www.alumni.uvm.edu/s/1690/alumni/index.aspx?sid=1690&gid=2&pgid=4088&cid=10221&ecid=10221&crid=0&calpgid=61&calcid=5944,
+livi-poon,Livi Poon,Undergrad,,,comp-story-lab,,,,undergraduate student studying applications of machine learning to neuroscience.,https://www.linkedin.com/in/livi-poon-9a93a8116/,https://www.linkedin.com/in/livi-poon-9a93a8116/,
+tabia-prama,Tabia Tanzin Prama,PhD,,,comp-story-lab,,,,PhD,https://www.linkedin.com/in/tabia-tanzin-prama-18227018b/,https://www.linkedin.com/in/tabia-tanzin-prama-18227018b/,
+avi-chawla,Aviral Chawla,PhD student,he,active,"comp-ethics-lab, science-and-humanity-lab",,,aviral.chawla@uvm.edu,,https://www.linkedin.com/in/aviralchawla,https://scholar.google.com/citations?user=vt1Pq1IAAAAJ&hl=en,3/3/2026
+parisa-suchdev,Parisa Suchdev,PhD student,she,active,"comp-ethics-lab, comp-story-lab",,,psuchdev@uvm.edu,,https://www.linkedin.com/in/parisasuchdev,https://scholar.google.com/citations?user=iUUkIR8AAAAJ&hl=en,3/3/2026
+protiva-sen,Protiva Sen,PhD student,she,active,comp-ethics-lab,a5025274516,,protiva.sen@uvm.edu,,https://www.linkedin.com/in/protiva-sen-uvm21,https://scholar.google.com/citations?user=QfuB5sEAAAAJ&hl=en,3/3/2026
+iris-damiao,Íris Damião,PhD visiting student,she,active,comp-ethics-lab,a5116188795,,irisdamiao@lip.pt,,https://www.linkedin.com/in/%C3%ADris-dami%C3%A3o-972208227/,https://socialcomplexity.eu/team/iris-damiao/,3/3/2026
+julia-zimmerman,Julia Zimmerman,Postdoctoral Fellow,she,active,"comp-ethics-lab, comp-story-lab",a5089082846,,julia.zimmerman@uvm.edu,,https://www.linkedin.com/in/julia-zimmerman-44a03646/,https://scholar.google.com/citations?user=0Mvl9BcAAAAJ&hl=en,3/3/2026
+carter-ward,Carter Ward,Alumni and honorary forever member,he,alumni,comp-ethics-lab,,,,,https://www.linkedin.com/in/carter-ward-65a1ab172/,,3/3/2026
+joao-franco,João Franco,PhD student,he,active,"comp-ethics-lab, joint-lab",,Web coordinator,joao.franco@uvm.edu,researches complex (social) systems.,https://www.linkedin.com/in/joao-s-franco/,http://okfranco.github.io/,2/20/2026
+helen-flannery,Helen Flannery,PhD student,she,active,comp-ethics-lab,,,helen.flannery@uvm.edu,,https://www.linkedin.com/in/helen-flannery-7513b017a/,,3/3/2026
+prithaj-nath,Prithaj Nath,MS student,he,active,comp-ethics-lab,,,pnath@uvm.edu,,https://www.linkedin.com/in/iamprithaj/,https://prithaj.dev/,2/20/2026
+michael-robinette,Michael Robinette,MS student,he,active,comp-ethics-lab,,,michael.robinette@uvm.edu,,https://www.linkedin.com/in/michael-robinette-87b01bb3/,,3/3/2026
+mohsen-ghasemizade,Mohsen Ghasemizade,PhD,he,active,comp-ethics-lab,a5103067256,,mghasemi@uvm.edu,PhD,https://www.linkedin.com/in/mohsenghasemizade,https://www.uvm.edu/~mghasemi/,3/3/2026
+milo-trujillo,Milo Trujillo,Postdoctoral Fellow,he,active,comp-ethics-lab,a5078442658,,milo.trujillo@uvm.edu,,https://www.linkedin.com/in/milo-trujillo/    https://bsky.app/profile/backdrifting.net,https://backdrifting.net/,7/25/2026
+joao-franco,João Franco,PhD student,he,active,"joint-lab, comp-ethics-lab ",,Web coordinator,joao.franco@uvm.edu,researches complex (social) systems.,https://www.linkedin.com/in/joao-s-franco/,http://okfranco.github.io/,3/3/2026
+leah-keating,Leah Keating,Postdoctoral Fellow,she,active,joint-lab,,,Leah.Keating@uvm.edu,,https://www.linkedin.com/in/leah-keating-754413102/,https://www.leahkeating.ie/,3/3/2026
+william-thompson,William Thompson,PhD student,he,active,joint-lab,a5101491766,,william.thompson.2@uvm.edu,,https://www.linkedin.com/in/willhwthompson/,https://www.willhwthompson.com/,3/3/2026
+nicholas-roberts,Nicholas J Roberts,PhD student,he,active,joint-lab,a5104061929,,nicholas.roberts@uvm.edu,,https://www.linkedin.com/in/-nicholas-j-roberts/,https://scholar.google.com/citations?user=1rD9FrQAAAAJ&hl=en,3/3/2026
+santi-otin,Santiago Lamata Otín,PhD visiting student,he,alumni,joint-lab,a5092442086,,santiagolaot@gmail.com,,,https://santiagolaot.github.io/,3/3/2026
+alexander-daniels,Alexander Daniels,PhD student,he,alumni,joint-lab,,,,,,,3/3/2026
+andrea-allen,Andrea Allen,PhD student,he,alumni,joint-lab,,,,,https://www.linkedin.com/in/andrea-allen-m-s-b1b6069a/,,3/3/2026
+blake-williams,Blake Williams,PhD student,he,alumni,joint-lab,,,,,https://www.linkedin.com/in/blake-jm-williams/,,3/3/2026
+brendan-case,Brendan Case,PhD student,they,alumni,joint-lab,,,bcase@uga.edu,,,https://brendandaisy.github.io/,3/3/2026
+connor-klopfer,Connor Klopfer,PhD student,he,alumni,joint-lab,,,,,https://www.linkedin.com/in/connor-klopfer/,,3/3/2026
+erik-weiss,Erik Weiss,MS student,he,alumni,joint-lab,a5037695522,,weis.er@northeastern.edu,,https://www.linkedin.com/in/ErikWeis/,https://erikweis.com/,3/3/2026
+erik-arnold,Erik Arnold,Undergraduate student,he,alumni,joint-lab,,,Erik.Arnold@uvm.edu,,https://www.linkedin.com/in/erik-arnold-415272212/,,3/3/2026
+erin-silver,Erin Silver,PhD student,he,alumni,joint-lab,,,,,https://www.linkedin.com/in/erin-silver/,,3/3/2026
+freddie-hall,Freddie Hall,MS student,he,alumni,joint-lab,,,,,https://www.linkedin.com/in/frederickchall/,,3/3/2026
+giulio-burgio,Giulio Burgio,Visiting PhD student,he,alumni,joint-lab,a5026353353,,giulioburgio@gmail.com,,https://www.linkedin.com/in/giulio-burgio-63643684/,https://scholar.google.com/citations?user=jnYkpVoAAAAJ&hl=it,3/3/2026
+guillaume-st-onge,Guillaume St-Onge,PhD student,he,alumni,joint-lab,a5048932707,,g.st-onge@northeastern.edu,,https://www.linkedin.com/in/guillaume-st-onge-461b62128/,https://www.gstonge.ca/,3/3/2026
+john-meluso,John Meluso,PhD student,he,alumni,joint-lab,,,john.meluso@cornell.edu,,https://www.linkedin.com/in/jmeluso/,https://www.johnmeluso.com/,3/3/2026
+mariah-boudreau,Mariah Boudreau,PhD student,he,alumni,joint-lab,a5023758397,,mariahcecileboudreau@gmail.com,,https://www.linkedin.com/in/mariah-boudreau-940291147/,https://mariahcboudreau.github.io/,3/3/2026
+milo-trujillo,Milo Z. Trujillo,PhD student,he,alumni,joint-lab,a5078442658,,m.trujillo@northeastern.edu,,https://www.linkedin.com/in/milo-trujillo/,https://backdrifting.net/,3/3/2026
+nicholas-landry,Nicholas L. Landry,PhD student,he,alumni,joint-lab,a5038564183,,nicholas.landry@virginia.edu,,https://www.linkedin.com/in/landrynicholas/,https://nwlandry.com/,3/3/2026
+samuel-rosenblatt,Samuel F. Rosenblatt,PhD student,he,alumni,joint-lab,a5065906577,,,,https://www.linkedin.com/in/sfrosenb/,https://sfrosenb.github.io/sfrosenb/,3/3/2026
+simon-lizotte,Simon Lizotte,MS student,he,alumni,joint-lab,a5011376224,,simon.lizotte.1@ulaval.ca,,,https://siliz4.github.io/,3/3/2026
+jonathan-st-onge,Jonathan St-Onge,PhD student,he,alumni,joint-lab,a5026024797,,jonathan.st-onge@uvm.edu,,https://www.linkedin.com/in/jonathan-st-onge-96a884211/,https://scholar.google.ca/citations?user=j_EggN4AAAAJ,3/3/2026

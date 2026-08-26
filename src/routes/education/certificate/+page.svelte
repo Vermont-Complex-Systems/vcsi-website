@@ -96,7 +96,7 @@
             </div>
             <div class="card card-lg">
                 <h3>Who It's For</h3>
-                <p class="mb-0">The graduate certificate can be earned by students as a complement for their graduate degrees across the University of Vermont, or as a stand-alone post-baccalaureate Graduate Certificate (online or in person).</p>
+                <p class="mb-0">The graduate certificate can be earned by students as a complement for their graduate degrees across the University of Vermont, or as a stand-alone post-baccalaureate Graduate Certificate.</p>
             </div>
         </div>
     </section>

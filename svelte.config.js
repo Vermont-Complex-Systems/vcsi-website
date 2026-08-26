@@ -6,8 +6,16 @@ const membersCSV = readFileSync('src/data/members.csv', 'utf-8');
 const groupsCSV = readFileSync('src/data/groups.csv', 'utf-8');
 
 // Parse CSV to get IDs
-const memberIds = membersCSV.split('\n').slice(1).filter(line => line.trim()).map(line => line.split(',')[0]);
-const groupIds = groupsCSV.split('\n').slice(1).filter(line => line.trim()).map(line => line.split(',')[0]);
+const memberIds = membersCSV
+	.split('\n')
+	.slice(1)
+	.filter((line) => line.trim())
+	.map((line) => line.split(',')[0]);
+const groupIds = groupsCSV
+	.split('\n')
+	.slice(1)
+	.filter((line) => line.trim())
+	.map((line) => line.split(',')[0]);
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -15,8 +23,8 @@ const config = {
 		prerender: {
 			entries: [
 				'*',
-				...memberIds.map(id => `/who-we-are/${id}`),
-				...groupIds.map(id => `/research/group/${id}`),
+				...memberIds.map((id) => `/who-we-are/${id}`),
+				...groupIds.map((id) => `/research/group/${id}`),
 				'/research/mass-mutual'
 			]
 		},

@@ -1,464 +1,553 @@
 <script>
-    import { base } from '$app/paths';
-    import { Menu as MenuIcon, ChevronDown, ChevronUp, Sun, Moon, ExternalLink } from "@lucide/svelte";
-    import { setMode } from "mode-watcher";
-    import Menu from "./Nav.Menu.svelte";
+	import { base } from '$app/paths';
+	import {
+		Menu as MenuIcon,
+		ChevronDown,
+		ChevronUp,
+		Sun,
+		Moon,
+		ExternalLink
+	} from '@lucide/svelte';
+	import { setMode } from 'mode-watcher';
+	import Menu from './Nav.Menu.svelte';
 
-    let isMenuOpen = $state(false);
-    let menuButtonRef;
-    let scrollY = $state(0);
-    let isScrolled = $derived(scrollY > 0);
-    let isWhoWeAreOpen = $state(false);
-    let isResearchOpen = $state(false);
-    let isEducationOpen = $state(false);
-    let isDark = $state(false);
+	let isMenuOpen = $state(false);
+	let menuButtonRef;
+	let scrollY = $state(0);
+	let isScrolled = $derived(scrollY > 0);
+	let isWhoWeAreOpen = $state(false);
+	let isResearchOpen = $state(false);
+	let isEducationOpen = $state(false);
+	let isDark = $state(false);
 
-    function closeMenu(skipFocus = false) {
-      isMenuOpen = false;
-      if (!skipFocus) menuButtonRef?.focus();
-    }
+	function closeMenu(skipFocus = false) {
+		isMenuOpen = false;
+		if (!skipFocus) menuButtonRef?.focus();
+	}
 
-    function closeDropdowns() {
-      isWhoWeAreOpen = false;
-      isResearchOpen = false;
-      isEducationOpen = false;
-    }
+	function closeDropdowns() {
+		isWhoWeAreOpen = false;
+		isResearchOpen = false;
+		isEducationOpen = false;
+	}
 
-    function handleClickOutside(event) {
-      if (!event.target.closest('.nav-dropdown')) {
-        closeDropdowns();
-      }
-    }
+	function handleClickOutside(event) {
+		if (!event.target.closest('.nav-dropdown')) {
+			closeDropdowns();
+		}
+	}
 
-    function toggleTheme() {
-      isDark = !isDark;
-      setMode(isDark ? 'dark' : 'light');
-    }
+	function toggleTheme() {
+		isDark = !isDark;
+		setMode(isDark ? 'dark' : 'light');
+	}
 
-    $effect(() => {
-      if (typeof window !== 'undefined') {
-        window.addEventListener('click', handleClickOutside);
-        isDark = document.documentElement.classList.contains('dark');
+	$effect(() => {
+		if (typeof window !== 'undefined') {
+			window.addEventListener('click', handleClickOutside);
+			isDark = document.documentElement.classList.contains('dark');
 
-        return () => {
-          window.removeEventListener('click', handleClickOutside);
-        };
-      }
-    });
+			return () => {
+				window.removeEventListener('click', handleClickOutside);
+			};
+		}
+	});
 </script>
 
 <svelte:window bind:scrollY />
 
 <header class="header" class:scrolled={isScrolled}>
-  <div class="header-inner">
-    <div class="header-left">
-      <a href="{base}/" class="vcsi-logo-container">
-        <img src="{base}/vcsi-bumper-sticker-horizontal-arial-transparent.png" alt="Home" class="vcsi-logo" />
-      </a>
+	<div class="header-inner">
+		<div class="header-left">
+			<a href="{base}/" class="vcsi-logo-container">
+				<img
+					src="{base}/vcsi-bumper-sticker-horizontal-arial-transparent.png"
+					alt="Home"
+					class="vcsi-logo"
+				/>
+			</a>
 
-      <nav class="desktop-nav">
-        <div class="nav-dropdown">
-          <button
-            onclick={() => {
-              isResearchOpen = false;
-              isEducationOpen = false;
-              isWhoWeAreOpen = !isWhoWeAreOpen;
-            }}
-            class="nav-button"
-          >
-            Community
-            {#if isWhoWeAreOpen}
-              <ChevronUp size={16} />
-            {:else}
-              <ChevronDown size={16} />
-            {/if}
-          </button>
+			<nav class="desktop-nav">
+				<div class="nav-dropdown">
+					<button
+						onclick={() => {
+							isResearchOpen = false;
+							isEducationOpen = false;
+							isWhoWeAreOpen = !isWhoWeAreOpen;
+						}}
+						class="nav-button"
+					>
+						Community
+						{#if isWhoWeAreOpen}
+							<ChevronUp size={16} />
+						{:else}
+							<ChevronDown size={16} />
+						{/if}
+					</button>
 
-          {#if isWhoWeAreOpen}
-            <div class="dropdown-menu">
-              <a href="{base}/who-we-are" class="dropdown-item" onclick={() => closeDropdowns()}>Who We Are</a>
-              <a href="{base}/community/students" class="dropdown-item" onclick={() => closeDropdowns()}>Students</a>
-              <a href="{base}/community/paper-shredder" class="dropdown-item" onclick={() => closeDropdowns()}>Paper Shredder</a>
-              <a href="{base}/community/scraps" class="dropdown-item" onclick={() => closeDropdowns()}>SCRaPS</a>
-              <a href="{base}/community/talkboctopus" class="dropdown-item" onclick={() => closeDropdowns()}>Talkboctopus</a>
-              <a href="{base}/manifesto" class="dropdown-item" onclick={() => closeDropdowns()}>Manifesto</a>
-              <a href="{base}/community/credits" class="dropdown-item" onclick={() => closeDropdowns()}>Credits</a>
-            </div>
-          {/if}
-        </div>
+					{#if isWhoWeAreOpen}
+						<div class="dropdown-menu">
+							<a href="{base}/who-we-are" class="dropdown-item" onclick={() => closeDropdowns()}
+								>Who We Are</a
+							>
+							<a
+								href="{base}/community/students"
+								class="dropdown-item"
+								onclick={() => closeDropdowns()}>Students</a
+							>
+							<a
+								href="{base}/community/paper-shredder"
+								class="dropdown-item"
+								onclick={() => closeDropdowns()}>Paper Shredder</a
+							>
+							<a
+								href="{base}/community/scraps"
+								class="dropdown-item"
+								onclick={() => closeDropdowns()}>SCRaPS</a
+							>
+							<a
+								href="{base}/community/talkboctopus"
+								class="dropdown-item"
+								onclick={() => closeDropdowns()}>Talkboctopus</a
+							>
+							<a href="{base}/manifesto" class="dropdown-item" onclick={() => closeDropdowns()}
+								>Manifesto</a
+							>
+							<a
+								href="{base}/community/credits"
+								class="dropdown-item"
+								onclick={() => closeDropdowns()}>Credits</a
+							>
+						</div>
+					{/if}
+				</div>
 
-        <div class="nav-dropdown">
-          <button
-            onclick={() => {
-              isWhoWeAreOpen = false;
-              isEducationOpen = false;
-              isResearchOpen = !isResearchOpen;
-            }}
-            class="nav-button"
-          >
-            Research
-            {#if isResearchOpen}
-              <ChevronUp size={16} />
-            {:else}
-              <ChevronDown size={16} />
-            {/if}
-          </button>
+				<div class="nav-dropdown">
+					<button
+						onclick={() => {
+							isWhoWeAreOpen = false;
+							isEducationOpen = false;
+							isResearchOpen = !isResearchOpen;
+						}}
+						class="nav-button"
+					>
+						Research
+						{#if isResearchOpen}
+							<ChevronUp size={16} />
+						{:else}
+							<ChevronDown size={16} />
+						{/if}
+					</button>
 
-          {#if isResearchOpen}
-            <div class="dropdown-menu two-column">
-              <div class="header-section-research">
-                <a href="{base}/projects" class="dropdown-item" onclick={() => closeDropdowns()}>Projects</a>
-                <a href="{base}/research/group" class="dropdown-item" onclick={() => closeDropdowns()}>Groups</a>
-                <a href="{base}/funding" class="dropdown-item" onclick={() => closeDropdowns()}>Funding</a>
-                <a href="https://verso.w3.uvm.edu/" target="_blank" rel="noopener noreferrer" class="dropdown-item" onclick={() => closeDropdowns()}>
-                  VERSO <ExternalLink size={12} />
-                </a>
-                <a href="{base}/research/mass-mutual" class="dropdown-item" onclick={() => closeDropdowns()}>Mass Mutual Center of Excellence</a>
-              </div>
-              <div class="header-section-research">
-                <a href="{base}/explore" class="dropdown-item" onclick={() => closeDropdowns()}>Explore</a>
-                <a href="{base}/research/tgir" class="dropdown-item" onclick={() => closeDropdowns()}>TGIR Research</a>
-                <a href="https://www.nature.com/npjcomplex/" target="_blank" rel="noopener noreferrer" class="dropdown-item" onclick={() => closeDropdowns()}>
-                  npj Complexity <ExternalLink size={12} />
-                </a>
-              </div>
-            </div>
-          {/if}
-        </div>
+					{#if isResearchOpen}
+						<div class="dropdown-menu two-column">
+							<div class="header-section-research">
+								<a href="{base}/projects" class="dropdown-item" onclick={() => closeDropdowns()}
+									>Projects</a
+								>
+								<a
+									href="{base}/research/group"
+									class="dropdown-item"
+									onclick={() => closeDropdowns()}>Groups</a
+								>
+								<a href="{base}/funding" class="dropdown-item" onclick={() => closeDropdowns()}
+									>Funding</a
+								>
+								<a
+									href="https://verso.w3.uvm.edu/"
+									target="_blank"
+									rel="noopener noreferrer"
+									class="dropdown-item"
+									onclick={() => closeDropdowns()}
+								>
+									VERSO <ExternalLink size={12} />
+								</a>
+								<a
+									href="{base}/research/mass-mutual"
+									class="dropdown-item"
+									onclick={() => closeDropdowns()}>Mass Mutual Center of Excellence</a
+								>
+							</div>
+							<div class="header-section-research">
+								<a href="{base}/explore" class="dropdown-item" onclick={() => closeDropdowns()}
+									>Explore</a
+								>
+								<a
+									href="{base}/research/tgir"
+									class="dropdown-item"
+									onclick={() => closeDropdowns()}>TGIR Research</a
+								>
+								<a
+									href="https://www.nature.com/npjcomplex/"
+									target="_blank"
+									rel="noopener noreferrer"
+									class="dropdown-item"
+									onclick={() => closeDropdowns()}
+								>
+									npj Complexity <ExternalLink size={12} />
+								</a>
+							</div>
+						</div>
+					{/if}
+				</div>
 
-        <div class="nav-dropdown">
-          <button
-            onclick={() => {
-              isWhoWeAreOpen = false;
-              isResearchOpen = false;
-              isEducationOpen = !isEducationOpen;
-            }}
-            class="nav-button"
-          >
-            Education
-            {#if isEducationOpen}
-              <ChevronUp size={16} />
-            {:else}
-              <ChevronDown size={16} />
-            {/if}
-          </button>
+				<div class="nav-dropdown">
+					<button
+						onclick={() => {
+							isWhoWeAreOpen = false;
+							isResearchOpen = false;
+							isEducationOpen = !isEducationOpen;
+						}}
+						class="nav-button"
+					>
+						Education
+						{#if isEducationOpen}
+							<ChevronUp size={16} />
+						{:else}
+							<ChevronDown size={16} />
+						{/if}
+					</button>
 
-          {#if isEducationOpen}
-            <div class="dropdown-menu two-column">
-              <div class="header-section-research">
-                <a href="{base}/education/undergraduate" class="dropdown-item" onclick={() => closeDropdowns()}>Undergraduate</a>
-                <a href="{base}/education/masters" class="dropdown-item" onclick={() => closeDropdowns()}>Masters</a>
-                <a href="{base}/education/certificate" class="dropdown-item" onclick={() => closeDropdowns()}>Certificate</a>
-                <a href="{base}/education/phd" class="dropdown-item" onclick={() => closeDropdowns()}>PhD</a>
-              </div>
-              <div class="header-section-research">
-                <a href="{base}/education/BilDS" class="dropdown-item" onclick={() => closeDropdowns()}>BilDS</a>
-              </div>
-            </div>
-          {/if}
-        </div>
+					{#if isEducationOpen}
+						<div class="dropdown-menu two-column">
+							<div class="header-section-research">
+								<a
+									href="{base}/education/undergraduate"
+									class="dropdown-item"
+									onclick={() => closeDropdowns()}>Undergraduate</a
+								>
+								<a
+									href="{base}/education/masters"
+									class="dropdown-item"
+									onclick={() => closeDropdowns()}>Masters</a
+								>
+								<a
+									href="{base}/education/certificate"
+									class="dropdown-item"
+									onclick={() => closeDropdowns()}>Certificate</a
+								>
+								<a
+									href="{base}/education/phd"
+									class="dropdown-item"
+									onclick={() => closeDropdowns()}>PhD</a
+								>
+							</div>
+							<div class="header-section-research">
+								<a
+									href="{base}/education/BilDS"
+									class="dropdown-item"
+									onclick={() => closeDropdowns()}>BilDS</a
+								>
+							</div>
+						</div>
+					{/if}
+				</div>
 
-        <a href="{base}/events" class="nav-link">Events</a>
-        <a href="https://complex-stories.uvm.edu/" target="_blank" rel="noopener noreferrer" class="nav-link">
-          Complex Stories <ExternalLink size={14} />
-        </a>
-      </nav>
-    </div>
+				<a href="{base}/events" class="nav-link">Events</a>
+				<a
+					href="https://complex-stories.uvm.edu/"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="nav-link"
+				>
+					Complex Stories <ExternalLink size={14} />
+				</a>
+			</nav>
+		</div>
 
-    <div class="header-right">
-      <button
-        onclick={toggleTheme}
-        class="theme-toggle"
-        title="Toggle theme"
-      >
-        {#if isDark}
-          <Sun size={20} />
-        {:else}
-          <Moon size={20} />
-        {/if}
-      </button>
+		<div class="header-right">
+			<button onclick={toggleTheme} class="theme-toggle" title="Toggle theme">
+				{#if isDark}
+					<Sun size={20} />
+				{:else}
+					<Moon size={20} />
+				{/if}
+			</button>
 
-      <button
-        onclick={() => isMenuOpen = !isMenuOpen}
-        bind:this={menuButtonRef}
-        class="menu-button"
-      >
-        <MenuIcon class="icon" size={28} />
-        <span class="sr-only">Open menu</span>
-      </button>
-    </div>
-  </div>
+			<button
+				onclick={() => (isMenuOpen = !isMenuOpen)}
+				bind:this={menuButtonRef}
+				class="menu-button"
+			>
+				<MenuIcon class="icon" size={28} />
+				<span class="sr-only">Open menu</span>
+			</button>
+		</div>
+	</div>
 </header>
 
 <Menu visible={isMenuOpen} close={closeMenu} />
 
 <style>
-  .header-section-research {
-    flex: 1;
-  }
-  .header-section-research:nth-child(1) { grid-column: 1; }
-  .header-section-research:nth-child(2) { grid-column: 2; }
+	.header-section-research {
+		flex: 1;
+	}
+	.header-section-research:nth-child(1) {
+		grid-column: 1;
+	}
+	.header-section-research:nth-child(2) {
+		grid-column: 2;
+	}
 
-  .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: var(--color-bg);
-    border-bottom: 2px solid transparent;
-    z-index: 100;
-    transition: border-color var(--transition-medium) ease;
-  }
+	.header {
+		position: fixed;
+		/* Offset by the optional AnnouncementBanner; 0 when none is mounted. */
+		top: var(--announcement-height, 0px);
+		left: 0;
+		width: 100%;
+		background: var(--color-bg);
+		border-bottom: 2px solid transparent;
+		z-index: 100;
+		transition: border-color var(--transition-medium) ease;
+	}
 
-  .header.scrolled {
-    border-bottom-color: var(--color-gray-400);
-  }
+	.header.scrolled {
+		border-bottom-color: var(--color-gray-400);
+	}
 
-  .header-inner {
-    width: 100%;
-    max-width: var(--page-max-width);
-    margin-inline: auto;
-    padding-inline: var(--page-padding);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: var(--nav-height);
-  }
+	.header-inner {
+		width: 100%;
+		max-width: var(--page-max-width);
+		margin-inline: auto;
+		padding-inline: var(--page-padding);
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		height: var(--nav-height);
+	}
 
-  .header-left {
-    display: flex;
-    align-items: center;
-    gap: 3rem;
-  }
+	.header-left {
+		display: flex;
+		align-items: center;
+		gap: 3rem;
+	}
 
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
+	.header-right {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
 
-  .vcsi-logo-container {
-    text-decoration: none;
-    transition: transform var(--transition-medium);
-  }
+	.vcsi-logo-container {
+		text-decoration: none;
+		transition: transform var(--transition-medium);
+	}
 
-  .vcsi-logo-container:hover {
-    transform: translateY(-0.125rem);
-  }
+	.vcsi-logo-container:hover {
+		transform: translateY(-0.125rem);
+	}
 
-  .vcsi-logo {
-    border-radius: var(--border-radius);
-    max-height: 2.6rem;
-    object-fit: contain;
-  }
+	.vcsi-logo {
+		border-radius: var(--border-radius);
+		max-height: 2.6rem;
+		object-fit: contain;
+	}
 
-  /* Desktop navigation */
-  .desktop-nav {
-    display: flex;
-    align-items: center;
-  }
-  
-  .nav-dropdown {
-    position: relative;
-  }
-  
-  .nav-button {
-    background: transparent;
-    border: none;
-    color: var(--color-fg);
-    font-family: var(--serif);
-    font-size: 1.2rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    padding: 0.5rem 1rem;
-    transition: color 200ms ease;
-  }
+	/* Desktop navigation */
+	.desktop-nav {
+		display: flex;
+		align-items: center;
+	}
 
-  .nav-button :global(svg) {
-    pointer-events: none;
-  }
+	.nav-dropdown {
+		position: relative;
+	}
 
-  .nav-button:hover {
-    color: var(--color-gray-600);
-  }
+	.nav-button {
+		background: transparent;
+		border: none;
+		color: var(--color-fg);
+		font-family: var(--serif);
+		font-size: 1.2rem;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		cursor: pointer;
+		padding: 0.5rem 1rem;
+		transition: color 200ms ease;
+	}
 
-  .dropdown-menu {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    font-size: 1.1rem;
-    background: whitesmoke;
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius);
-    padding: 0.5rem 0;
-    min-width: 14rem;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    z-index: 1000;
-  }
+	.nav-button :global(svg) {
+		pointer-events: none;
+	}
 
-  .dropdown-menu::before {
-    content: none;
-  }
+	.nav-button:hover {
+		color: var(--color-gray-600);
+	}
 
-  .dropdown-menu.two-column {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
-    min-width: 28rem;
-  }
+	.dropdown-menu {
+		display: flex;
+		flex-direction: column;
+		position: absolute;
+		top: 100%;
+		left: 0;
+		font-size: 1.1rem;
+		background: whitesmoke;
+		border: 1px solid var(--color-border);
+		border-radius: var(--border-radius);
+		padding: 0.5rem 0;
+		min-width: 14rem;
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		z-index: 1000;
+	}
 
-  .dropdown-menu.two-column::before {
-    content: "";
-    position: absolute;
-    top: 1rem;
-    bottom: 1rem;
-    left: 50%;
-    width: 1px;
-    background: var(--color-border, #ccc);
-  }
+	.dropdown-menu::before {
+		content: none;
+	}
 
-  .dropdown-item {
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    padding: 0.5rem 1rem;
-    color: var(--color-fg);
-    text-decoration: none;
-    font-family: var(--serif);
-    transition: background-color 200ms ease;
-  }
-  
-  .dropdown-item:hover {
-    background: var(--color-gray-300);
-  }
+	.dropdown-menu.two-column {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 0.5rem;
+		min-width: 28rem;
+	}
 
-  .nav-link {
-    background: transparent;
-    border: none;
-    color: var(--color-fg);
-    font-family: var(--serif);
-    font-size: 1.2rem;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    transition: color 200ms ease;
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-  }
+	.dropdown-menu.two-column::before {
+		content: '';
+		position: absolute;
+		top: 1rem;
+		bottom: 1rem;
+		left: 50%;
+		width: 1px;
+		background: var(--color-border, #ccc);
+	}
 
-  .nav-link:hover {
-    color: var(--color-gray-600);
-  }
+	.dropdown-item {
+		display: flex;
+		align-items: center;
+		gap: 0.3rem;
+		padding: 0.5rem 1rem;
+		color: var(--color-fg);
+		text-decoration: none;
+		font-family: var(--serif);
+		transition: background-color 200ms ease;
+	}
 
-  /* Theme toggle - hidden but functional */
-  .theme-toggle {
-    background: transparent;
-    border: none;
-    color: transparent;
-    cursor: zoom-in;
-    padding: 0.5rem;
-    border-radius: var(--border-radius);
-    transition: background-color 200ms ease, color 200ms ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-  }
+	.dropdown-item:hover {
+		background: var(--color-gray-300);
+	}
 
-  /* Change cursor based on theme */
-  :global(.dark) .theme-toggle {
-    cursor: zoom-out;
-  }
+	.nav-link {
+		background: transparent;
+		border: none;
+		color: var(--color-fg);
+		font-family: var(--serif);
+		font-size: 1.2rem;
+		text-decoration: none;
+		padding: 0.5rem 1rem;
+		transition: color 200ms ease;
+		display: flex;
+		align-items: center;
+		gap: 0.3rem;
+	}
 
-  .theme-toggle:hover {
-    opacity: 0.3;
-    color: var(--color-fg);
-  }
+	.nav-link:hover {
+		color: var(--color-gray-600);
+	}
 
-  /* Dark mode background */
-  :global(.dark) .header {
-    background: var(--color-bg);
-  }
+	/* Theme toggle - hidden but functional */
+	.theme-toggle {
+		background: transparent;
+		border: none;
+		color: transparent;
+		cursor: zoom-in;
+		padding: 0.5rem;
+		border-radius: var(--border-radius);
+		transition:
+			background-color 200ms ease,
+			color 200ms ease;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		opacity: 0;
+	}
 
-  :global(.dark) .dropdown-menu {
-    background: var(--color-gray-200);
-  }
+	/* Change cursor based on theme */
+	:global(.dark) .theme-toggle {
+		cursor: zoom-out;
+	}
 
-  :global(.dark) .nav-button {
+	.theme-toggle:hover {
+		opacity: 0.3;
+		color: var(--color-fg);
+	}
+
+	/* Dark mode background */
+	:global(.dark) .header {
+		background: var(--color-bg);
+	}
+
+	:global(.dark) .dropdown-menu {
+		background: var(--color-gray-200);
+	}
+
+	:global(.dark) .nav-button {
 		color: var(--color-gray-800);
 	}
 
-  :global(.dark) .theme-toggle:hover {
-    background: var(--color-gray-300);
-  }
-	
-  
+	:global(.dark) .theme-toggle:hover {
+		background: var(--color-gray-300);
+	}
 
-  .menu-button {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    background: transparent;
-    color: var(--color-fg);
-    border: none;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    transition: all var(--transition-medium);
-  }
+	.menu-button {
+		display: none;
+		align-items: center;
+		justify-content: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		background: transparent;
+		color: var(--color-fg);
+		border: none;
+		border-radius: 0.5rem;
+		cursor: pointer;
+		transition: all var(--transition-medium);
+	}
 
-  .menu-button:hover {
-    transform: rotate(var(--right-tilt)) scale(1.05);
-    background: rgba(0, 0, 0, 0.05);
-  }
+	.menu-button:hover {
+		transform: rotate(var(--right-tilt)) scale(1.05);
+		background: rgba(0, 0, 0, 0.05);
+	}
 
-  /* Mobile layout */
-  @media (max-width: 960px) {
-    .menu-button {
-      display: flex;
-    }
-  }
+	/* Mobile layout */
+	@media (max-width: 960px) {
+		.menu-button {
+			display: flex;
+		}
+	}
 
-  @media (max-width: 768px) {
-    .header-inner {
-      padding-inline: var(--page-padding);
-    }
+	@media (max-width: 768px) {
+		.header-inner {
+			padding-inline: var(--page-padding);
+		}
 
-    .header-left {
-      gap: 0;
-    }
+		.header-left {
+			gap: 0;
+		}
 
-    .theme-toggle {
-      display: none;
-    }
+		.theme-toggle {
+			display: none;
+		}
 
-    .desktop-nav {
-      display: none;
-    }
+		.desktop-nav {
+			display: none;
+		}
 
-    .menu-button {
-      width: 3.5rem;
-      height: 3.5rem;
-      margin-right: -0.5rem; /* Offset to align icon with content edge */
-    }
-  }
+		.menu-button {
+			width: 3.5rem;
+			height: 3.5rem;
+			margin-right: -0.5rem; /* Offset to align icon with content edge */
+		}
+	}
 
-
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-  }
-
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
+	}
 </style>
