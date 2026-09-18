@@ -51,6 +51,45 @@ function convertToCSV(rows) {
   return rows.map((row) => row.map(escapeCSVValue).join(',')).join('\n');
 }
 
+// Graph returns the raw cell value, so a date cell arrives as an Excel serial
+// number no matter how the sheet displays it. The accompanying numberFormat is
+// what tells us the cell was meant to be a date.
+function isDateFormat(format) {
+  if (!format || format === 'General' || format === '@') return false;
+  const tokens = String(format)
+    .replace(/\[[^\]]*\]/g, '') // locale, colour and condition blocks
+    .replace(/"[^"]*"/g, '') // literal text
+    .replace(/\\./g, ''); // escaped characters
+  // A lone "m" is minutes; only y, d or a month name marks a date
+  return /y{2,}|d|m{3,}/i.test(tokens);
+}
+
+function serialToISODate(serial) {
+  // Excel counts days from 1899-12-30 (day 0), thanks to its 1900 leap year bug
+  const days = Math.floor(serial);
+  const date = new Date(Date.UTC(1899, 11, 30) + days * 86400000);
+  const iso = date.toISOString().slice(0, 10);
+
+  const fraction = serial - days;
+  if (fraction === 0) return iso;
+
+  const minutes = Math.round(fraction * 1440);
+  const hh = String(Math.floor(minutes / 60)).padStart(2, '0');
+  const mm = String(minutes % 60).padStart(2, '0');
+  return `${iso}T${hh}:${mm}`;
+}
+
+function normalizeDates(values, numberFormat) {
+  if (!numberFormat) return values;
+  return values.map((row, r) =>
+    row.map((cell, c) =>
+      typeof cell === 'number' && isDateFormat(numberFormat[r]?.[c])
+        ? serialToISODate(cell)
+        : cell
+    )
+  );
+}
+
 function sanitizeFilename(name) {
   // Remove Excel extension and sanitize for filesystem
   return name
@@ -116,8 +155,12 @@ async function main() {
           continue;
         }
 
+        if (!usedRange.numberFormat) {
+          console.warn(`    (no numberFormat returned, dates stay as serials)`);
+        }
+
         // Convert to CSV
-        const csv = convertToCSV(values);
+        const csv = convertToCSV(normalizeDates(values, usedRange.numberFormat));
 
         // Generate filename and determine output directory
         const baseName = sanitizeFilename(excelFile.name);

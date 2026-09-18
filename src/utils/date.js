@@ -1,21 +1,34 @@
 /**
- * Convert Excel serial date number to JavaScript Date
- * @param {number} serial - Excel serial date number
+ * Parse a date from the CSV data. The MS Graph export writes ISO dates
+ * ("2026-02-19"), but older exports wrote raw Excel serial numbers, so both are
+ * accepted. Dates are built in local time; parsing "2026-02-19" as UTC would
+ * land on the previous evening in Vermont.
+ * @param {string|number|Date|null|undefined} value
  * @returns {Date|null}
  */
-export const excelToDate = (serial) => {
-    if (!serial) return null;
-    const excelEpoch = new Date(1899, 11, 30);
-    return new Date(excelEpoch.getTime() + serial * 86400000);
+export const parseDate = (value) => {
+    if (!value) return null;
+    if (value instanceof Date) return value;
+
+    const iso = String(value).match(/^(\d{4})-(\d{2})-(\d{2})(?:T(\d{2}):(\d{2}))?$/);
+    if (iso) {
+        const [, year, month, day, hours, minutes] = iso;
+        return new Date(+year, +month - 1, +day, +(hours ?? 0), +(minutes ?? 0));
+    }
+
+    // Legacy Excel serial: days since 1899-12-30
+    const serial = Number(value);
+    if (!Number.isFinite(serial)) return null;
+    return new Date(new Date(1899, 11, 30).getTime() + serial * 86400000);
 };
 
 /**
- * Format Excel serial date as readable string
- * @param {number} serial - Excel serial date number
+ * Format a CSV date value as a readable string
+ * @param {string|number|Date} value
  * @returns {string}
  */
-export const formatDate = (serial) => {
-    const date = excelToDate(serial);
+export const formatDate = (value) => {
+    const date = parseDate(value);
     if (!date) return 'TBD';
     return new Intl.DateTimeFormat('en-US', {
         year: 'numeric',
@@ -40,12 +53,12 @@ export const formatDateObj = (date) => {
 };
 
 /**
- * Calculate days until an Excel serial date
- * @param {number} serial - Excel serial date number
+ * Calculate days until a CSV date value
+ * @param {string|number|Date} value
  * @returns {number|null}
  */
-export const getDaysUntil = (serial) => {
-    const date = excelToDate(serial);
+export const getDaysUntil = (value) => {
+    const date = parseDate(value);
     if (!date) return null;
     const now = new Date();
     now.setHours(0, 0, 0, 0);
@@ -71,7 +84,7 @@ export const groupEventsByName = (events) => {
                 isVariable: event.recurring_frequency === 'variable'
             };
         }
-        const date = excelToDate(event.date);
+        const date = parseDate(event.date);
         if (date) {
             grouped[event.name].dates.push({
                 date,

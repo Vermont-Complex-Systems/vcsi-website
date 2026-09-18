@@ -2,11 +2,19 @@
 	import Meta from '$lib/components/Meta.svelte';
 	import ExpandableText from '$lib/components/ExpandableText.svelte';
 	import Countdown from '$lib/components/Countdown.svelte';
+	import AddToCalendar from '$lib/components/AddToCalendar.svelte';
 	import events from '$data/events.csv';
-	import { formatDate, formatDateObj, getDaysUntil, groupEventsByName } from '../../utils/excel.js';
+	import {
+		formatDate,
+		formatDateObj,
+		getDaysUntil,
+		groupEventsByName,
+		parseDate
+	} from '../../utils/date.js';
 
-	// Sort by date (soonest first)
-	const sortByDate = (a, b) => (a.date || 0) - (b.date || 0);
+	// Sort by date (soonest first), undated events first as before
+	const sortByDate = (a, b) =>
+		(parseDate(a.date)?.getTime() ?? 0) - (parseDate(b.date)?.getTime() ?? 0);
 
 	// Sort ongoing events: weekly first, then by next upcoming date
 	const sortOngoing = (a, b) => {
@@ -21,9 +29,14 @@
 	const ongoingEvents = groupEventsByName(events.filter((e) => e.event_type === 'ongoing')).sort(
 		sortOngoing
 	);
-	const specialEvents = events.filter((e) => e.event_type === 'special').sort(sortByDate);
+	// Keep events that haven't happened yet (undated events are treated as upcoming/TBD)
+	const isUpcoming = (e) => !e.date || getDaysUntil(e.date) >= 0;
+
+	const specialEvents = events
+		.filter((e) => e.event_type === 'special' && isUpcoming(e))
+		.sort(sortByDate);
 	const deadlineEvents = events
-		.filter((e) => e.event_type === 'deadline' && getDaysUntil(e.date) >= 0)
+		.filter((e) => e.event_type === 'deadline' && isUpcoming(e))
 		.sort(sortByDate);
 </script>
 
@@ -39,10 +52,18 @@
 			{#each deadlineEvents as event (event.name)}
 				<li class="card event-card deadline-card">
 					<div class="deadline-header">
-						<h3>{event.name}</h3>
+						<div>
+							{#if event.title}
+								<h3>{event.title}</h3>
+								<p class="event-subtitle">{event.name}</p>
+							{:else}
+								<h3>{event.name}</h3>
+							{/if}
+						</div>
 						<Countdown days={getDaysUntil(event.date)} />
 					</div>
 					<p class="event-date">{formatDate(event.date)}</p>
+					<AddToCalendar {event} label="Add deadline to calendar" />
 					{#if event.description}
 						<div class="description">
 							<ExpandableText text={event.description} />
@@ -60,7 +81,12 @@
 		<ul class="event-list">
 			{#each ongoingEvents as event (event.name)}
 				<li class="card event-card">
-					<h3>{event.name}</h3>
+					{#if event.title}
+						<h3>{event.title}</h3>
+						<p class="event-subtitle">{event.name}</p>
+					{:else}
+						<h3>{event.name}</h3>
+					{/if}
 					{#if event.recurring_frequency === 'weekly'}
 						<span class="badge badge-dark">{event.recurring_frequency}</span>
 						<p class="event-date">{event.day}s from {event.time}</p>
@@ -76,6 +102,10 @@
 								<span class="badge badge-light">+{event.upcomingCount - 1} more</span>
 							{/if}
 						</div>
+						<AddToCalendar
+							event={{ ...event, date: event.nextDate.date, time: event.nextDate.time }}
+							label="Add next date to calendar"
+						/>
 					{:else if event.dates.length > 0}
 						<p class="event-date muted">No upcoming dates</p>
 					{/if}
@@ -102,13 +132,19 @@
 		<ul class="event-list">
 			{#each specialEvents as event (event.name)}
 				<li class="card event-card">
-					<h3>{event.name}</h3>
+					{#if event.title}
+						<h3>{event.title}</h3>
+						<p class="event-subtitle">{event.name}</p>
+					{:else}
+						<h3>{event.name}</h3>
+					{/if}
 					<p class="event-date">
 						{formatDate(event.date)}
 						{#if event.location}
 							in {event.location}{/if}
 					</p>
 					{#if event.time}<p class="event-time">{event.time}</p>{/if}
+					<AddToCalendar {event} />
 					{#if event.teams}
 						<a href={event.teams} target="_blank" rel="noopener" class="teams-link"
 							>Join via Teams</a
@@ -144,6 +180,13 @@
 
 	.event-card h3 {
 		margin-top: 0;
+		margin-bottom: 0.5rem;
+	}
+
+	.event-subtitle {
+		font-size: 0.9rem;
+		color: var(--color-gray-600);
+		margin-top: -0.35rem;
 		margin-bottom: 0.5rem;
 	}
 

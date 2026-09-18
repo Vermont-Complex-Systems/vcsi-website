@@ -1,6 +1,6 @@
-name,day,date,time,link,teams,location,event_type,recurring_frequency,description
+name,day,date,time,link,teams,location,event_type,recurring_frequency,description,title
 Complexitea,Thursday,,12:00pm - 13:00pm,,,Innovation Hall 404,ongoing,weekly,"A drop-in gathering with food for the Vermont Complex Systems Institute community in our shared community space on the fourth floor of Innovation Hall. Students, faculty, staff and friends welcome."
-SOCKS All-Hands Meeting abstract submission deadline,,46076,,,,,deadline,,"I’m excited to share with you (again) an opportunity for undergraduates and graduate students to present their research to SOCKS faculty and staff. At the SOCKS All-Hands Meeting on Monday, March 30, 2026, we will be holding a poster session from 11:30 am - 12:30 pm. Students will have an hour to share a research poster with SOCKS staff, answer questions, and then stick around for a catered lunch. Here are some more details:
+SOCKS All-Hands Meeting abstract submission deadline,,2026-02-23,,,,,deadline,,"I’m excited to share with you (again) an opportunity for undergraduates and graduate students to present their research to SOCKS faculty and staff. At the SOCKS All-Hands Meeting on Monday, March 30, 2026, we will be holding a poster session from 11:30 am - 12:30 pm. Students will have an hour to share a research poster with SOCKS staff, answer questions, and then stick around for a catered lunch. Here are some more details:
 
 - Poster Size: 48 x 36 inches landscape orientation 
 - Printing costs will be covered
@@ -8,7 +8,7 @@ SOCKS All-Hands Meeting abstract submission deadline,,46076,,,,,deadline,,"I’m
 - ~8 slots for student posters 
 
 This is a great opportunity for students to practice presenting and for SOCKS community members to interact with new research findings. But wait! That’s not all. Poster presenters will receive a SOCKS-themed gift, will be invited to join the whole SOCKS team for the All Hands Meeting lunch, and prizes will be awarded for the best posters."
-SOCKS All-Hands Meeting,Monday,46104,11:30 am - 12:30 pm,,,UVM Davis Center’s Silver Maple Ballroom,special,,"I’m excited to share with you (again) an opportunity for undergraduates and graduate students to present their research to SOCKS faculty and staff. At the SOCKS All-Hands Meeting on Monday, March 30, 2026, we will be holding a poster session from 11:30 am - 12:30 pm. Students will have an hour to share a research poster with SOCKS staff, answer questions, and then stick around for a catered lunch. Here are some more details:
+SOCKS All-Hands Meeting,Monday,2026-03-23,11:30 am - 12:30 pm,,,UVM Davis Center’s Silver Maple Ballroom,special,,"I’m excited to share with you (again) an opportunity for undergraduates and graduate students to present their research to SOCKS faculty and staff. At the SOCKS All-Hands Meeting on Monday, March 30, 2026, we will be holding a poster session from 11:30 am - 12:30 pm. Students will have an hour to share a research poster with SOCKS staff, answer questions, and then stick around for a catered lunch. Here are some more details:
 
 Poster Size: 48 x 36 inches landscape orientation 
 Printing costs will be covered
@@ -18,20 +18,48 @@ Location: UVM Davis Center’s Silver Maple Ballroom
 
 
 This is a great opportunity for students to practice presenting and for SOCKS community members to interact with new research findings. But wait! That’s not all. Poster presenters will receive a SOCKS-themed gift, will be invited to join the whole SOCKS team for the All Hands Meeting lunch, and prizes will be awarded for the best posters."
-Research Computing Virtual Café Office Hours & Events,Thursday,46072,9:00 AM - 10:30 AM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,variable,"The ETS Research Computing Team is hosting Research Computing Virtual Café hours as a resource for assistance and general discussion about the various research computing services offered by ETS.
+Research Computing Virtual Café Office Hours & Events,Thursday,2026-09-10,9:00 AM - 10:30 AM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,variable,"The ETS Research Computing Team is hosting Research Computing Virtual Café hours as a resource for assistance and general discussion about the various research computing services offered by ETS.
 
 These sessions are designed to be drop-in, with no advanced registration required. They aim to provide faculty, staff, and student researchers with an opportunity to meet directly with the research computing team and to ask questions related to the VACC, VACC clusters, scientific software, NetFiles storage, or research virtual machines. Everyone is welcome; this is intended to be a place for informal discussion and problem-solving.
 
 See below the schedule for the link to the Teams meeting. All Virtual Café sessions meet via Microsoft Teams only at their scheduled times"
-Research Computing Virtual Café Office Hours & Events,Monday,46076,2:00 PM - 3:30 PM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
-Research Computing Virtual Café Office Hours & Events,Thursday,46086,9:00 AM - 10:30 AM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
-Research Computing Virtual Café Office Hours & Events,Monday,46090,2:00 PM - 3:30 PM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
-Research Computing Virtual Café Office Hours & Events,Thursday,46100,9:00 AM - 10:30 AM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
-Research Computing Virtual Café Office Hours & Events,Monday,46104,2:00 PM - 3:30 PM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
-Research Computing Virtual Café Office Hours & Events,Thursday,46114,9:00 AM - 10:30 AM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
-Research Computing Virtual Café Office Hours & Events,Monday,46118,2:00 PM - 3:30 PM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
-Research Computing Virtual Café Office Hours & Events,Thursday,46128,9:00 AM - 10:30 AM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
-Research Computing Virtual Café Office Hours & Events,Monday,46132,2:00 PM - 3:30 PM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
-Research Computing Virtual Café Office Hours & Events,Thursday,46142,9:00 AM - 10:30 AM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
-Research Computing Virtual Café Office Hours & Events,Monday,46146,2:00 PM - 3:30 PM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
-VCSI Affiliate Speaker Series: Sam Chevalier,Tuesday,46077,10:00 AM - 11:00 AM,,https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZDcxYjRkZjctNjE5NC00ZWFlLWFjMzQtMTE5YzkyNzBhMDI0%40thread.v2/0?context=%7b%22Tid%22%3a%221c177758-4d6b-43dc-aaeb-3b9c42562967%22%2c%22Oid%22%3a%226d721d16-510a-4a3c-83df-103c92d3a3bb%22%7d,Innovation E100 Conference Room,special,,
+Research Computing Virtual Café Office Hours & Events,Monday,2026-09-14,2:00 PM - 3:30 PM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
+Research Computing Virtual Café Office Hours & Events,Thursday,2026-09-24,9:00 AM - 10:30 AM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
+Research Computing Virtual Café Office Hours & Events,Monday,2026-09-28,2:00 PM - 3:30 PM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
+Research Computing Virtual Café Office Hours & Events,Thursday,2026-10-08,9:00 AM - 10:30 AM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
+Research Computing Virtual Café Office Hours & Events,Monday,2026-10-12,2:00 PM - 3:30 PM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
+Research Computing Virtual Café Office Hours & Events,Thursday,2026-10-22,9:00 AM - 10:30 AM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
+Research Computing Virtual Café Office Hours & Events,Monday,2026-10-26,2:00 PM - 3:30 PM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
+Research Computing Virtual Café Office Hours & Events,Thursday,2026-11-05,9:00 AM - 10:30 AM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
+Research Computing Virtual Café Office Hours & Events,Monday,2026-11-09,2:00 PM - 3:30 PM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
+Research Computing Virtual Café Office Hours & Events,Thursday,2026-11-19,9:00 AM - 10:30 AM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
+Research Computing Virtual Café Office Hours & Events,Thursday,2026-12-03,9:00 AM - 10:30 AM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
+Research Computing Virtual Café Office Hours & Events,Monday,2026-12-07,2:00 PM - 3:30 PM,,https://go.uvm.edu/research-virtual-cafe,,ongoing,,
+VCSI Affiliate Speaker Series: Sam Chevalier,Tuesday,2026-02-24,10:00 AM - 11:00 AM,,https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZDcxYjRkZjctNjE5NC00ZWFlLWFjMzQtMTE5YzkyNzBhMDI0%40thread.v2/0?context=%7b%22Tid%22%3a%221c177758-4d6b-43dc-aaeb-3b9c42562967%22%2c%22Oid%22%3a%226d721d16-510a-4a3c-83df-103c92d3a3bb%22%7d,Innovation E100 Conference Room,special,,
+VCSI Speaker - (through Avi - tentative),Thursday,2026-10-01,1:00pm-2:00pm,,,Innovation E100 Conference Room,,,
+VCSI speaker - Craig Bryan,Monday,2026-10-05,12:00pm-1:00pm,,,Innovation E100 Conference Room,special,,"Although the dynamic nature of suicide risk is well-known, the core principles of change have not yet been integrated into formal theories of suicide or clinical practice, limiting the utility and effectiveness of risk detection, assessment, and intervention practices. Newer thinking informed by dynamical systems theory, which conceptualizes suicide risk as a multistate phenomenon, provides a practical framework for understanding variability in suicidal states (e.g., passive versus active ideation), trajectories of risk (e.g., “impulsive” versus carefully planned attempts), and recovery processes (e.g., rapid improvement, gradual improvement, and persisting risk). This talk provides an overview of how the application of dynamical systems theory have guided recent advances in suicide prevention.","On Butterflies, Tornadoes, and Suicide Prevention"
+SOCKS Research Meeting - Health Team,Monday,2026-10-12,12:00pm-1:00pm,,,,,,
+VCSI Speaker - Melissa Pespeni,Thursday,2026-10-15,1:00pm-2:00pm,,,Innovation E100 Conference Room,special,,
+SOCKS Research Meeting - Health Team,Monday,2026-10-26,12:00pm-1:00pm,,,,,,
+VCSI Speaker - Aaron Lott,Monday,2026-11-02,12:00pm-1:00pm,,,Innovation E100 Conference Room,special,,
+SOCKS Research Meeting - Social Team,Monday,2026-11-09,12:00pm-1:00pm,,,,,,
+VCSI speaker - Bryn Loftness - Entrepreneurship/Translation,Monday,2026-11-16,12:00pm-1:00pm,,,Innovation E100 Conference Room,special,,
+VCSI Speaker - Patrick Ball (Tentative),Thursday,2026-11-19,1:00pm-2:00pm,,,Innovation E100 Conference Room,,,
+SOCKS Research Meeting,Monday,2026-11-30,12:00pm-1:00pm,,,,,,
+VCSI speaker - Gary An,Monday,2026-12-07,12:00pm-1:00pm,,,Innovation E100 Conference Room,,,
+SOCKS Research Meeting,Monday,2026-12-14,12:00pm-1:00pm,,,,,,
+SCRaPS - Aviral Chawla,,2026-09-08,12:00pm-1:00pm,,,Innovation E425,ongoing,,Language Domain Adaptation
+CRUMBS - Ashley Fehr,,2026-09-15,12:00pm-1:00pm,,,Innovation E425,ongoing,,CSS research starter kit
+SCRaPS - Tabia Tanzin Prama,,2026-09-22,12:00pm-1:00pm,,,Innovation E425,special,,
+CRUMBS - Collin Coil,,2026-09-29,12:00pm-1:00pm,,,Innovation E425,special,,How to apply + do internships
+SCRaPS,,2026-10-06,12:00pm-1:00pm,,,Innovation E425,,,
+CRUMBS,,2026-10-13,12:00pm-1:00pm,,,Innovation E425,,,
+SCRaPS - Scott James Carnie-Bronca,,2026-10-20,12:00pm-1:00pm,,,Innovation E425,special,,
+CRUMBS,,2026-10-27,12:00pm-1:00pm,,,Innovation E425,,,
+SCRaPS - Parisa Suchdev,,2026-11-03,12:00pm-1:00pm,,,Innovation E425,special,,
+CRUMBS,,2026-11-10,12:00pm-1:00pm,,,Innovation E425,,,
+SCRaPS,,2026-11-17,12:00pm-1:00pm,,,Innovation E425,,,
+CRUMBS - maybe PSD,,2026-11-24,12:00pm-1:00pm,,,Innovation E425,,,Writing and/or living meaningfully
+SCRaPS,,2026-12-01,12:00pm-1:00pm,,,Innovation E425,,,
+CRUMBS,,2026-12-08,12:00pm-1:00pm,,,Innovation E425,,,
+SCRaPS?,,2026-12-15,12:00pm-1:00pm,,,Innovation E425,,,
