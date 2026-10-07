@@ -2,6 +2,8 @@
     import { base } from '$app/paths';
     import Meta from "$lib/components/Meta.svelte";
     import { ExternalLink } from '@lucide/svelte';
+    import CourseItem from '$lib/components/CourseItem.svelte';
+    import { csdsElectives } from '$data/electives.js';
 
     const prerequisites = [
         "Calculus",
@@ -44,7 +46,7 @@
         {
             name: "Modeling",
             required: "Modeling Complex Systems: CSYS/CS 6020",
-            optional: "Modeling Complex Systems 2"
+            optional: "Modeling Complex Systems 2: CSYS/CS 6021"
         },
         {
             name: "Principles",
@@ -198,24 +200,9 @@
             <summary>View All CSDS Electives</summary>
             <div class="accordion-content electives-list">
                 <ul>
-                    <li>Chaos, Fractals and Dynamical Systems (CSYS 5766)</li>
-                    <li>Complex Networks (CSYS/MATH 6713)</li>
-                    <li>Evolutionary Computation (CSYS/CS 6520)</li>
-                    <li>Applied Artificial Neural Networks (CSYS/CEE 7920)</li>
-                    <li>Applied Geostatistics (CSYS/STAT/CEE 7980)</li>
-                    <li>Database Systems (CS 3040)</li>
-                    <li>Human Computer Interaction (CS 3280)</li>
-                    <li>Machine Learning (CS 3540)</li>
-                    <li>Statistical Methods II (STAT 3210)</li>
-                    <li>Multivariate Analysis (STAT 5230)</li>
-                    <li>Logistic Regression and Survival Analysis (STAT 5290)</li>
-                    <li>Experimental Design (STAT 5310)</li>
-                    <li>Categorical Data Analysis (STAT 5350)</li>
-                    <li>Probability Theory (STAT 5510)</li>
-                    <li>Statistical Theory (STAT 5610)</li>
-                    <li>Bayesian Statistics (STAT 6300)</li>
-                    <li>Statistical Learning (STAT/CS 3990)</li>
-                    <li>Energy System Entanglement (CSYS/CEE 6990)</li>
+                    {#each csdsElectives as course}
+                        <li><CourseItem {course} /></li>
+                    {/each}
                 </ul>
                 <p class="note"><em>This course list evolves and not all courses will be offered in any given semester. Other courses (including special topics) may be approved by the CSDS Curriculum Committee.</em></p>
             </div>
@@ -605,6 +592,9 @@
     .path-card-simple a {
         color: var(--color-accent);
         text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
     }
 
     .path-card-simple a:hover {

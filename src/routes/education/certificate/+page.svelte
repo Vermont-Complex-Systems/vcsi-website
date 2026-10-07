@@ -1,6 +1,8 @@
 <script>
     import Meta from "$lib/components/Meta.svelte";
     import { ExternalLink } from '@lucide/svelte';
+    import CourseItem from '$lib/components/CourseItem.svelte';
+    import { aListCourses, bListCourses } from '$data/electives.js';
 
     const prerequisites = [
         "Calculus",
@@ -16,38 +18,6 @@
         "CSYS/MATH 6701: Principles of Complex Systems",
         "CSYS/CS 6020: Modeling Complex Systems",
         "CSYS/STAT/CS 5870: Data Science I - Experience"
-    ];
-
-    const aListCourses = [
-        "CSYS 5766: Chaos, Fractals, and Dynamical Systems",
-        "CSYS/MATH 6713: Complex Networks",
-        "CSYS/CS 6520: Evolutionary Computation",
-        "CS/STAT 3560: Neural Computation",
-        "STAT 5530: Appl Time Series & Forecasting",
-        "CSYS/STAT/CEE 7980: Applied Geostatistics",
-        "CSYS/CEE 7920: Applied Artificial Neural Networks"
-    ];
-
-    const bListCourses = [
-        "CSYS/STAT/CS 6870: Data Science II",
-        "MATH 5788: Mathematical Biology & Ecology",
-        "MATH 5230: Adv. Ordinary Differential Equations",
-        "ME 5410: Advanced Bioengineering Systems",
-        "EE 5320: Smart Grid",
-        "ME 6550: Multi-Scale Modeling",
-        "CSYS/EE 6990: Optimization in Engineering",
-        "PA 6080: Decision Making Models",
-        "PA 6170: Systems Analysis and Strategic Management",
-        "PA 6060: Policy Systems",
-        "PBIO 5940: Ecological Modeling",
-        "PBIO 5750: Global Change Ecology",
-        "PBIO 6940: Data Modeling for Envir Science",
-        "BIOL 3165: Evolution",
-        "CS 3060: Evolutionary Robotics",
-        "CS 3540: Machine Learning",
-        "CS 6540: Deep Learning",
-        "ENVS 4990: Envir. Modeling and Systems Thinking",
-        "CEE 6990A: Data Analytics for Water Resources"
     ];
 
     const pathOptions = [
@@ -169,7 +139,7 @@
             <div class="accordion-content courses-list">
                 <ul>
                     {#each aListCourses as course}
-                        <li>{course}</li>
+                        <li><CourseItem {course} /></li>
                     {/each}
                 </ul>
             </div>
@@ -184,7 +154,7 @@
             <div class="accordion-content courses-list">
                 <ul>
                     {#each bListCourses as course}
-                        <li>{course}</li>
+                        <li><CourseItem {course} /></li>
                     {/each}
                 </ul>
             </div>

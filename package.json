@@ -18,7 +18,8 @@
 		"fetch-dois": "node scripts/fetch-dois.js",
 		"compare-dois": "node scripts/compare-dois.js",
 		"msgraph:fetch": "node scripts/fetch-msgraph.js",
-		"msgraph:assets": "node scripts/fetch-assets.js"
+		"msgraph:assets": "node scripts/fetch-assets.js",
+		"courses:fetch": "node scripts/fetch-courses.js"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-static": "^3.0.8",
