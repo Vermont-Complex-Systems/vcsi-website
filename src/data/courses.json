@@ -1,0 +1,202 @@
+{
+  "BIOL 6200": {
+    "description": "An exploration of the merger of ecology and genomics to address the genetic basis of adaptive variation in natural populations. Emphasis on integrating quantitative approaches and hands-on analysis of large genomic and ecological data sets. Pre/co-requisites: BCOR 2300, BCOR 2100, or STAT 1410; basic knowledge of statistics, probability, genetics, and evolution required; familiarity with programming in R or bash is recommended. Cross-listed with: PBIO 6800.",
+    "sections": []
+  },
+  "BME 5330": {
+    "description": "Uses the study of lung mechanics as a vehicle for teaching a range of mathematical modeling and data analysis methods central to the study of physiological systems. Students will gain a detailed understanding of how the lung works as a mechanical system and various diseases that affect mechanical function. At the same time, they will learn about applications of a range of mathematical and signal processing techniques. Prerequisite: Graduate standing or Instructor permission.",
+    "sections": [
+      {
+        "term": "Fall 2026",
+        "srcdb": "202609",
+        "crn": "94537",
+        "meets": "Th 1:15-4:15p",
+        "instructor": "J. Bates"
+      }
+    ]
+  },
+  "CEE 6610": {
+    "description": "Understanding and application of computational tools to the analysis of water resources data including: 1) autocorrelation or semivariograms to examine data structure; 2) kriging methods for data interpolation; 3) clustering and classification techniques for data exploration; and 4) Bayesian analyses to quantify uncertainty. Data analysis techniques are presented as a systems approach to site characterization, monitoring, remediation or restoration applications in groundwater or surface water settings recognized as components of the complex Earth system. Prerequisites: Content knowledge of statistics assumed; Graduate student.",
+    "sections": []
+  },
+  "CEE 7900": {
+    "description": "Modeling uncertainty and risk, random variables, modeling and simulation of functions of random variables and random processes, propagation of uncertainties in computational models, analytical and computational methods for computing failure probability of engineering systems, Bayesian updating of risk measures, communicating uncertainty and risk. Prerequisite: Content knowledge of probability and statistics (such as STAT 2430 or STAT 2510) is assumed.",
+    "sections": []
+  },
+  "CMPE 5611": {
+    "description": "Offers a rigorous introduction to Machine Learning and its application in the engineering sciences. Topics include supervised, unsupervised, and reinforcement learning. Introduces data-driven modeling techniques used in engineering and physical sciences. Applications include networks, power systems, mechanical dynamics, fluids, and device sensors. Provides introduction to computer vision for autonomy and robotics applications. Knowledge of calculus, linear algebra, probability is assumed. Credit not awarded for both CS 5540 and CS 5611. Cross-listed with: CS 5611.",
+    "sections": [
+      {
+        "term": "Fall 2026",
+        "srcdb": "202609",
+        "crn": "96155",
+        "meets": "MWF 9:40-10:30a",
+        "instructor": "A. Pandey"
+      }
+    ]
+  },
+  "CSCS 7010": {
+    "description": "First of a two-semester sequence. Case studies cover computational approaches in humanities and social sciences as presented by faculty across the disciplines. Field trips to industry, non-profit and public sector sites highlight computational approaches in their day-to-day working contexts. Individual and paired assignments introduce ethical questions and epistemological debates.",
+    "sections": [
+      {
+        "term": "Fall 2026",
+        "srcdb": "202609",
+        "crn": "96250",
+        "meets": "W 12-3p",
+        "instructor": "I. Nelson"
+      }
+    ]
+  },
+  "CSCS 7020": {
+    "description": "Second of a two-semester sequence. Case studies cover computational approaches in humanities and social sciences as presented by faculty across the disciplines. Field trips to industry, non-profit and public sector sites highlight computational approaches in their day-to-day working contexts. Individual and paired assignments introduce ethical questions and epistemological debates.",
+    "sections": []
+  },
+  "CSYS 5060": {
+    "description": "Explores the automated design of autonomous machines using evolutionary algorithms. Covers relevant topics in evolutionary computation, artificial neural networks, robotics, simulation and xenobots. Students complete weekly programming assignments, formulate research a research hypothesis, and use their system to test that hypothesis. Credit not awarded for more than one of the following: CSYS 5060, CS 5060, CS 3060. Prerequisite: Graduate student. Cross-listed with: CS 5060.",
+    "sections": []
+  },
+  "CSYS 5540": {
+    "description": "Provides a broad introduction to machine learning and statistical pattern recognition. Topics include: supervised learning (linear regression, logistic regression, neural networks, support vector machines, decision tree, ensemble models, random forest); unsupervised learning (clustering, dimensionality reduction, kernel methods); Also introduces deep learning such as convolutional neural networks and discusses recent applications. Credit not awarded for more than one of the following: CSYS 5540, CS 5540, CS 3540. Prerequisites: Knowledge of statistics as from STAT 2510, knowledge of linear algebra as from MATH 2522 or MATH 2544; Graduate student. Cross-listed with: CS 5540.",
+    "sections": [
+      {
+        "term": "Fall 2026",
+        "srcdb": "202609",
+        "crn": "96116",
+        "meets": "TTh 1:15-2:30p",
+        "instructor": "S. Wshah"
+      }
+    ]
+  },
+  "CSYS 5766": {
+    "description": "Discrete and continuous dynamical systems, Julia sets, the Mandelbrot set, period doubling, renormalization, Henon map, phase plane analysis, and Lorenz equations. Credit not awarded for both CSYS 5766 and MATH 3766. Prerequisite: Graduate student or Instructor permission. Cross-listed with: MATH 5766.",
+    "sections": []
+  },
+  "CSYS 5909": {
+    "description": "Provides a comprehensive, breadth-first introduction to natural language processing (NLP), an interdisciplinary field at the intersection of computer science, linguistics, and artificial intelligence. Students will explore both classical approaches and modern deep learning techniques, including large language models, through an integrative and hands-on learning experience. Project-based, emphasizing practical engagement with real-world textual datasets and the development of strong research practices for rigorous research projects. Prerequisite: Programming experience in Python. Cross-listed with: CS 5909.",
+    "sections": [
+      {
+        "term": "Fall 2026",
+        "srcdb": "202609",
+        "crn": "96120",
+        "meets": "TTh 10:05-11:20a",
+        "instructor": "J. Lovato"
+      }
+    ]
+  },
+  "CSYS 6021": {
+    "description": "Deep dive in state-of-the-art mathematical and computational methods for modeling complex systems; model theory, branching processes, probability generating functions, message passing, master equations, event-driven simulations, Gillespie algorithms, composition-rejection algorithms. Prerequisites: CS 6020 or CSYS 6020. Cross-listed with: CS 6021.",
+    "sections": []
+  },
+  "CSYS 6520": {
+    "description": "Theory and practice of biologically-inspired search strategies including genetic algorithms, genetic programming, and evolution strategies. Applications include optimization, parameter estimation, and model identification. Significant project. Students from multiple disciplines encouraged. Pre/co-requisites: Familiarity with programming, probability, statistics. Cross-listed with: CS 6520.",
+    "sections": [
+      {
+        "term": "Fall 2026",
+        "srcdb": "202609",
+        "crn": "95954",
+        "meets": "TTh 8:30-9:45a",
+        "instructor": "N. Cheney"
+      }
+    ]
+  },
+  "CSYS 6540": {
+    "description": "Introduction to Deep Learning algorithms and applications, including basic neural networks, convolutional neural networks, recurrent neural networks, deep unsupervised learning, generative adversarial networks and deep reinforcement learning. Includes a semester team-based project. Prerequisite: CS 3540. Cross-listed with: CS 6540.",
+    "sections": []
+  },
+  "CSYS 6570": {
+    "description": "Social computing systems include online social networks, microblogging systems, social recommendation platforms, etc. Via a research-centric lens, explores the underlying nature/structure of social computing systems, studies various issues that plague them, and explores the methods by which researchers investigate such systems. Prerequisites: Proficiency in graph theory and computer programming (preferred language Python); knowledge of CS 3240 (or equivalent) and CS 2300 (or equivalent) assumed. Cross-listed with: CS 6570.",
+    "sections": []
+  },
+  "CSYS 6713": {
+    "description": "Detailed exploration of distribution, transportation, small-world, scale-free, social, biological, organizational networks; generative mechanisms; measurement and statistics of network properties; network dynamics; contagion processes. Students from all disciplines welcomed. Pre/co-requisites: Calculus, statistics required. Cross-listed with: MATH 6713.",
+    "sections": []
+  },
+  "CSYS 6870": {
+    "description": "Advanced data analysis, collection, and filtering; statistical modeling, monte carlo statistical methods, and in particular Bayesian data analysis, including necessary probabilistic background material; a practical focus on real datasets and developing good habits for rigorous and reproducible computational science. Prerequisites: STAT 5870, CS 5870, CSYS 5870, or Instructor permission. Cross-listed with: CS 6870, STAT 6870.",
+    "sections": [
+      {
+        "term": "Fall 2026",
+        "srcdb": "202609",
+        "crn": "96146",
+        "meets": "W 12-3p",
+        "instructor": "S. Zhang"
+      }
+    ]
+  },
+  "CSYS 7980": {
+    "description": "Introduction to the theory of regionalized variables, geostatistics (kriging techniques), special topics in multivariate analysis. Applications to real data subject to spatial variation are emphasized. Prerequisites: Programming skills (such as in Python or Matlab) and content knowledge of multivariate statistics (such as STAT 5230) are assumed. Cross-listed with: CEE 7980, STAT 7980.",
+    "sections": []
+  },
+  "MATH 5230": {
+    "description": "Linear and nonlinear systems, approximate solutions, existence, uniqueness, dependence on initial conditions, stability, asymptotic behavior, singularities, self-adjoint problems. Prerequisite: Graduate student or Instructor permission; knowledge of differential equations required.",
+    "sections": [
+      {
+        "term": "Fall 2026",
+        "srcdb": "202609",
+        "crn": "95542",
+        "meets": "TTh 2:50-4:05p",
+        "instructor": "J. Yang"
+      }
+    ]
+  },
+  "ME 6550": {
+    "description": "Computational modeling of the physics and dynamical behavior of matter composed of diverse length and time scales. Molecular simulation. Coarse-graining. Coupled atomistic/continuum methods.",
+    "sections": []
+  },
+  "PA 6060": {
+    "description": "The study and application of system-level public policy frameworks, theories and models to contemporary policy problems and solutions.",
+    "sections": []
+  },
+  "PA 6080": {
+    "description": "Explores and analyzes normative, descriptive and prescriptive decision making models. Focuses on systems-level thinking to impart problem-solving skills in complex decision-making contexts. Emphasis placed on imparting cutting edge skills, enabling students to design and implement multiple criteria decision analysis models.",
+    "sections": []
+  },
+  "PBIO 5750": {
+    "description": "Survey of the drivers and mechanisms of climate change and its impacts on the distribution and abundance of species and ecological communities. Uses a systems approach that places global change ecology in the context of the Earth system, emphasizing the interactions and feedbacks within and between the ecological and climate systems. Credit not awarded for both PBIO 5750 and PBIO 3750.",
+    "sections": []
+  },
+  "PBIO 5940": {
+    "description": "Provides an introduction to process-based modeling of ecological systems. Explores system dynamics and agent-based approaches to modeling ecological systems and processes. Includes a focus on the system dynamics modeling software Stella and the agent-based language Netlogo. Credit not awarded for both PBIO 5940 and PBIO 3940. Prerequisite: BCOR 2100 or Instructor permission.",
+    "sections": []
+  },
+  "PBIO 6940": {
+    "description": "Introduction to data modeling using R statistical computing language, emphasizing likelihood, information theoretic, and Bayesian approaches to inference. Course focuses on the R language as a tool for data modeling. Class time divided between lectures that introduce statistical concepts and R language constructs and labs that stress applications. Successful participants will have some statistical background. Prerequisite: A course in introductory Statistics.",
+    "sections": []
+  },
+  "PHYS 5400": {
+    "description": "Following a review of thermodynamics, covers the fundamentals of classical and quantum statistical mechanics including ensembles, identical particles, Bose and Fermi statistics, phase-transitions and critical phenomena, renormalization group, irreversible processes and fluctuations. Prerequisite: Graduate student or undergraduate student with Instructor permission; knowledge of PHYS 3400 topics strongly recommended.",
+    "sections": [
+      {
+        "term": "Fall 2026",
+        "srcdb": "202609",
+        "crn": "95655",
+        "meets": "MWF 3:30-4:20p",
+        "instructor": "H. Yue"
+      }
+    ]
+  },
+  "STAT 5510": {
+    "description": "Distributions of random variables and functions of random variables. Expectations, stochastic independence, sampling and limiting distributions (central limit theorems). Concepts of random number generation. Prerequisites: Graduate student or Instructor permission; content knowledge of MATH 2248, STAT 2510 assumed.",
+    "sections": [
+      {
+        "term": "Fall 2026",
+        "srcdb": "202609",
+        "crn": "92971",
+        "meets": "TTh 10:05-11:20a",
+        "instructor": "J. Young"
+      }
+    ]
+  },
+  "STAT 6300": {
+    "description": "Introduction to Bayesian inference. Posterior inference, predictive distributions, prior distribution selection. MCMC algorithms. Hierarchical models. Model checking and selection. Use of computer software. Prerequisite: Content knowledge of STAT 5510 assumed.",
+    "sections": [
+      {
+        "term": "Fall 2026",
+        "srcdb": "202609",
+        "crn": "92973",
+        "meets": "TTh 1:15-2:30p",
+        "instructor": "J. Young"
+      }
+    ]
+  }
+}

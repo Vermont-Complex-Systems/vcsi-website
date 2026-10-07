@@ -474,7 +474,7 @@ details.accordion {
 	background: #f5f5f5;
 }
 
-details.accordion summary {
+details.accordion > summary {
 	font-family: var(--serif);
 	font-size: 1.1rem;
 	font-weight: 600;
@@ -483,18 +483,18 @@ details.accordion summary {
 	list-style: none;
 }
 
-details.accordion summary::-webkit-details-marker {
+details.accordion > summary::-webkit-details-marker {
 	display: none;
 }
 
-details.accordion summary::before {
+details.accordion > summary::before {
 	content: '▶';
 	display: inline-block;
 	margin-right: 0.5rem;
 	transition: transform 0.2s ease;
 }
 
-details.accordion[open] summary::before {
+details.accordion[open] > summary::before {
 	transform: rotate(90deg);
 }
 
