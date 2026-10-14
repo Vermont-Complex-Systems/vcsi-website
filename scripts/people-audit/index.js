@@ -4,25 +4,24 @@
 //
 //   npm run people:audit                    all groups in sources/
 //   npm run people:audit -- joint-lab       only the named group(s)
-//   npm run people:audit -- --write         also add new people to the
-//                                           students-crawl review sheet
 //
-// Without --write nothing is written anywhere: the output is a list of
-// suggestions for a person to apply in the VCSI-web SharePoint workbook.
-// Scripts never write to the students sheet itself. See README.md.
+// Nothing is written anywhere: the output is a list of suggestions, for the
+// weekly CI summary. To decide on them, use `npm run people:review`.
+// See README.md.
 
 import { appendFileSync } from 'fs';
-import { csvFormatRows } from 'd3-dsv';
 import { affiliationsOf, belongsTo, isAlumni, isShown, uniqueById } from '../../src/lib/people.js';
 import { findMatches, slugify } from './match.js';
-import { loadSheets, loadSources, runSource, REVIEW_SHEET } from './load.js';
+import { loadSheets, loadSources, runSource, loadDecisions } from './load.js';
 
 // A group page that hasn't changed in this long can't tell us who left.
 const FRESH_FOR_DAYS = 180;
 
-const { students, groups, everyone, review } = loadSheets();
-
-const WRITE = process.argv.includes('--write');
+const { students, groups, everyone } = loadSheets();
+// New people someone already decided on (yes, no or ask PI) aren't repeated
+const decided = new Set(
+	[...loadDecisions().keys()].filter((k) => k.endsWith('|add')).map((k) => k.split('|')[0])
+);
 
 const today = new Date().toISOString().slice(0, 10);
 
@@ -31,23 +30,6 @@ const sources = await loadSources(process.argv.slice(2).filter((a) => !a.startsW
 // --------------------------------- //
 // Audit one group
 // --------------------------------- //
-
-/** A students-sheet row for someone new, for the review sheet. */
-function newRow(person, group) {
-	return {
-		id: slugify(person.name),
-		name: person.name,
-		position: person.role.replace(/\.$/, ''),
-		status: 'active',
-		primaryAffiliation: group,
-		email: person.email || '',
-		url: person.url || '',
-		lastUpdated: today
-	};
-}
-
-const asCsv = (rows) =>
-	csvFormatRows(rows.map((row) => students.columns.map((col) => row[col] ?? '')));
 
 function audit(source, { lastChanged, people }) {
 	const group = source.group;
@@ -97,11 +79,10 @@ function audit(source, { lastChanged, people }) {
 					update.push(
 						`**${person.name}** is listed as staff (${person.role}) but is in neither sheet. Add to members?`
 					);
-				} else if (findMatches(person.name, review).level) {
-					// Already in the review sheet: waiting for a decision, or declined
+				} else if (decided.has(slugify(person.name))) {
 					inReview++;
 				} else {
-					add.push(newRow(person, group));
+					add.push(person);
 				}
 			} else if (matched.members.length > 0 || currentHere) {
 				// Already on the site. Members (faculty, staff) aren't tied to a group row.
@@ -161,7 +142,6 @@ const out = [
 	'Suggestions only: review each one, then make the change in the VCSI-web SharePoint workbook.',
 	''
 ];
-const allNew = [];
 
 for (const source of sources) {
 	const groupName = groups.find((g) => g.id === source.group)?.name || source.group;
@@ -181,16 +161,12 @@ for (const source of sources) {
 	);
 
 	if (r.add.length > 0) {
-		allNew.push(...r.add);
 		out.push(
-			WRITE
-				? `**New on the page.** Being added to the ${REVIEW_SHEET} sheet (see the end of this report):`
-				: `**New on the page.** Add to the ${REVIEW_SHEET} sheet, then ask the PI; move approved rows into students. Rows are in sheet column order (run with --write to add them automatically):`,
+			'**New on the page, not in our sheets.** Decide with `npm run people:review`:',
+			'',
+			...r.add.map((p) => `- ${p.name}, ${p.role.replace(/\.$/, '')}`),
 			''
 		);
-		out.push(...r.add.map((row) => `- ${row.name}, ${row.position}`));
-		if (!WRITE) out.push('', '```csv', asCsv(r.add), '```');
-		out.push('');
 	}
 	for (const [title, items] of [
 		['Sheet and page disagree', r.update],
@@ -204,27 +180,10 @@ for (const source of sources) {
 		out.push('Nothing to update.', '');
 	}
 	if (r.inReview > 0) {
-		out.push(
-			`_${r.inReview} more on the page are already in ${REVIEW_SHEET}, waiting for a decision or declined._`,
-			''
-		);
+		out.push(`_${r.inReview} more new on the page already have a decision in people-review._`, '');
 	}
 	if (r.hidden.length > 0) {
 		out.push(`_Hidden on the site (show = 0): ${r.hidden.map((s) => s.name).join(', ')}._`, '');
-	}
-}
-
-if (WRITE && allNew.length > 0) {
-	const { appendRows } = await import('./sharepoint.js');
-	try {
-		const { label, written, skipped } = await appendRows(REVIEW_SHEET, allNew);
-		out.push('## Added to the workbook', '');
-		if (written.length > 0) out.push(`Added to ${label}: ${written.join(', ')}.`);
-		if (skipped.length > 0) out.push(`Not added: ${skipped.join('; ')}.`);
-		out.push('');
-	} catch (e) {
-		out.push('## Added to the workbook', '', `Nothing written: ${e.message}`, '');
-		process.exitCode = 1;
 	}
 }
 

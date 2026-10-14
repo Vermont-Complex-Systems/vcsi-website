@@ -32,6 +32,11 @@ static/assets/people/students/*
 drizzle/
 src/data/playlist.json
 
-# people:crawl output
+# people:crawl / people:resolve / people:review output. Decisions and their
+# notes are about named people, so they stay out of this public repo; the
+# people-review sheet in SharePoint is where they're shared.
 people-crawl.csv
 crawled-photos/
+people-resolved.csv
+people-decisions.csv
+src/data/people-review.csv

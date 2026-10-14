@@ -21,7 +21,7 @@ import { csvFormatRows } from 'd3-dsv';
 import sharp from 'sharp';
 import { affiliationsOf, belongsTo, isAlumni, isShown, uniqueById } from '../../src/lib/people.js';
 import { findMatches, slugify } from './match.js';
-import { loadSheets, loadSources, runSource } from './load.js';
+import { loadSheets, loadSources, runSource, groupsOf as groupsOfRow } from './load.js';
 
 const SHEET_NAME = 'crawled-people';
 const OUT_FILE = 'people-crawl.csv';
@@ -64,12 +64,7 @@ const { students, groups, everyone } = loadSheets();
 const sources = await loadSources(process.argv.slice(2).filter((a) => !a.startsWith('-')));
 const today = new Date().toISOString().slice(0, 10);
 
-// Students list their groups; members (faculty, staff) lead them via the
-// groups sheet's PI column. A members row's primaryAffiliation is an institution.
-const groupsOf = (row) =>
-	row.sheet === 'members'
-		? groups.filter((g) => (g.PI || '').split(/\s+/).includes(row.id)).map((g) => g.id)
-		: affiliationsOf(row);
+const groupsOf = (row) => groupsOfRow(row, groups);
 
 /** One word for filtering in Excel. */
 function compare(onPage, row, group) {

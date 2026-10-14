@@ -22,7 +22,10 @@
 		"courses:fetch": "node scripts/fetch-courses.js",
 		"data:check": "node scripts/check-data.js",
 		"people:audit": "node scripts/people-audit/index.js",
-		"people:crawl": "node scripts/people-audit/crawl.js"
+		"people:crawl": "node scripts/people-audit/crawl.js",
+		"people:resolve": "node scripts/people-audit/resolve.js",
+		"people:review": "node scripts/people-audit/resolve.js && node scripts/people-audit/review.js",
+		"people:apply": "node scripts/people-audit/resolve.js && node scripts/people-audit/apply.js"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-static": "^3.0.8",

@@ -1,20 +1,99 @@
 # People audit
 
-Compares each group's own website with the students and members sheets, and
-prints suggestions for a person to apply in the VCSI-web SharePoint workbook.
+Keeps the students and members sheets in the VCSI-web SharePoint workbook in
+step with each group's own website. Lab pages are read by one small scraper per
+group (`sources/`); everything they find is a suggestion. No script ever writes
+to a sheet or folder the site is built from (`students`, `members`, `groups`,
+…, `assets/headshots/students`); `sharepoint.js` refuses. The faculty-facing
+explanation is in [docs/for-faculty.md](../../docs/for-faculty.md).
+
+## Reviewing people
+
+```sh
+npm run people:resolve              # proposals for the focus groups -> people-resolved.csv
+npm run people:review               # resolve, then decide on each proposal in the terminal
+npm run people:review -- --all      # also revisit decisions already made
+npm run people:review -- --sheet    # resolve, then publish everything as the people-review sheet
+npm run people:apply                # dry run: the exact changes your yes/hide decisions make
+npm run people:apply -- --write     # make them in students-curated and members
+```
+
+`people:resolve` merges each person across lab pages and both sheets and
+proposes one action: `add`, `reactivate?`, `add group`, `remove group`,
+`mark alumni`, `end affiliation?`, `not on lab page` or `same person?`, with
+the reason. People who already agree, and former lab members we never listed,
+are left out. It covers the core labs in `FOCUS` (resolve.js) unless you name
+groups.
+
+`people:review` walks through the open proposals: `y` yes, `n` no (don't ask
+again), `a` ask PI, `s` skip, `q` quit. Each answer is saved straight away to
+`people-decisions.csv`, so you can stop and resume. A decision belongs to a
+person and an action; if new evidence changes the proposed action, it comes
+back.
+
+```mermaid
+flowchart LR
+    pages["Lab websites"] --> resolve["people:resolve<br/>(one proposal per person)"]
+    resolve --> you["You: people:review<br/>(yes / no / ask PI)"]
+    you --> review[("people-review sheet<br/>+ headshots/students-crawl")]
+    review -- "ask PI rows" --> pi["PIs"]
+    pi --> review
+    review -- "yes / hide:<br/>people:apply" --> sheets[("students-curated<br/>+ members")]
+    ref[("students<br/>(reference, unchanged)")] --> site["vermontcomplexsystems.org"]
+    sheets -. "after the switch" .-> site
+```
+
+`people:apply` makes the approved (`yes` / `hide`) changes. Student changes go
+to **`students-curated`**, created on the first `--write` as a copy of
+`students`; **`students` itself is kept unchanged as a reference**, and the
+site keeps reading it until it is switched over to `students-curated`. Member
+changes go to `members`. Every cell is re-checked just before writing, so
+edits made in SharePoint meanwhile win, and running it twice changes nothing.
+`hide` adds the person with `show = 0`. Approved photos stay in
+`assets/headshots/students-crawl` until the switch (`--photos` copies them into
+`assets/headshots/students`). Once applied, the curated sheet agrees with the
+lab page and the proposal disappears: the audit and resolve read
+`students-curated` once it exists.
+
+Decisions live in two places: your local `people-decisions.csv`, and the
+`people-review` sheet once published (exported to `src/data/people-review.csv`
+by `msgraph:fetch`, so decisions made in SharePoint count too). The most
+recently decided wins. All three files are gitignored: notes about named people
+don't belong in this public repo.
+
+To hide someone already in `students` without deleting the row, set an
+optional `show` column to `0` (blank or `1` = shown; see `isShown()` in
+`src/lib/people.js`).
+
+## How it decides
+
+- **Matching is by name**, since every lab site has its own slugs. Small
+  differences count as the same person (middle names, Will/William, Jim/James,
+  St. Onge/St-Onge). Closer calls (Erik Weis/Weiss) become `same person?`.
+- **Lab membership is not VCSI affiliation.** Someone former on one lab page
+  but current on another (PhD in one lab, postdoc in another) is still here:
+  `remove group`, not `mark alumni`. Only someone former everywhere we look is
+  proposed as alumni.
+- **Departures need a fresh page** (changed in the last 180 days,
+  `FRESH_FOR_DAYS`). A stale page says nothing about who left; its adds are
+  flagged as coming from a stale page.
+- **Faculty and staff are never moved** based on a lab page. Postdocs and
+  researchers in the members sheet who are former on every lab page get
+  `end affiliation?`. `retired` in the members sheet means they've left.
+- **Former lab members we never listed are left out.** We don't backfill alumni.
+- **A source that fails or returns nobody is skipped** with a note, never read
+  as "everyone left".
+
+## Weekly report
 
 ```sh
 npm run people:audit                # every group in sources/
 npm run people:audit -- joint-lab   # one group
-npm run people:audit -- --write     # also add new people to the students-crawl review sheet
 ```
 
-Without `--write` it never writes anywhere. No script ever writes to a sheet
-or folder the site is built from (`students`, `members`, `groups`, …,
-`assets/headshots/students`); `sharepoint.js` refuses. It also runs in CI
-(report only) after the SharePoint fetch, and the report appears on the GitHub
-Actions run summary page. The faculty-facing explanation is in
-[docs/for-faculty.md](../../docs/for-faculty.md).
+Runs in CI after the SharePoint fetch; the report appears on the GitHub Actions
+run summary page. Same evidence, per group, as text. New people who already
+have a decision aren't repeated. It never writes anything.
 
 ## The raw comparison
 
@@ -49,51 +128,7 @@ manual curation added or left out.
 
 `--sheet` creates the worksheet, or replaces its contents on later runs. It
 refuses to overwrite a sheet that doesn't start with its `group, name, comparison` columns. `msgraph:fetch` skips it
-(see `EXCLUDED_SHEETS`), so it never becomes site data.
-
-## How it decides
-
-- **Matching is by name**, since every lab site has its own slugs. Small
-  differences count as the same person (middle names, Will/William,
-  St. Onge/St-Onge). Closer calls (Erik Weis/Weiss, Andi/Andrea) are listed
-  under "Same person?" rather than guessed.
-- **Everyone new goes to the review sheet.** Someone current on the lab page
-  who is in neither people sheet gets a pre-filled row for `students-crawl`
-  (pasted by hand, or appended by `--write`). Their PI decides; approved rows
-  are moved into `students` by hand.
-- **The review sheet is the memory.** People already in `students-crawl`,
-  waiting or declined, aren't suggested again; the report just counts them.
-- **Departures are only suggested when the lab page is fresh** (changed in the
-  last 180 days, see `FRESH_FOR_DAYS`). A stale page says nothing about who left.
-- **Members (faculty, staff) are not moved between statuses** based on a lab
-  page. The one exception is a postdoc listed as former on the lab page who has
-  no active row elsewhere: they get a "still at VCSI?" question.
-- **Former members who aren't in our sheets are not suggested.** We don't
-  backfill lab alumni.
-- **A source that fails or returns nobody is skipped** with a note, never read
-  as "everyone left".
-
-## Review workflow
-
-```mermaid
-flowchart LR
-    pages["Lab websites"] --> audit["people:audit --write<br/>people:crawl --upload"]
-    audit -- "new people" --> review[("students-crawl sheet<br/>+ headshots/students-crawl")]
-    review -- "PI says yes:<br/>row and photo moved by hand" --> students[("students sheet<br/>+ headshots/students")]
-    review -. "PI says no:<br/>stays, never re-suggested" .-> review
-    students --> site["vermontcomplexsystems.org"]
-```
-
-The review sheet and folder are where VCSI-side edits live before anything is
-published: fix a name, a role or a photo there, and later crawls leave it be.
-
-`--write` matches columns by header name, so the review sheet can be a copy of
-`students`. It checks names against the live review sheet, not the local CSV,
-so running it twice adds nothing.
-
-To hide someone already in `students` without deleting the row, set an
-optional `show` column to `0` (blank or `1` = shown; see `isShown()` in
-`src/lib/people.js`).
+(only sheets in `EXPORTED_SHEETS` in `scripts/fetch-msgraph.js` are), so it never becomes site data.
 
 ## Adding a group
 

@@ -4,30 +4,74 @@ import { readFileSync, readdirSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { csvParse } from 'd3-dsv';
+import { affiliationsOf } from '../../src/lib/people.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const DATA_DIR = join(__dirname, '..', '..', 'src', 'data');
+const ROOT = join(__dirname, '..', '..');
+const DATA_DIR = join(ROOT, 'src', 'data');
 
-// Where `people:audit -- --write` puts new people for review. A person moves
-// approved rows into students; scripts never write to students itself.
-export const REVIEW_SHEET = 'students-crawl';
+// Proposals and decisions, shared with others as this SharePoint sheet
+// (`npm run people:review -- --sheet`). A person applies approved rows to
+// students or members by hand; scripts never write to those.
+export const REVIEW_SHEET = 'people-review';
+// Approved changes to students go here (`npm run people:apply`); the students
+// sheet itself is kept unchanged as a reference
+export const CURATED_SHEET = 'students-curated';
+// Decisions made locally with `npm run people:review` (gitignored)
+export const DECISIONS_FILE = join(ROOT, 'people-decisions.csv');
+export const DECISION_COLUMNS = ['id', 'name', 'action', 'decision', 'note', 'decided'];
 
 /** The people and groups sheets, as exported to src/data/ by msgraph:fetch. */
 export function loadSheets() {
 	const load = (file) => csvParse(readFileSync(join(DATA_DIR, file), 'utf8'));
 	const members = load('members.csv');
-	const students = load('students.csv');
+	// The curated copy, once it exists, is the up-to-date list of students
+	const students = existsSync(join(DATA_DIR, `${CURATED_SHEET}.csv`))
+		? load(`${CURATED_SHEET}.csv`)
+		: load('students.csv');
 	const groups = load('groups.csv');
-	// Exported like the others by msgraph:fetch, once the sheet exists
-	const review = existsSync(join(DATA_DIR, `${REVIEW_SHEET}.csv`))
-		? load(`${REVIEW_SHEET}.csv`)
-		: [];
 	// Both people sheets, each row tagged with where it came from
 	const everyone = [
 		...students.map((row) => ({ ...row, sheet: 'students' })),
 		...members.map((row) => ({ ...row, sheet: 'members' }))
 	];
-	return { members, students, groups, everyone, review };
+	return { members, students, groups, everyone };
+}
+
+/**
+ * Decisions on proposals, keyed by `${id}|${action}`: from the local file and
+ * from the people-review sheet (exported by msgraph:fetch). When both have
+ * one, the more recently decided wins.
+ * @returns {Map<string, {decision: string, note: string, decided: string}>}
+ */
+export function loadDecisions() {
+	const decisions = new Map();
+	const sheetExport = join(DATA_DIR, `${REVIEW_SHEET}.csv`);
+	for (const file of [sheetExport, DECISIONS_FILE]) {
+		if (!existsSync(file)) continue;
+		for (const row of csvParse(readFileSync(file, 'utf8'))) {
+			const decision = (row.decision || '').trim().toLowerCase();
+			if (!row.id || !row.action || !decision) continue;
+			const key = `${row.id}|${row.action}`;
+			const prior = decisions.get(key);
+			if (!prior || (row.decided || '') >= prior.decided) {
+				decisions.set(key, { decision, note: row.note || '', decided: row.decided || '' });
+			}
+		}
+	}
+	return decisions;
+}
+
+/**
+ * Group ids a sheet row belongs to. Students list their groups; members
+ * (faculty, staff) lead them via the groups sheet's PI column, since a members
+ * row's primaryAffiliation is an institution.
+ * @param {{sheet: string, id: string}} row tagged as in loadSheets().everyone
+ */
+export function groupsOf(row, groups) {
+	return row.sheet === 'members'
+		? groups.filter((g) => (g.PI || '').split(/\s+/).includes(row.id)).map((g) => g.id)
+		: affiliationsOf(row);
 }
 
 /**
