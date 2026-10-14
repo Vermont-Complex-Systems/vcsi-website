@@ -14,8 +14,22 @@ const DATA_DIR = join(__dirname, '..', 'src', 'data');
 
 const EXCEL_EXTENSIONS = ['.xlsx', '.xlsm', '.xls'];
 
-// Sheets to exclude from export (use sanitized names, lowercase with hyphens)
-const EXCLUDED_SHEETS = ['geo-story-1', 'electives'];
+// Sheets exported from the main workbook (sanitized names). src/data/ is
+// committed to a public repo by CI, so only sheets listed here leave
+// SharePoint; anything else people keep in the workbook (budgets, personnel,
+// scratch copies) stays private. Add a sheet here when the site needs it.
+// people-review is gitignored: it's read by `npm run people:resolve`.
+const EXPORTED_SHEETS = [
+  'members',
+  'students',
+  'students-curated',
+  'groups',
+  'projects',
+  'misc',
+  'events',
+  'course-urls',
+  'people-review',
+];
 
 function createClient() {
   const credential = new ClientSecretCredential(
@@ -130,11 +144,14 @@ async function main() {
       .api(`/drives/${driveId}/items/${excelFile.id}/workbook/worksheets`)
       .get();
 
+    // Every sheet of the publications workbook is a DOI list for the site
+    const isPublications = sanitizeFilename(excelFile.name).includes('publication');
+
     for (const sheet of worksheets.value) {
       const sheetName = sanitizeFilename(sheet.name);
 
-      if (EXCLUDED_SHEETS.includes(sheetName)) {
-        console.log(`  Sheet: ${sheet.name} (skipped - in exclusion list)`);
+      if (!isPublications && !EXPORTED_SHEETS.includes(sheetName)) {
+        console.log(`  Sheet: ${sheet.name} (skipped - not in EXPORTED_SHEETS)`);
         continue;
       }
 

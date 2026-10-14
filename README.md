@@ -36,7 +36,11 @@ Built with modern web technologies, this site automatically integrates research 
 
 ## 🤝 Contributing
 
-To modify information about people, projects, or publications, visit the `VCSI-web` sharepoint site.
+To modify information about people, projects, or publications, visit the `VCSI-web` sharepoint site. Faculty wondering where their lab's people and papers come from: see [docs/for-faculty.md](docs/for-faculty.md).
+
+After editing the workbook, `npm run data:check` lists anything the site can't use (unknown group ids, duplicate rows, shifted columns, typos in ids), with the sheet and row to fix. The same report appears on each GitHub Actions run summary.
+
+`npm run people:audit` compares group websites with the people sheets and suggests updates; see [scripts/people-audit/README.md](scripts/people-audit/README.md).
 
 
 ## 📄 License

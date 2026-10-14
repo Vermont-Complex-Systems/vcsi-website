@@ -1,10 +1,11 @@
 <script>
     import membersData from '$data/members.csv';
     import studentData from '$data/students.csv';
+    import { isShown } from '$lib/people.js';
 
     let { memberIds } = $props();
 
-    const allPeople = [...membersData, ...studentData];
+    const allPeople = [...membersData, ...studentData.filter(isShown)];
 
     const members = memberIds
         .split(' ')

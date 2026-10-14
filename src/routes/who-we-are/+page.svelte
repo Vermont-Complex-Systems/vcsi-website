@@ -5,6 +5,7 @@
     import PositionFilter from '$lib/components/PositionFilter.svelte';
     import Spinner from "$lib/components/Spinner.svelte";
     import { getMembers } from '../data.remote'
+    import { statusOf } from '$lib/people.js';
 
     let selectedPosition = $state('All');
 
@@ -14,7 +15,7 @@
 
     function filterMembers(members, position) {
         // Filter out vcsi and inactive members, then apply position filter
-        let filtered = members.filter(m => m.id !== 'vcsi' && m.status === 'active');
+        let filtered = members.filter(m => m.id !== 'vcsi' && statusOf(m) === 'active');
         if (position !== 'All') {
             filtered = filtered.filter(m => m.position === position);
         }

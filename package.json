@@ -19,13 +19,20 @@
 		"compare-dois": "node scripts/compare-dois.js",
 		"msgraph:fetch": "node scripts/fetch-msgraph.js",
 		"msgraph:assets": "node scripts/fetch-assets.js",
-		"courses:fetch": "node scripts/fetch-courses.js"
+		"courses:fetch": "node scripts/fetch-courses.js",
+		"data:check": "node scripts/check-data.js",
+		"people:audit": "node scripts/people-audit/index.js",
+		"people:crawl": "node scripts/people-audit/crawl.js",
+		"people:resolve": "node scripts/people-audit/resolve.js",
+		"people:review": "node scripts/people-audit/resolve.js && node scripts/people-audit/review.js",
+		"people:apply": "node scripts/people-audit/resolve.js && node scripts/people-audit/apply.js"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-static": "^3.0.8",
 		"@sveltejs/enhanced-img": "^0.10.4",
 		"@sveltejs/kit": "^2.22.0",
 		"@sveltejs/vite-plugin-svelte": "^6.0.0",
+		"node-html-parser": "^9.0.4",
 		"prettier": "^3.4.2",
 		"prettier-plugin-svelte": "^3.3.3",
 		"svelte": "^5.0.0",

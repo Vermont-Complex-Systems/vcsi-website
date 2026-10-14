@@ -5,6 +5,7 @@
   import PapersGrid from "$lib/components/PapersGrid.svelte";
   import PeopleGrid from './PeopleGrid.svelte';
   import TopicsChart from './TopicsChart.svelte';
+  import { belongsTo, isAlumni, isShown, uniqueById } from '$lib/people.js';
 
   let { group } = $props();
 
@@ -14,7 +15,7 @@
   let selectedTopic = $state(null);
 
   // Get students belonging to this group
-  const groupStudents = studentsData.filter(s => s.primaryAffiliation === id && s.status !== 'Alumni');
+  const groupStudents = uniqueById(studentsData.filter(s => isShown(s) && belongsTo(s, id) && !isAlumni(s)));
 
   const getLinkHTML = () => {
     const u = url ? `out their <a href="${url}">website</a>` : undefined;
