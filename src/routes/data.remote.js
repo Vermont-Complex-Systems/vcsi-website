@@ -7,7 +7,7 @@ import { belongsTo, isShown, normalizeOpenAlexId, statusOf } from '$lib/people.j
 
 import membersData from '$data/members.csv'
 import groupsData from '$data/groups.csv'
-import studentsData from '$data/students.csv'
+import studentsData from '$lib/students.js'
 import massMutualPapersData from '$data/publications/mass-mutual.csv';
 import tgirPapersData from '$data/publications/tgir.csv';
 import lemursPaperData from '$data/publications/lemurs.csv';

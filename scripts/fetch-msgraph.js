@@ -206,4 +206,9 @@ async function main() {
   console.log('\nDone!');
 }
 
-main().catch(console.error);
+// Exit non-zero on failure (expired client secret, network...), so CI stops
+// instead of building and deploying with stale data
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

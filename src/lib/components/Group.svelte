@@ -1,7 +1,7 @@
 <script>
   import { base } from '$app/paths';
   import membersData from '$data/members.csv';
-  import studentsData from '$data/students.csv';
+  import studentsData from '$lib/students.js';
   import PapersGrid from "$lib/components/PapersGrid.svelte";
   import PeopleGrid from './PeopleGrid.svelte';
   import TopicsChart from './TopicsChart.svelte';
@@ -14,8 +14,19 @@
   let sortBy = $state('citations');
   let selectedTopic = $state(null);
 
-  // Get students belonging to this group
-  const groupStudents = uniqueById(studentsData.filter(s => isShown(s) && belongsTo(s, id) && !isAlumni(s)));
+  // Our Team: the PIs first, then everyone listed in the group (students and
+  // postdocs). People in the members sheet get their member photo and link
+  // to their profile; students link to their own page.
+  const memberIds = new Set(membersData.map(m => m.id));
+  const pis = (PI || '').split(' ').filter(Boolean)
+    .map(pid => membersData.find(m => m.id === pid))
+    .filter(Boolean)
+    .map(m => ({ ...m, isPI: true }));
+  const groupStudents = uniqueById(studentsData.filter(s =>
+    isShown(s) && belongsTo(s, id) && !isAlumni(s) && !pis.some(p => p.id === s.id)
+  ));
+  const team = [...pis, ...groupStudents];
+  const isMember = (person) => memberIds.has(person.id);
 
   const getLinkHTML = () => {
     const u = url ? `out their <a href="${url}">website</a>` : undefined;
@@ -53,19 +64,19 @@
   </div>
 </div>
 
-{#if groupStudents.length > 0}
+{#if team.length > 0}
   <div class="content">
     <section>
       <h2>Our Team</h2>
       <PeopleGrid
-        people={groupStudents}
-        assetFolder="students"
-        href={(s) => s.url}
-        external
+        people={team}
+        assetFolder={(p) => (isMember(p) ? 'members' : 'students')}
+        href={(p) => (isMember(p) ? `${base}/who-we-are/${p.id}` : p.url)}
+        external={(p) => !isMember(p)}
       >
-        {#snippet card(student)}
-          <h4>{student.name}</h4>
-          <p>{student.position}</p>
+        {#snippet card(person)}
+          <h4>{person.name}</h4>
+          <p>{person.isPI ? 'Principal investigator' : person.position}</p>
         {/snippet}
       </PeopleGrid>
     </section>

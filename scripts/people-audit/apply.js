@@ -10,8 +10,8 @@
 //   ... --write --photos                 also copy approved photos into the site's
 //                                        headshots folder (when switching the site over)
 //
-// yes   apply the proposal; new people get their photo copied from the review
-//       folder into the site's headshots folder
+// yes   apply the proposal (new postdocs go to members, other new people to
+//       students-curated)
 // hide  add the person with show = 0 (adds the show column if missing)
 // Each cell is re-checked just before writing (see applyToSiteSheet), so an
 // edit made in SharePoint since the review wins. Running it twice is harmless.
@@ -89,6 +89,27 @@ function change(sheet, id, column, expect, value) {
 for (const r of approved) {
 	switch (r.action) {
 		case 'add': {
+			// Postdocs are listed with faculty and staff on Who We Are, from members
+			if (/postdoc/i.test(r.role_on_lab_page)) {
+				if (findMatches(r.name, sheets.members.rows).level) {
+					notes.push(`${r.name}: already in members`);
+					break;
+				}
+				plan.members.append.push({
+					id: r.id,
+					name: r.name,
+					position: 'Postdoctoral researcher',
+					status: 'active',
+					primaryAffiliation: 'University of Vermont',
+					email: r.email,
+					url: r.url
+				});
+				if (r.photo_url)
+					notes.push(
+						`${r.name}: added to members; their photo goes in static/common/assets/members`
+					);
+				break;
+			}
 			if (findMatches(r.name, sheets.students.rows).level) {
 				notes.push(`${r.name}: already in students`);
 				break;

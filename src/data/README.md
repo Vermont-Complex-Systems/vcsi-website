@@ -41,10 +41,15 @@ flowchart LR
 5. **Curate** (`npm run people:apply`). Approved changes are written to the
    `students-curated` sheet, which becomes `students-curated.csv` here.
 
-The `students` sheet is the hand-made list we started from. It is kept
-unchanged as a reference, and the site reads it until it's switched over to
-`students-curated`. Whether someone appears on the site is the `show` column:
-blank or `1` shows them, `0` hides them.
+The site shows `students-curated` (chosen in `src/lib/students.js`). The
+`students` sheet is the hand-made list we started from, kept unchanged as a
+reference. Whether someone appears is the `show` column: blank or `1` shows
+them, `0` hides them; we show master's students and above.
+
+Postdocs are in the members sheet, so they're on Who We Are rather than the
+students page, but they keep their row in `students-curated` so they still
+appear on their lab's page. A group's "Our Team" lists its PIs (from the groups
+sheet) first, then everyone in `students-curated` for that group.
 
 The details (matching rules, adding a lab, photos) are in
 [scripts/people-audit/README.md](../../scripts/people-audit/README.md). How this
@@ -55,8 +60,8 @@ is explained to faculty is in [docs/for-faculty.md](../../docs/for-faculty.md).
 | File                       | Sheet             | Used for                                                  |
 | -------------------------- | ----------------- | --------------------------------------------------------- |
 | `members.csv`              | members           | Faculty, staff and affiliates (Who We Are, profile pages) |
-| `students.csv`             | students          | Students on the site today; the reference list            |
-| `students-curated.csv`     | students-curated  | The reviewed list of students (see above)                 |
+| `students.csv`             | students          | The hand-made list we started from (reference only)       |
+| `students-curated.csv`     | students-curated  | The students (and postdocs) the site shows (see above)    |
 | `groups.csv`               | groups            | Research groups and their websites                        |
 | `projects.csv`, `misc.csv` | projects, misc    | Projects and other initiatives, with member ids           |
 | `events.csv`               | events            | Events page                                               |
