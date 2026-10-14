@@ -6,17 +6,22 @@
 	/**
 	 * @type {{
 	 *   people: any[],
-	 *   assetFolder: string,
+	 *   assetFolder: string | ((person: any) => string),
 	 *   card: (person: any) => void,
 	 *   href?: (person: any) => string | undefined,
-	 *   external?: boolean,
+	 *   external?: boolean | ((person: any) => boolean),
 	 *   photoExt?: (person: any) => string
 	 * }}
 	 */
 	let { people, assetFolder, card, href, external = false, photoExt } = $props();
 
+	// Both can be set per person, e.g. a group page mixing members and students
+	const folderOf = (person) =>
+		typeof assetFolder === 'function' ? assetFolder(person) : assetFolder;
+	const isExternal = (person) => (typeof external === 'function' ? external(person) : external);
+
 	const imgSrc = (person) =>
-		`${base}/common/assets/${assetFolder}/${person.id}.${photoExt ? photoExt(person) : 'jpg'}`;
+		`${base}/common/assets/${folderOf(person)}/${person.id}.${photoExt ? photoExt(person) : 'jpg'}`;
 </script>
 
 <div class="people-grid">
@@ -31,8 +36,8 @@
 				<a
 					href={href(person)}
 					class="person-link"
-					target={external ? '_blank' : undefined}
-					rel={external ? 'noopener noreferrer' : undefined}
+					target={isExternal(person) ? '_blank' : undefined}
+					rel={isExternal(person) ? 'noopener noreferrer' : undefined}
 				>
 					<div class="person-photo">
 						<img src={imgSrc(person)} alt={person.name} />

@@ -1,8 +1,9 @@
 <script>
 	import Meta from '$lib/components/Meta.svelte';
 	import PeopleGrid from '$lib/components/PeopleGrid.svelte';
-	import studentsData from '$data/students.csv';
+	import studentsData from '$lib/students.js';
 	import groupsData from '$data/groups.csv';
+	import membersData from '$data/members.csv';
 	import { affiliationsOf, isAlumni, isShown, uniqueById } from '$lib/people.js';
 
 	// Create lookup map: group id -> group name
@@ -24,10 +25,11 @@
 	);
 	const hasPhoto = (s) => s.id && photoExtById[s.id];
 
-	const currentStudents = uniqueById(
-		studentsData.filter((s) => isShown(s) && !isAlumni(s) && hasPhoto(s))
-	);
-	const alumni = uniqueById(studentsData.filter((s) => isShown(s) && isAlumni(s) && hasPhoto(s)));
+	// Postdocs and others in the members sheet are on Who We Are instead
+	const memberIds = new Set(membersData.map((m) => m.id));
+	const listed = (s) => isShown(s) && hasPhoto(s) && !memberIds.has(s.id);
+	const currentStudents = uniqueById(studentsData.filter((s) => listed(s) && !isAlumni(s)));
+	const alumni = uniqueById(studentsData.filter((s) => listed(s) && isAlumni(s)));
 </script>
 
 <Meta

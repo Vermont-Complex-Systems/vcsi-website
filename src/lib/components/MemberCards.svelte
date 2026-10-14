@@ -1,6 +1,6 @@
 <script>
     import membersData from '$data/members.csv';
-    import studentData from '$data/students.csv';
+    import studentData from '$lib/students.js';
     import { isShown } from '$lib/people.js';
 
     let { memberIds } = $props();
