@@ -3,10 +3,15 @@
 	import PeopleGrid from '$lib/components/PeopleGrid.svelte';
 	import studentsData from '$data/students.csv';
 	import groupsData from '$data/groups.csv';
+	import { affiliationsOf, isAlumni, isShown, uniqueById } from '$lib/people.js';
 
 	// Create lookup map: group id -> group name
 	const groupNames = Object.fromEntries(groupsData.map((g) => [g.id, g.name]));
-	const getGroupName = (id) => groupNames[id] || '';
+	const getGroupNames = (student) =>
+		affiliationsOf(student)
+			.map((id) => groupNames[id])
+			.filter(Boolean)
+			.join(', ');
 
 	// Which students actually have a headshot on disk (jpg or png). Resolved at
 	// build time so we can skip students without one instead of showing a broken image.
@@ -19,8 +24,10 @@
 	);
 	const hasPhoto = (s) => s.id && photoExtById[s.id];
 
-	const currentStudents = studentsData.filter((s) => s.status !== 'Alumni' && hasPhoto(s));
-	const alumni = studentsData.filter((s) => s.status === 'Alumni' && hasPhoto(s));
+	const currentStudents = uniqueById(
+		studentsData.filter((s) => isShown(s) && !isAlumni(s) && hasPhoto(s))
+	);
+	const alumni = uniqueById(studentsData.filter((s) => isShown(s) && isAlumni(s) && hasPhoto(s)));
 </script>
 
 <Meta
@@ -48,7 +55,7 @@
 			{#snippet card(student)}
 				<h4>{student.name}</h4>
 				<p>{student.position}</p>
-				<p>{getGroupName(student.primaryAffiliation)}</p>
+				<p>{getGroupNames(student)}</p>
 			{/snippet}
 		</PeopleGrid>
 	</section>

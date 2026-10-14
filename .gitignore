@@ -31,3 +31,7 @@ static/assets/people/students/*
 !openalex.db
 drizzle/
 src/data/playlist.json
+
+# people:crawl output
+people-crawl.csv
+crawled-photos/

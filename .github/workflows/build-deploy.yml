@@ -32,6 +32,17 @@ jobs:
           clientSecret: ${{ secrets.MSGRAPH_CLIENT_SECRET }}
         run: npm run msgraph:fetch
 
+      # Reports spreadsheet problems on the run's summary page; never blocks the deploy
+      - name: Check data
+        run: npm run data:check -- --links
+
+      # Compares group websites with the people sheets; suggestions only, on the run's summary page
+      - name: People audit
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run people:audit
+
       - name: Initialize database schema
         env:
           DATABASE_URL: ./openalex.db

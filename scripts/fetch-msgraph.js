@@ -15,7 +15,8 @@ const DATA_DIR = join(__dirname, '..', 'src', 'data');
 const EXCEL_EXTENSIONS = ['.xlsx', '.xlsm', '.xls'];
 
 // Sheets to exclude from export (use sanitized names, lowercase with hyphens)
-const EXCLUDED_SHEETS = ['geo-story-1', 'electives'];
+// crawled-people is a comparison sheet written by `npm run people:crawl`, not site data
+const EXCLUDED_SHEETS = ['geo-story-1', 'electives', 'crawled-people'];
 
 function createClient() {
   const credential = new ClientSecretCredential(

@@ -6,12 +6,13 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { csvParse } from 'd3-dsv';
 import { db } from '../src/lib/server/db/index.js';
-import { eq, and } from 'drizzle-orm';
+import { eq, and, sql, notInArray } from 'drizzle-orm';
 import {
   openalex_authors,
   openalex_papers,
   paper_authors
 } from '../src/lib/server/db/schema.js';
+import { normalizeOpenAlexId } from '../src/lib/people.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const projectRoot = join(__dirname, '..');
@@ -83,7 +84,9 @@ async function fetchAuthorData(openAlexId) {
   }
 }
 
-// Fetch papers for an author with full pagination
+// Fetch papers for an author with full pagination.
+// `complete` is false when the list may be missing papers (error or page cap),
+// so callers know not to treat a missing paper as removed.
 async function fetchAuthorPapers(openAlexId) {
   console.log(`📄 Fetching papers for: ${openAlexId}`);
 
@@ -119,17 +122,17 @@ async function fetchAuthorPapers(openAlexId) {
       // Safety check - if we're getting too many pages, something might be wrong
       if (page > 50) {
         console.warn(`⚠️  Fetched ${page} pages (${allPapers.length} papers) - this author is very prolific!`);
-        break;
+        return { papers: allPapers, complete: false };
       }
 
     } while (true);
 
     console.log(`📄 Total papers fetched: ${allPapers.length}`);
-    return allPapers;
+    return { papers: allPapers, complete: true };
 
   } catch (error) {
     console.error(`❌ Failed to fetch papers for ${openAlexId}: ${error.message}`);
-    return [];
+    return { papers: [], complete: false };
   }
 }
 
@@ -190,10 +193,16 @@ async function populateOpenAlexDatabase() {
   const membersWithOpenAlex = memberRows.filter(member => member.openAlexId && member.openAlexId.trim());
   console.log(`📚 Found ${membersWithOpenAlex.length} members with OpenAlex IDs`);
 
+  // Ids used to be stored as typed in the sheet, so a few links are lowercase
+  // ("a5078442658") and miss the uppercase ids the site now looks up.
+  await db.update(paper_authors)
+    .set({ author_openalex_id: sql`upper(${paper_authors.author_openalex_id})` })
+    .where(sql`${paper_authors.author_openalex_id} != upper(${paper_authors.author_openalex_id})`);
+
   let skipped = 0;
 
   for (const member of membersWithOpenAlex) {
-    const openAlexId = member.openAlexId.trim();
+    const openAlexId = normalizeOpenAlexId(member.openAlexId);
     console.log(`\n👤 Processing: ${member.name} (${openAlexId})`);
 
     try {
@@ -236,7 +245,7 @@ async function populateOpenAlexDatabase() {
       }
 
       // Fetch all papers (dedup handled by insert logic below)
-      const papersApiData = await fetchAuthorPapers(openAlexId);
+      const { papers: papersApiData, complete } = await fetchAuthorPapers(openAlexId);
       if (papersApiData.length > 0) {
         console.log(`📄 Processing ${papersApiData.length} papers...`);
 
@@ -282,8 +291,21 @@ async function populateOpenAlexDatabase() {
         }
 
         console.log(`✅ Inserted ${newPapers} new papers, ${newLinks} new author links`);
+
+        // Drop links to papers OpenAlex no longer attributes to this author,
+        // e.g. after they removed a misattributed work from their profile.
+        // Only with a complete list; a partial one would drop real papers.
+        if (complete) {
+          const currentIds = papersApiData.map(p => p.id.replace('https://openalex.org/', ''));
+          const removed = await db.delete(paper_authors)
+            .where(and(
+              eq(paper_authors.author_openalex_id, openAlexId),
+              notInArray(paper_authors.paper_openalex_id, currentIds)
+            ));
+          if (removed.changes > 0) console.log(`🗑️  Removed ${removed.changes} links no longer on their OpenAlex profile`);
+        }
       }
-      
+
       // Rate limiting
       await new Promise(resolve => setTimeout(resolve, 1000));
       

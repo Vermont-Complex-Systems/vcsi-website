@@ -3,6 +3,7 @@ import { prerender } from '$app/server';
 import { db } from "$lib/server/db/index.js"
 import { eq, or, sql, inArray } from 'drizzle-orm';
 import { openalex_authors, openalex_papers, paper_authors } from '$lib/server/db/schema.js';
+import { belongsTo, isShown, normalizeOpenAlexId, statusOf } from '$lib/people.js';
 
 import membersData from '$data/members.csv'
 import groupsData from '$data/groups.csv'
@@ -195,13 +196,13 @@ export const getGroupWithPapers = prerender(
         // Collect openAlexIds from PIs
         const piIds = (groupData.PI || '').split(' ').filter(Boolean);
         const piOpenAlexIds = piIds
-            .map(id => membersData.find(m => m.id === id)?.openAlexId)
+            .map(id => normalizeOpenAlexId(membersData.find(m => m.id === id)?.openAlexId))
             .filter(Boolean);
 
         // Collect openAlexIds from students in this group
-        const groupStudents = studentsData.filter(s => s.primaryAffiliation === slug);
+        const groupStudents = studentsData.filter(s => isShown(s) && belongsTo(s, slug));
         const studentOpenAlexIds = groupStudents
-            .map(s => s.openAlexId)
+            .map(s => normalizeOpenAlexId(s.openAlexId))
             .filter(Boolean);
 
         // Combine all IDs and fetch papers
@@ -249,7 +250,7 @@ export const getMemberWithOpenAlex = prerender(
         const member = membersData.filter(d => d.id == slug);
         if (member.length === 0) return null;
 
-        const memberData = member[0];
+        const memberData = { ...member[0], openAlexId: normalizeOpenAlexId(member[0].openAlexId) };
         const memberGroups = groupsData.filter(g => g.PI && g.PI.split(' ').includes(slug));
 
         if (slug === 'vcsi') {
@@ -290,15 +291,17 @@ export const getLemurPapers = prerender(async () => getPapersByDois(lemursPaperD
 // --------------------------------- //
 
 export const getRecentPapers = prerender(async () => {
-    const activeMembers = membersData.filter(m => m.openAlexId && m.status === 'active');
-    const activeIds = activeMembers.map(m => m.openAlexId.trim());
+    const activeMembers = membersData
+        .filter(m => m.openAlexId && statusOf(m) === 'active')
+        .map(m => ({ ...m, openAlexId: normalizeOpenAlexId(m.openAlexId) }));
+    const activeIds = activeMembers.map(m => m.openAlexId);
     const papers = await getPapersByAuthorIds(activeIds);
 
     // Build paper → VCSI authors mapping via junction table + active members
     const allLinks = await db.select().from(paper_authors);
     const openAlexToMember = new Map(
         activeMembers
-            .map(m => [m.openAlexId.trim(), { name: m.name, slug: m.id, position: m.position }])
+            .map(m => [m.openAlexId, { name: m.name, slug: m.id, position: m.position }])
     );
 
     const paperAuthorsMap = new Map();
