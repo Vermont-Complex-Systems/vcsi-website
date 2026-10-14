@@ -23,17 +23,20 @@ import { loadSheets, loadSources, runSource, groupsOf, loadDecisions } from './l
 
 // Core faculty labs we review first: Josh Bongard, Laurent Hébert-Dufresne and
 // Jean-Gabriel Young, Peter Dodds and Chris Danforth, Juniper Lovato, Sam Zhang,
-// Nick Cheney.
+// Nick Cheney, Matthew Price.
 const FOCUS = [
 	'mce-lab',
 	'joint-lab',
 	'comp-story-lab',
 	'comp-ethics-lab',
 	'science-and-humanity-lab',
-	'neurobotics-lab'
+	'neurobotics-lab',
+	'crest'
 ];
 
-// A lab page that hasn't changed in this long can't tell us who left.
+// Someone missing from a lab page that hasn't changed in this long may simply
+// not have been added; only fresh pages suggest "not on lab page". Being
+// listed as former is direct evidence and counts from any page.
 const FRESH_FOR_DAYS = 180;
 const OUT_FILE = 'people-resolved.csv';
 
@@ -80,6 +83,7 @@ const sources = await loadSources(focus);
 /** @type {Map<string, {name: string, rows: object[], possible: object[], labs: Map<string, object>}>} */
 const people = new Map();
 const freshGroups = new Set();
+const undatedGroups = new Set(); // the page gives no date at all
 const problems = [];
 
 function entryFor(person) {
@@ -114,6 +118,7 @@ for (const source of sources) {
 	}
 	const days = result.lastChanged ? (Date.now() - result.lastChanged) / 86400000 : Infinity;
 	if (days <= FRESH_FOR_DAYS) freshGroups.add(source.group);
+	if (!result.lastChanged) undatedGroups.add(source.group);
 	for (const person of result.people) {
 		entryFor(person).labs.set(source.group, person);
 	}
@@ -136,10 +141,14 @@ for (const row of everyone) {
 
 // Adds from a page nobody has updated in a while may be people who left long ago
 const staleNote = (labs) => {
-	const stale = labs.filter((g) => !freshGroups.has(g));
-	return stale.length > 0
-		? ` (${stale.join(', ')} page not updated in ${FRESH_FOR_DAYS}+ days)`
-		: '';
+	const notes = labs
+		.filter((g) => !freshGroups.has(g))
+		.map((g) =>
+			undatedGroups.has(g)
+				? `${g} page has no update date`
+				: `${g} page not updated in ${FRESH_FOR_DAYS}+ days`
+		);
+	return notes.length > 0 ? ` (${notes.join('; ')})` : '';
 };
 
 const isPostdocLike = (row) =>
@@ -169,12 +178,11 @@ function decide(entry) {
 	if (member) {
 		if (!memberActive || !isPostdocLike(member)) return null;
 		if (current.length > 0 || activeStudents.length > 0) return null; // still here, maybe another lab
-		const freshFormer = former.filter((g) => freshGroups.has(g));
-		if (freshFormer.length === 0) return null;
-		const next = freshFormer.map((g) => page(g).role).join('; ');
+		if (former.length === 0) return null;
+		const next = former.map((g) => page(g).role).join('; ');
 		return {
 			action: 'end affiliation?',
-			why: `members sheet: active ${member.position}; listed as former on ${freshFormer.join(', ')} (${next}), current on no lab page`
+			why: `members sheet: active ${member.position}; listed as former on ${former.join(', ')} (${next}), current on no lab page`
 		};
 	}
 
@@ -195,7 +203,7 @@ function decide(entry) {
 			};
 		}
 		const missing = current.filter((g) => !ourGroups.includes(g));
-		const left = ourGroups.filter((g) => former.includes(g) && freshGroups.has(g));
+		const left = ourGroups.filter((g) => former.includes(g));
 		if (missing.length > 0) {
 			return {
 				action: 'add group',
@@ -214,7 +222,15 @@ function decide(entry) {
 	}
 
 	if (former.length > 0) {
-		const leftHere = ourGroups.filter((g) => former.includes(g) && freshGroups.has(g));
+		// Active in our sheet but with no group: the lab page tells us both
+		if (activeStudents.length > 0 && ourGroups.length === 0) {
+			return {
+				action: 'mark alumni',
+				why: `former on ${former.join(', ')} (${former.map((g) => page(g).role).join('; ')}); active with no group in our sheet`,
+				groups: former
+			};
+		}
+		const leftHere = ourGroups.filter((g) => former.includes(g));
 		if (leftHere.length === 0) return null;
 		const stillElsewhere = ourGroups.filter((g) => !leftHere.includes(g));
 		if (stillElsewhere.length > 0) {
@@ -298,7 +314,7 @@ console.log(`Groups: ${[...crawled].join(', ')}`);
 const stale = [...crawled].filter((g) => !freshGroups.has(g));
 if (stale.length > 0)
 	console.log(
-		`Not changed in ${FRESH_FOR_DAYS} days (no departures suggested): ${stale.join(', ')}`
+		`Not changed in ${FRESH_FOR_DAYS} days (missing people not flagged; adds marked stale): ${stale.join(', ')}`
 	);
 if (problems.length > 0) console.log(`Skipped:\n  ${problems.join('\n  ')}`);
 console.log(

@@ -68,8 +68,11 @@ export function compareNames(a, b) {
 
 	const [xFirst, xLast] = [x.split(' ')[0], x.split(' ').at(-1)];
 	const [yFirst, yLast] = [y.split(' ')[0], y.split(' ').at(-1)];
+	// Either name may be the short one: Will / William, Jennifer / Jenn, Jim / James
 	const shortForm = (p, q) =>
-		(p.length >= 3 && q.startsWith(p)) || NICKNAMES[p] === q || NICKNAMES[q] === p;
+		(Math.min(p.length, q.length) >= 3 && (q.startsWith(p) || p.startsWith(q))) ||
+		NICKNAMES[p] === q ||
+		NICKNAMES[q] === p;
 
 	if (xLast === yLast) {
 		if (xFirst === yFirst || shortForm(xFirst, yFirst)) return 'same';

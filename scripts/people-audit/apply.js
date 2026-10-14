@@ -129,6 +129,10 @@ for (const r of approved) {
 				(now) => ['active', ''].includes(statusOf({ status: now })),
 				'alumni'
 			);
+			// Fill in the group too when our row had none
+			if (r.proposed_groups && !r.our_groups) {
+				change('students', r.id, 'primaryAffiliation', (now) => now === '', r.proposed_groups);
+			}
 			break;
 		case 'end affiliation?':
 			change('members', r.id, 'status', (now) => statusOf({ status: now }) === 'active', 'retired');

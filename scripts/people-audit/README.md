@@ -74,9 +74,10 @@ optional `show` column to `0` (blank or `1` = shown; see `isShown()` in
   but current on another (PhD in one lab, postdoc in another) is still here:
   `remove group`, not `mark alumni`. Only someone former everywhere we look is
   proposed as alumni.
-- **Departures need a fresh page** (changed in the last 180 days,
-  `FRESH_FOR_DAYS`). A stale page says nothing about who left; its adds are
-  flagged as coming from a stale page.
+- **Being listed as former counts from any page; being missing doesn't.** An
+  alumni section is direct evidence someone left. Someone simply absent from a
+  page is only flagged (`not on lab page`) if the page changed in the last 180
+  days (`FRESH_FOR_DAYS`); adds from older pages are flagged as stale.
 - **Faculty and staff are never moved** based on a lab page. Postdocs and
   researchers in the members sheet who are former on every lab page get
   `end affiliation?`. `retired` in the members sheet means they've left.
