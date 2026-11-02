@@ -19,7 +19,9 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: .nvmrc
+          # Self-hosted runner: don't reuse a cached, unpatched 24.x (CVE-2026-111497 needs >= 24.22.1)
+          check-latest: true
           cache: npm
 
       - name: Install dependencies
