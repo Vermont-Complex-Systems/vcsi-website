@@ -29,6 +29,8 @@ const STRICT = process.argv.includes('--strict');
 // Values the site knows how to display. Anything else is reported.
 const MEMBER_STATUSES = ['active', 'retired'];
 const STUDENT_STATUSES = ['active', 'alumni', ''];
+// students-curated `show` column: blank or 1 shows the person, 0 hides them
+const SHOW_VALUES = ['', '0', '1'];
 const GROUP_STATUSES = ['Core team', 'UVM affiliate'];
 
 // Active students whose row hasn't been touched in this long get a nudge.
@@ -37,7 +39,10 @@ const STALE_AFTER_DAYS = 365;
 const load = (file) => csvParse(readFileSync(join(DATA_DIR, file), 'utf8'));
 
 const members = load('members.csv');
-const students = load('students.csv');
+// The students list the site shows (src/lib/students.js). The older students
+// sheet is kept only as a reference, so it isn't checked.
+const STUDENTS = 'students-curated';
+const students = load(`${STUDENTS}.csv`);
 const groups = load('groups.csv');
 const projects = load('projects.csv');
 const misc = load('misc.csv');
@@ -131,7 +136,7 @@ function checkPeopleRefs(sheet, rows, columns) {
 						sheet,
 						i,
 						row,
-						`${col} lists "${id}", which is not an id in members or students${suggestId(id)}`
+						`${col} lists "${id}", which is not an id in members or ${STUDENTS}${suggestId(id)}`
 					);
 				}
 			}
@@ -197,7 +202,7 @@ function checkPeople(sheet, rows, allowedStatuses) {
 }
 
 checkPeople('members', members, MEMBER_STATUSES);
-checkPeople('students', students, STUDENT_STATUSES);
+checkPeople(STUDENTS, students, STUDENT_STATUSES);
 
 members.forEach((row, i) => {
 	if (row.id !== 'vcsi' && !row.position?.trim()) {
@@ -212,18 +217,24 @@ members.forEach((row, i) => {
 
 const today = new Date();
 students.forEach((row, i) => {
-	if (memberIds.has(row.id)) {
-		warn('students', i, row, 'also listed in members; the two rows may show different information');
+	// Postdocs are expected in both: members for Who We Are, students-curated
+	// for their lab's page
+	if (memberIds.has(row.id) && !/postdoc/i.test(row.position || '')) {
+		warn(STUDENTS, i, row, 'also listed in members; the two rows may show different information');
+	}
+
+	if (!SHOW_VALUES.includes((row.show ?? '').trim())) {
+		error(STUDENTS, i, row, `show "${row.show}" should be blank, 1 (show) or 0 (hide)`);
 	}
 
 	const affiliations = affiliationsOf(row);
 	if (affiliations.length === 0 && statusOf(row) !== 'alumni') {
-		warn('students', i, row, 'no primaryAffiliation, so they appear on no group page');
+		warn(STUDENTS, i, row, 'no primaryAffiliation, so they appear on no group page');
 	}
 	for (const groupId of affiliations) {
 		if (!groupIds.has(groupId)) {
 			error(
-				'students',
+				STUDENTS,
 				i,
 				row,
 				`primaryAffiliation "${groupId}" is not a group id (see groups sheet)`
@@ -235,9 +246,9 @@ students.forEach((row, i) => {
 		const updated = new Date(row.lastUpdated);
 		const days = (today - updated) / 86400000;
 		if (Number.isNaN(days)) {
-			error('students', i, row, `lastUpdated "${row.lastUpdated}" is not a date (use YYYY-MM-DD)`);
+			error(STUDENTS, i, row, `lastUpdated "${row.lastUpdated}" is not a date (use YYYY-MM-DD)`);
 		} else if (days > STALE_AFTER_DAYS) {
-			warn('students', i, row, `active, but row last updated ${row.lastUpdated}; still current?`);
+			warn(STUDENTS, i, row, `active, but row last updated ${row.lastUpdated}; still current?`);
 		}
 	}
 });
@@ -268,7 +279,7 @@ groups.forEach((row, i) => {
 	}
 	if (!row.url?.trim()) warn('groups', i, row, 'no url');
 	if (!students.some((s) => affiliationsOf(s).includes(row.id) && statusOf(s) !== 'alumni')) {
-		warn('groups', i, row, 'no current students listed in the students sheet');
+		warn('groups', i, row, `no current students listed in the ${STUDENTS} sheet`);
 	}
 });
 
@@ -317,7 +328,7 @@ if (CHECK_LINKS) {
 // Report
 // --------------------------------- //
 
-const sheetOrder = ['members', 'students', 'groups', 'projects', 'misc', 'people-ignore'];
+const sheetOrder = ['members', STUDENTS, 'groups', 'projects', 'misc', 'people-ignore'];
 issues.sort(
 	(a, b) =>
 		sheetOrder.indexOf(a.sheet) - sheetOrder.indexOf(b.sheet) ||
