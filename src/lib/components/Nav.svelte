@@ -18,6 +18,7 @@
 	let isWhoWeAreOpen = $state(false);
 	let isResearchOpen = $state(false);
 	let isEducationOpen = $state(false);
+	let isEngageOpen = $state(false);
 	let isDark = $state(false);
 
 	function closeMenu(skipFocus = false) {
@@ -29,6 +30,7 @@
 		isWhoWeAreOpen = false;
 		isResearchOpen = false;
 		isEducationOpen = false;
+		isEngageOpen = false;
 	}
 
 	function handleClickOutside(event) {
@@ -73,6 +75,7 @@
 						onclick={() => {
 							isResearchOpen = false;
 							isEducationOpen = false;
+							isEngageOpen = false;
 							isWhoWeAreOpen = !isWhoWeAreOpen;
 						}}
 						class="nav-button"
@@ -127,6 +130,7 @@
 						onclick={() => {
 							isWhoWeAreOpen = false;
 							isEducationOpen = false;
+							isEngageOpen = false;
 							isResearchOpen = !isResearchOpen;
 						}}
 						class="nav-button"
@@ -154,7 +158,7 @@
 									>Funding</a
 								>
 								<a
-									href="https://verso.w3.uvm.edu/"
+									href="https://uvm.edu/verso/"
 									target="_blank"
 									rel="noopener noreferrer"
 									class="dropdown-item"
@@ -178,6 +182,11 @@
 									onclick={() => closeDropdowns()}>TGIR Research</a
 								>
 								<a
+									href="{base}/research/modeling-complexity"
+									class="dropdown-item"
+									onclick={() => closeDropdowns()}>Modeling Complexity</a
+								>
+								<a
 									href="https://www.nature.com/npjcomplex/"
 									target="_blank"
 									rel="noopener noreferrer"
@@ -196,6 +205,7 @@
 						onclick={() => {
 							isWhoWeAreOpen = false;
 							isResearchOpen = false;
+							isEngageOpen = false;
 							isEducationOpen = !isEducationOpen;
 						}}
 						class="nav-button"
@@ -239,6 +249,33 @@
 									onclick={() => closeDropdowns()}>BilDS</a
 								>
 							</div>
+						</div>
+					{/if}
+				</div>
+
+				<div class="nav-dropdown">
+					<button
+						onclick={() => {
+							isWhoWeAreOpen = false;
+							isResearchOpen = false;
+							isEducationOpen = false;
+							isEngageOpen = !isEngageOpen;
+						}}
+						class="nav-button"
+					>
+						Engage
+						{#if isEngageOpen}
+							<ChevronUp size={16} />
+						{:else}
+							<ChevronDown size={16} />
+						{/if}
+					</button>
+
+					{#if isEngageOpen}
+						<div class="dropdown-menu">
+							<a href="{base}/engage/jobs" class="dropdown-item" onclick={() => closeDropdowns()}
+								>Jobs</a
+							>
 						</div>
 					{/if}
 				</div>

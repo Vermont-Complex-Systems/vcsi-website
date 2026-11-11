@@ -47,6 +47,7 @@
 	--color-fg: var(--color-gray-800);
 	--color-primary: var(--color-black);
 	--color-link: var(--color-black);
+	--color-link-underline: #3b6fd4;
 	--color-border: var(--color-gray-300);
 
 	--margin-left: 12vw;
@@ -63,6 +64,12 @@
 /* =============================================================================
    BASE DOCUMENT
    ============================================================================= */
+
+/* Clip decorative bleeds and 100vw full-bleed sections (clip, unlike hidden, keeps sticky working) */
+html,
+body {
+	overflow-x: clip;
+}
 
 body {
 	display: flex;
@@ -190,6 +197,40 @@ main {
 .content a.external-link:hover {
 	border-color: var(--color-fg);
 	background: var(--color-gray-50);
+}
+
+/* =============================================================================
+   TEXT LINKS
+   Plain links in running text: same color as the text, a blue underline that fades
+   out on hover, and a blue icon on outgoing links.
+
+   Kept in a cascade layer so any component that styles its own links always wins
+   (unlayered rules beat layered ones regardless of specificity). Skipped entirely:
+   links that carry a real class (buttons, cards, .green-link, ...) and links that
+   already contain an icon or image. A lone Svelte scoping class doesn't count as a
+   real class: in dev, vite-plugin-svelte puts one on every element of a styled
+   component, so ignoring it keeps dev and production identical.
+   ============================================================================= */
+
+@layer text-links {
+	main :is(p, li, dd, td, blockquote) a:is(:not([class]), [class^='svelte-']:not([class*=' ']), [class^='s-']:not([class*=' '])):not(:has(svg, img)) {
+		color: inherit;
+		text-decoration: underline 2px var(--color-link-underline);
+		text-underline-offset: 3px;
+		transition: text-decoration-color 300ms ease;
+	}
+
+	main :is(p, li, dd, td, blockquote) a:is(:not([class]), [class^='svelte-']:not([class*=' ']), [class^='s-']:not([class*=' '])):not(:has(svg, img)):hover,
+	main :is(p, li, dd, td, blockquote) a:is(:not([class]), [class^='svelte-']:not([class*=' ']), [class^='s-']:not([class*=' '])):not(:has(svg, img)):focus-visible {
+		text-decoration-color: transparent;
+	}
+
+	/* Outgoing links: icon drawn over no-break spaces, so the underline runs under it
+	   and the icon is glued to the last word (never wraps onto a line alone). */
+	main :is(p, li, dd, td, blockquote) a:is(:not([class]), [class^='svelte-']:not([class*=' ']), [class^='s-']:not([class*=' '])):not(:has(svg, img))[href^='http']::after {
+		content: '\00a0\00a0\00a0\00a0';
+		background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233b6fd4' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h6v6'/%3E%3Cpath d='M10 14 21 3'/%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/%3E%3C/svg%3E") no-repeat right 55% / 0.7em;
+	}
 }
 
 @media (max-width: 768px) {

@@ -158,15 +158,6 @@
         margin-bottom: 0;
     }
 
-    a {
-        color: var(--color-accent);
-        text-decoration: underline;
-    }
-
-    a:hover {
-        color: var(--color-accent-hover);
-    }
-
     #research-metrics {
         padding: 1.5rem 0;
         background: var(--background-light);
