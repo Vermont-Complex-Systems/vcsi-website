@@ -250,6 +250,7 @@ async function populateOpenAlexDatabase() {
         console.log(`📄 Processing ${papersApiData.length} papers...`);
 
         let newPapers = 0;
+        let updatedPapers = 0;
         let newLinks = 0;
         for (const paperApiData of papersApiData) {
           try {
@@ -266,6 +267,13 @@ async function populateOpenAlexDatabase() {
               const paperData = extractPaperData(paperApiData);
               await db.insert(openalex_papers).values(paperData);
               newPapers++;
+            } else if (existingPaper[0].updated_date !== paperApiData.updated_date) {
+              // Refresh changed papers: a preprint stored without a DOI gets one
+              // once OpenAlex merges in the published version, and citations grow.
+              await db.update(openalex_papers)
+                .set(extractPaperData(paperApiData))
+                .where(eq(openalex_papers.openalex_id, paperOpenAlexId));
+              updatedPapers++;
             }
 
             // Check if paper-author link already exists
@@ -290,7 +298,7 @@ async function populateOpenAlexDatabase() {
           }
         }
 
-        console.log(`✅ Inserted ${newPapers} new papers, ${newLinks} new author links`);
+        console.log(`✅ Inserted ${newPapers} new papers, updated ${updatedPapers}, ${newLinks} new author links`);
 
         // Drop links to papers OpenAlex no longer attributes to this author,
         // e.g. after they removed a misattributed work from their profile.
