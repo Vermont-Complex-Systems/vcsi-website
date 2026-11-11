@@ -28,7 +28,7 @@
   const height = $derived(
     isMobile()
       ? Math.min(120 + counts.length * 6, 500)  // vertical: scales with topics
-      : Math.min(300 + counts.length * 3, 450)  // horizontal: scales with topics
+      : Math.min(280 + counts.length, 320)  // horizontal: the bubbles pack into a band, so stay short
   );
 
 </script>

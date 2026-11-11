@@ -183,12 +183,12 @@
         position: relative;
         left: 50%;
         transform: translateX(-50%);
-        padding: 4rem max(calc((100vw - var(--page-max-width)) / 2 + var(--page-padding, 2rem)), var(--page-padding, 2rem)) 3rem;
+        padding: 2.5rem max(calc((100vw - var(--page-max-width)) / 2 + var(--page-padding, 2rem)), var(--page-padding, 2rem)) 2rem;
     }
 
     .recent-header {
         text-align: left;
-        margin-bottom: 2rem;
+        margin-bottom: 1.25rem;
     }
 
     .recent-header h2 {
@@ -220,8 +220,7 @@
         background: #fafafa;
         border: 2px solid #4a4a4a;
         border-radius: var(--border-radius);
-        padding: 2rem;
-        margin: 2rem 0;
+        padding: 1.5rem 1.75rem;
         position: relative;
     }
 
@@ -240,16 +239,16 @@
         font-family: var(--serif);
         font-size: clamp(1.2rem, 2.5vw, 1.6rem);
         font-weight: 400;
-        margin: 0.5rem 0 1rem 0;
-        line-height: 1.4;
+        margin: 0.25rem 0 0.75rem 0;
+        line-height: 1.35;
     }
 
     .spotlight-meta {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.75rem;
+        gap: 0.5rem 0.75rem;
         align-items: center;
-        margin-bottom: 1rem;
+        margin-bottom: 0.75rem;
     }
 
     .spotlight-date {
@@ -300,7 +299,7 @@
     }
 
     .recent-col-chart {
-        min-height: 300px;
+        min-height: 280px;
     }
 
     .chart-hint {
@@ -308,7 +307,7 @@
         font-size: 0.75rem;
         color: var(--color-gray-400);
         text-align: center;
-        margin: 3rem 0 0;
+        margin: 0.25rem 0 0;
     }
 
     .active-filter {
@@ -339,15 +338,15 @@
     .recent-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 1.5rem;
-        margin: 2rem 0;
+        gap: 1.25rem;
+        margin: 1.5rem 0 1rem;
     }
 
     .recent-card {
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
-        padding: 1.25rem;
+        gap: 0.4rem;
+        padding: 1rem 1.1rem;
         border: 1px solid var(--color-gray-300);
         border-radius: var(--border-radius);
         text-decoration: none;
@@ -387,6 +386,10 @@
         margin: 0.25rem 0 0.5rem;
     }
 
+    .recent-card .featuring {
+        margin: 0;
+    }
+
     .featuring a {
         color: var(--color-primary, #007acc);
         text-decoration: none;
@@ -419,7 +422,7 @@
 
     .explore-link-wrapper {
         text-align: center;
-        margin-top: 1.5rem;
+        margin-top: 0.5rem;
     }
 
     .explore-link {
