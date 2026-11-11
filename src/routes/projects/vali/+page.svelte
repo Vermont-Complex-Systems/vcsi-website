@@ -261,7 +261,7 @@
           <p class="partner-card-name">Vermont EPSCoR; SOCKS grant, NSF OIA 2242829</p>
           <p class="partner-card-role">Project partner</p>
         </a>
-        <a href="https://verso.w3.uvm.edu/" target="_blank" rel="noopener noreferrer" class="partner-card">
+        <a href="https://uvm.edu/verso/" target="_blank" rel="noopener noreferrer" class="partner-card">
           <enhanced:img src={versoLogo} alt="VERSO" class="partner-logo-img" />
           <p class="partner-card-name">VERSO</p>
           <p class="partner-card-role">Project partner</p>

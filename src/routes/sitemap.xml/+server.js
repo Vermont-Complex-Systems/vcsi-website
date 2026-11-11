@@ -17,6 +17,7 @@ const staticRoutes = [
 	'/education/masters',
 	'/education/phd',
 	'/education/undergraduate',
+	'/engage/jobs',
 	'/events',
 	'/events/cnww',
 	'/explore',
@@ -33,6 +34,7 @@ const staticRoutes = [
 	'/projects/xenobots',
 	'/research/group',
 	'/research/mass-mutual',
+	'/research/modeling-complexity',
 	'/research/tgir',
 	'/research/verso',
 	'/who-we-are'

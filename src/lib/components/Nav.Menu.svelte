@@ -10,6 +10,7 @@
 	let isWhoWeAreOpen = $state(false);
 	let isResearchOpen = $state(false);
 	let isEducationOpen = $state(false);
+	let isEngageOpen = $state(false);
 	
 	export const open = () => {
 		closeBtnEl?.focus();
@@ -92,12 +93,13 @@
 							<li><a href="{base}/explore">Explore</a></li>
 							<li><a href="{base}/funding">Funding</a></li>
 							<li>
-								<a href="https://verso.w3.uvm.edu/" target="_blank" rel="noopener noreferrer">
+								<a href="https://uvm.edu/verso/" target="_blank" rel="noopener noreferrer">
 									VERSO
 									<ExternalLink size={14}/>
 								</a></li>
 							<li><a href="{base}/research/mass-mutual">Mass Mutual Center of Excellence</a></li>
 							<li><a href="{base}/research/tgir">TGIR Research</a></li>
+							<li><a href="{base}/research/modeling-complexity">Modeling Complexity</a></li>
 							<li>
 								<a href="https://www.nature.com/npjcomplex/" target="_blank" rel="noopener noreferrer">
 									npj Complexity
@@ -127,6 +129,26 @@
 							<li><a href="{base}/education/certificate">Certificate</a></li>
 							<li><a href="{base}/education/phd">PhD</a></li>
 							<li><a href="{base}/education/BilDS">BilDS</a></li>
+						</ul>
+					{/if}
+				</li>
+
+				<li class="dropdown-section">
+					<button
+						onclick={() => isEngageOpen = !isEngageOpen}
+						class="section-button"
+					>
+						Engage
+						{#if isEngageOpen}
+							<ChevronUp size={16} />
+						{:else}
+							<ChevronDown size={16} />
+						{/if}
+					</button>
+
+					{#if isEngageOpen}
+						<ul class="sub-menu">
+							<li><a href="{base}/engage/jobs">Jobs</a></li>
 						</ul>
 					{/if}
 				</li>
