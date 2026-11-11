@@ -184,7 +184,7 @@
 								<a
 									href="{base}/research/modeling-complexity"
 									class="dropdown-item"
-									onclick={() => closeDropdowns()}>Modeling Complexity</a
+									onclick={() => closeDropdowns()}>Center of Excellence in Modeling Complexity</a
 								>
 								<a
 									href="https://www.nature.com/npjcomplex/"
