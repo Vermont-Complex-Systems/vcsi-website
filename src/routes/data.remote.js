@@ -228,8 +228,16 @@ export const getAllAuthors = prerender(async () => {
 });
 
 export const getAllAuthorsWithPapers = prerender(async () => {
-    const allAuthors = await db.select().from(openalex_authors);
-    const allIds = allAuthors.map(a => a.openalex_id).filter(Boolean);
+    // The db keeps everyone ever fetched; only count current, shown members.
+    const currentIds = new Set(
+        membersData
+            .filter(m => statusOf(m) !== 'retired' && isShown(m))
+            .map(m => normalizeOpenAlexId(m.openAlexId))
+            .filter(Boolean)
+    );
+    const allAuthors = (await db.select().from(openalex_authors))
+        .filter(a => currentIds.has(a.openalex_id));
+    const allIds = allAuthors.map(a => a.openalex_id);
     const papers = await getPapersByAuthorIds(allIds);
 
     return {
