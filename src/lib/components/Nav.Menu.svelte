@@ -99,7 +99,7 @@
 								</a></li>
 							<li><a href="{base}/research/mass-mutual">Mass Mutual Center of Excellence</a></li>
 							<li><a href="{base}/research/tgir">TGIR Research</a></li>
-							<li><a href="{base}/research/modeling-complexity">Modeling Complexity</a></li>
+							<li><a href="{base}/research/modeling-complexity">Center of Excellence in Modeling Complexity</a></li>
 							<li>
 								<a href="https://www.nature.com/npjcomplex/" target="_blank" rel="noopener noreferrer">
 									npj Complexity
