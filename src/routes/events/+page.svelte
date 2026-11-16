@@ -25,18 +25,20 @@
 		return aDate - bDate;
 	};
 
-	// Filter, sort, and process events by type
-	const ongoingEvents = groupEventsByName(events.filter((e) => e.event_type === 'ongoing')).sort(
+	// Filter, sort, and process events by type. The sheet is typed by hand, so
+	// tolerate stray spaces and capitals ("special " should still count)
+	const isType = (e, type) => e.event_type?.trim().toLowerCase() === type;
+	const ongoingEvents = groupEventsByName(events.filter((e) => isType(e, 'ongoing'))).sort(
 		sortOngoing
 	);
 	// Keep events that haven't happened yet (undated events are treated as upcoming/TBD)
 	const isUpcoming = (e) => !e.date || getDaysUntil(e.date) >= 0;
 
 	const specialEvents = events
-		.filter((e) => e.event_type === 'special' && isUpcoming(e))
+		.filter((e) => isType(e, 'special') && isUpcoming(e))
 		.sort(sortByDate);
 	const deadlineEvents = events
-		.filter((e) => e.event_type === 'deadline' && isUpcoming(e))
+		.filter((e) => isType(e, 'deadline') && isUpcoming(e))
 		.sort(sortByDate);
 </script>
 
